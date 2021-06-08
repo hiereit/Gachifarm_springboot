@@ -1,10 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.ofg">
 <head>
 <meta charset="EUC-KR">
-<title>Insert title here</title>
-</head>
-<body>
+ <title>로그인</title>
 
-</body>
+    <style>
+      input{
+        width: 200px;
+        padding: 10px;
+        margin: 4px;
+      }
+      .loginBtn{
+        background-color: #0AC175;
+        color: white;
+        border: none;
+        width: 225px;
+        padding: 10px;
+        height: 40px;
+        font-weight: bolder;
+        margin: 10px;
+      }
+      .signupBtn{
+        background-color: white;
+        border: 3px solid #0AC175;
+        color: #0AC175;
+        width: 225px;
+        padding: 10px;
+        height: 40px;
+        font-weight: bolder;
+      }
+    </style>
+</head>
+<body align="center">
+    <div align="center">
+      <h3>로그인</h3>
+    </div>
+
+    <div>
+      <input type="text"  placeholder="아이디를 입력해주세요"><br>
+      <input type="text"  placeholder="비밀번호를 입력해주세요">
+    </div>
+
+    <br>
+    <div align="center">
+      <input type="submit" class="loginBtn" value="로그인"><br>
+      <input type="submit" class="signupBtn" value="회원가입" >
+    </div>
+
+  </body>
 </html>
