@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="EUC-KR">
 <title>Insert title here</title>
 </head>
 <body>
+	<div th:replace="thyme/Top :: header"></div>
 
+	<div th:replace="thyme/Bottom :: footer"></div>
 </body>
 </html>
