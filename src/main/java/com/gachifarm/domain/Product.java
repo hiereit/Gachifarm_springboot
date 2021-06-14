@@ -1,8 +1,9 @@
-package com.gachfarm.domain;
+package com.gachifarm.domain;
 
 public class Product {
 	//필드 선언
 	private String user_id;
+	private String prdt_name;
 	private int price;
 	private String origin;
 	private String supplier;
@@ -20,9 +21,18 @@ public class Product {
 	}
 	
 	//getter setter
+	public String getPrdt_name() {
+		return prdt_name;
+	}
+
+	public void setPrdt_name(String prdt_name) {
+		this.prdt_name = prdt_name;
+	}
 	public String getUser_id() {
 		return user_id;
 	}
+	
+
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}

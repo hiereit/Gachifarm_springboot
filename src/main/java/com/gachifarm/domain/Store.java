@@ -1,4 +1,4 @@
-package com.gachfarm.domain;
+package com.gachifarm.domain;
 
 public class Store {
 	//필드 선언
