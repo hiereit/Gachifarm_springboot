@@ -1,5 +1,11 @@
 package com.gachifarm.dao;
 
-public class AccountDao {
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
+public class AccountDao {
+	@PersistenceContext
+    private EntityManager em;
+	
+	
 }
