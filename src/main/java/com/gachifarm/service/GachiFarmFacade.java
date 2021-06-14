@@ -7,17 +7,11 @@ import com.gachifarm.domain.Account;
 
 public interface GachiFarmFacade {
 	//Account
-	Account getAccount(String username);
+	List<Account> findByUserId(String userId);
 
-	Account getAccount(String username, String password);
-
-	void insertAccount(Account account);
-
-	void updateAccount(Account account);
-
-	List<String> getUsernameList();
+	long countByUserId(String userId);
 	
-	public void remove(Account account);
+	long deleteByUserId(String userId);
 	
 	
 	
