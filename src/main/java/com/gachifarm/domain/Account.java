@@ -2,19 +2,24 @@ package com.gachifarm.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+
 @SuppressWarnings("serial")
 public class Account implements Serializable{
-	String user_id;
+	@Id
+	@Column(name="user_id")
+	String userId;
 	String password;
 	String userName;
 	String phone;
 	String email;
 	
-	public String getUser_id() {
-		return user_id;
+	public String getUserId() {
+		return userId;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public String getPassword() {
 		return password;
@@ -44,7 +49,7 @@ public class Account implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "Account [user_id=" + user_id + ", password=" + password + ", userName=" + userName + ", phone=" + phone
+		return "Account [user_id=" + userId + ", password=" + password + ", userName=" + userName + ", phone=" + phone
 				+ ", email=" + email + "]";
 	}
 	
