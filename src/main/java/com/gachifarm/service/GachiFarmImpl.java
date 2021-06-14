@@ -5,41 +5,27 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.gachifarm.dao.AccountDao;
 import com.gachifarm.domain.Account;
+import com.gachifarm.repository.AccountRepository;
 
 @Service
 @Transactional
 public class GachiFarmImpl implements GachiFarmFacade {
-	@Autowired 
-	@Qualifier("AccountDao")
-	private AccountDao accountDao;
+	@Autowired   
+	private AccountRepository accountRepository;
+
+	public List<Account> findByUserId(String userId) {
+		return accountRepository.findByUserId(userId);
+	}
+
+	public long countByUserId(String userId) {
+		return accountRepository.countByUserId(userId);
+	}
+
+	public long deleteByUserId(String userId) {
+		return accountRepository.deleteByUserId(userId) ;
+	}
 	
-	
-	public Account getAccount(String username) {
-		return accountDao.getAccount(username);
-	}
-
-	public Account getAccount(String username, String password) {
-		return accountDao.getAccount(username, password);
-	}
-
-	public void insertAccount(Account account) {
-		accountDao.insertAccount(account);
-	}
-
-	public void updateAccount(Account account) {
-		accountDao.updateAccount(account);
-	}
-
-	public List<String> getUsernameList() {
-		return accountDao.getUsernameList();
-	}
-
-	public void remove(Account account) {
-		accountDao.remove(account);
-	}
 }
