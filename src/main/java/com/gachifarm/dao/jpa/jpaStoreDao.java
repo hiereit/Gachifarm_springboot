@@ -5,11 +5,13 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.gachifarm.dao.StoreDao;
+import com.gachifarm.domain.Product;
 import com.gachifarm.domain.Store;
 
 @Repository
@@ -18,6 +20,7 @@ public class jpaStoreDao implements StoreDao{
 	@PersistenceContext
 	private EntityManager em;
 	
+	//userID로 Store 객체 조회 OK
 	@Override
 	public Store getStore(String userId) throws DataAccessException {
 		// TODO Auto-generated method stub
@@ -28,19 +31,22 @@ public class jpaStoreDao implements StoreDao{
 		return store;
 	}
 
-	final String getStoreName_query = "SELECT s FROM Store s WHERE s.storename = :sname";
+	//Store 이름으로 Store 객체조회 OK
+	final String getStoreName_query = "SELECT s FROM Store s WHERE s.storeName = :sname";
 	@Override
 	public Store getStoreName(String storename) throws DataAccessException {
 		// TODO Auto-generated method stub
-		Query query = em.createQuery(getStoreName_query);
+		TypedQuery<Store> query = em.createQuery(getStoreName_query, Store.class);
 		query.setParameter("sname", storename);
-		return (Store) query.getSingleResult();
+		return query.getSingleResult();
 	}
-	////////////////////////////////////아직 구현 X//////////////////////////////////////
+	
+	//모든 Store 객체 조회 OK
 	@Override
 	public List<Store> getAllStore() throws DataAccessException {
 		// TODO Auto-generated method stub
-		return null;
+		TypedQuery<Store> query = em.createQuery("SELECT s FROM Store s", Store.class);
+		return query.getResultList();
 	}
 
 	@Override
