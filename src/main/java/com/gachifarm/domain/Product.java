@@ -8,10 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-
-//@NamedQuery(
-//		name="getAllProduct_query",
-//		query="SELECT * FROM Product")
 @SuppressWarnings("serial")
 @Entity
 @Table(name="PRODUCT")

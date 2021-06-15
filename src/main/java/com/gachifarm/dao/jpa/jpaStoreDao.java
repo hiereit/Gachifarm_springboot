@@ -30,7 +30,6 @@ public class jpaStoreDao implements StoreDao{
 		}
 		return store;
 	}
-
 	//Store 이름으로 Store 객체조회 OK
 	final String getStoreName_query = "SELECT s FROM Store s WHERE s.storeName = :sname";
 	@Override
