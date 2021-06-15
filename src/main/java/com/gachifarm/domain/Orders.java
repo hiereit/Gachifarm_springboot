@@ -11,11 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @SuppressWarnings("serial")
-@Entity
+
 public class Orders implements Serializable {
-	@Id
-	@Column(name = "order_id")
-	private int orderId;
 	private String username;
 	private int totalPrice;
 	private String phone;
@@ -25,17 +22,15 @@ public class Orders implements Serializable {
 	private String zipCode;
 	private String creditNum;
 	private Date expireDate;
+	private String cardType;
 	private String status;
+	@Id
+	@Column(name = "order_id")
+	private int orderId;
 	@Column(name = "user_id")
 	private String userId;
-	private List<LineProduct> lineProducts = new ArrayList<LineProduct>();
+	//private List<LineProduct> lineProducts = new ArrayList<LineProduct>();
 
-	public int getOrder_id() {
-		return orderId;
-	}
-	public void setOrder_id(int order_id) {
-		this.orderId = order_id;
-	}
 	public String getUsername() {
 		return username;
 	}
@@ -90,18 +85,34 @@ public class Orders implements Serializable {
 	public void setExpireDate(Date expireDate) {
 		this.expireDate = expireDate;
 	}
+	public String getCardType() {
+		return cardType;
+	}
+	public void setCardType(String cardType) {
+		this.cardType = cardType;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public int getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
 	public String getUserId() {
 		return userId;
 	}
-	public void setUser_id(String userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getStatus() { return status; }
-	public void setStatus(String status) { this.status = status; }
-
-	public void setLineProducts(List<LineProduct> lineProducts) { this.lineProducts = lineProducts; }
-	public List<LineProduct> getLineProducts() { return lineProducts; }
-
+	//public void setLineProducts(List<LineProduct> lineProducts) { this.lineProducts = lineProducts; }
+	//public List<LineProduct> getLineProducts() { return lineProducts; }
+/*
+	//이 이후로 어떻게 구현해야할지 고민 필요
 	public void initOrder(Account account, Cart cart) {
 		/*userName = account.getUserName();
 	    orderDate = new Date();
@@ -133,5 +144,5 @@ public class Orders implements Serializable {
 
 	public void addLineProduct(LineProduct lineProduct) {
 		lineProducts.add(lineProduct);
-	}
+	}*/
 }
