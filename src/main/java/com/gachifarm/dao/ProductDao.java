@@ -13,7 +13,7 @@ public interface ProductDao {
 	//상품명으로 물품조회
 	Product getProductByName(String prdt_name) throws DataAccessException;
 	//공급자로 물품조회
-	Product getProductBySupplier(String userId) throws DataAccessException;
+	List<Product> getProductBySupplier(String userId) throws DataAccessException;
 	
 	//모든 상품 조회
 	//@Query(value = "select * from Product")
@@ -26,6 +26,8 @@ public interface ProductDao {
 	List<Product> searchAllProdcutList(String keyword) throws DataAccessException;
 	//카테고리에 해당하는 전체상품 조회
 	List<Product> searchAllProdcutListByCategory(String category) throws DataAccessException;
+	//스토어 이름에 해당하는 product 조회
+	List<Product> getAllProductByStoreName(String storeName) throws DataAccessException;
 	
 	//물품삽입
 	void insertProduct(Product product) throws DataAccessException;

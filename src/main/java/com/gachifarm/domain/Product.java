@@ -5,8 +5,13 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+
+//@NamedQuery(
+//		name="getAllProduct_query",
+//		query="SELECT * FROM Product")
 @SuppressWarnings("serial")
 @Entity
 @Table(name="PRODUCT")
@@ -23,7 +28,8 @@ public class Product implements Serializable{
 	private int quantity;
 	private String description;
 	@Column(name="user_id")
-	private String userId;	
+	private String userId;
+	@Column(name="saletype")
 	private String saleType;
 	private String category;
 	@Column(name="prdt_name")
