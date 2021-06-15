@@ -1,8 +1,20 @@
 package com.gachifarm.domain;
 
-public class Store {
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@SuppressWarnings("serial")
+@Entity
+@Table(name="STORE")
+public class Store implements Serializable{
 	//필드 선언
-	private String user_id;
+	@Id
+	@Column(name="user_id")
+	private String userId;
 	private String storeName;
 	private String storeInfo;
 	
@@ -12,11 +24,18 @@ public class Store {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getUser_id() {
-		return user_id;
+	public Store(String userId, String storeName, String storeInfo) {
+		super();
+		this.userId = userId;
+		this.storeName = storeName;
+		this.storeInfo = storeInfo;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getStoreName() {
@@ -33,10 +52,12 @@ public class Store {
 		this.storeInfo = storeInfo;
 	}
 
-	
-	//toString()
 	@Override
 	public String toString() {
-		return "Store [user_id=" + user_id + ", storeName=" + storeName + ", storeInfo=" + storeInfo + "]";
-	}	
+		return "Store [userId=" + userId + ", storeName=" + storeName + ", storeInfo=" + storeInfo + "]";
+	}
+	
+	
 }
+
+
