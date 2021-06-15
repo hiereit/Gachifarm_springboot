@@ -20,7 +20,7 @@ public class JpaProductDao implements ProductDao{
 
 	//상품이름으로 id 가져오기
 	@Override
-	public Product getProduct(String prdt_id) throws DataAccessException {
+	public Product getProduct(int prdt_id) throws DataAccessException {
 		// TODO Auto-generated method stub
 		Product product = em.find(Product.class, prdt_id);
 		if(product == null) {
@@ -48,12 +48,14 @@ public class JpaProductDao implements ProductDao{
 		return (Product) query.getSingleResult();
 	}
 	
-	//모든 상품 조회////////////////////////////////////아직 구현 X//////////////////////////////////////
+	//모든 상품 조회/////////////
 	final String getAllProduct_query = "SELECT * FROM Product";
 	@Override
 	public List<Product> getAllProduct() throws DataAccessException {
 		// TODO Auto-generated method stub
-		return null;
+		Query query = em.createNamedQuery(getAllProduct_query);
+		List<Product> products = query.getResultList();
+		return products;
 	}
 
 	//saleType에 따른 모든 상품 조회
@@ -67,10 +69,14 @@ public class JpaProductDao implements ProductDao{
 		return products;
 	}
 	////////////////////////////////////아직 구현 X//////////////////////////////////////
+	final String getAllProductByStore_query = "SELECT p  FROM Product p, Store s WHERE p.userId=?1AND p.userId=s.userId";
 	@Override
-	public List<Product> getAllProductByStore(String storeName) throws DataAccessException {
+	public List<Product> getAllProductByStore(String userId) throws DataAccessException {
 		// TODO Auto-generated method stub
-		return null;
+		Query query = em.createQuery(getAllProductByStore_query);
+		query.setParameter(1, userId);
+		List<Product> products = query.getResultList();
+		return products;
 	}	
 	//키워드에 해당하는 전체상품 조회
 	final String searchAllProdcutList_query = "SELECT p FROM Product p "
