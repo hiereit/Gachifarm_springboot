@@ -1,31 +1,42 @@
 package com.gachifarm.domain;
 
-public class ProductImage {
-	private int img_id;
-	private int product_id;
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@SuppressWarnings("serial")
+@Entity
+@Table(name="PRODUCTIMAGE")
+public class ProductImage implements Serializable{
+	
+	@Id
+	@Column(name="img_id")
+	private int imgId;
 	private String imgName;
 	private String imgPath;
+	@Column(name="product_id")
+	private int productId;
 	
-	public ProductImage(int img_id, int product_id, String imgName, String imgPath) {
+	public ProductImage() {
 		super();
-		this.img_id = img_id;
-		this.product_id = product_id;
+		// TODO Auto-generated constructor stub
+	}	
+	public ProductImage(int imgId, String imgName, String imgPath, int productId) {
+		super();
+		this.imgId = imgId;
 		this.imgName = imgName;
 		this.imgPath = imgPath;
+		this.productId = productId;
 	}
-	
-	public int getImg_id() {
-		return img_id;
+
+	public int getImgId() {
+		return imgId;
 	}
-	public void setImg_id(int img_id) {
-		this.img_id = img_id;
-	}
-	
-	public int getProduct_id() {
-		return product_id;
-	}
-	public void setProduct_id(int product_id) {
-		this.product_id = product_id;
+	public void setImgId(int imgId) {
+		this.imgId = imgId;
 	}
 	
 	public String getImgName() {
@@ -41,11 +52,17 @@ public class ProductImage {
 	public void setImgPath(String imgPath) {
 		this.imgPath = imgPath;
 	}
-
+	
+	public int getProductId() {
+		return productId;
+	}
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
 	
 	@Override
 	public String toString() {
-		return "ProductImage [img_id=" + img_id + ", product_id=" + product_id + ", imgName=" + imgName + ", imgPath="
-				+ imgPath + "]";
-	}	
+		return "ProductImage [imgId=" + imgId + ", imgName=" + imgName + ", imgPath=" + imgPath + ", productId="
+				+ productId + "]";
+	} 
 }
