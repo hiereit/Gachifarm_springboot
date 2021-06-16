@@ -9,8 +9,8 @@ import com.gachifarm.domain.Store;
 public interface GachiFarmFacade {
 	//Account
 //	List<Account> findByUserId(String userId);
+
 //
-//	long countByUserId(String userId);
 //	
 //	long deleteByUserId(String userId);
 
@@ -18,7 +18,13 @@ public interface GachiFarmFacade {
 	// Product 관련 메소드
 	//-------------------------------------------------------------------------
 	void insertProduct(Product product);
+
 	
+	Account findByUserId(String userId);
+	
+	Account findAccount(String userId, String password);
+	
+	long countByUserId(String userId);	
 	
 	Product getProduct(int prdt_id);
 	
@@ -50,6 +56,6 @@ public interface GachiFarmFacade {
 	
 	List<Store> getAllStore();
 	
-	
+	void save(Account account);
 	
 }
