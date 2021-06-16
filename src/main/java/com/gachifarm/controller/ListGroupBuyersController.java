@@ -8,21 +8,20 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.gachifarm.repository.GroupBuyersRepository;
 import com.gachifarm.repository.GroupProductRepository;
-import com.gachifarm.service.GroupProductFacade;
+import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
 public class ListGroupBuyersController {
-	private GroupProductFacade gProductFacade;
-	
-	@Autowired(required=false)
-	public void setGroupProductFacade(GroupProductFacade gProductFacade) {
-		this.gProductFacade = gProductFacade;
+	@Autowired
+	private GachiFarmFacade gachiFarm;
+	public void setGachiFarm(GachiFarmFacade gachiFarm) {
+		this.gachiFarm = gachiFarm;
 	}
 
 	@RequestMapping("/group/listBuyers")
 	public ModelAndView handleRequest(
 			@RequestParam("groupProductId") int groupProductId) throws Exception {
 		return new ModelAndView("/Group/GroupBuyersList", "groupBuyerList", 
-				gProductFacade.getGroupBuyersByGroupProductId(groupProductId));
+				gachiFarm.getGroupBuyersByGroupProductId(groupProductId));
 	}
 }

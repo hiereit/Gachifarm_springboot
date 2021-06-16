@@ -40,7 +40,7 @@ public class GroupProduct implements Serializable {
 	private Date period;
 	private String recvPlace;
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm a")
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
 	private Date recvDate;
 	private String location;
 	private String status;

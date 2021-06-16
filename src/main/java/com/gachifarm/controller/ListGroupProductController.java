@@ -5,20 +5,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.gachifarm.service.GroupProductFacade;
+import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
 public class ListGroupProductController {
-private GroupProductFacade gProductFacade;
-	
-	@Autowired(required=false)
-	public void setGroupProductFacade(GroupProductFacade gProductFacade) {
-		this.gProductFacade = gProductFacade;
+	@Autowired
+	private GachiFarmFacade gachiFarm;
+	public void setGachiFarm(GachiFarmFacade gachiFarm) {
+		this.gachiFarm = gachiFarm;
 	}
 
 	@RequestMapping("/group/listProducts.do")
 	public ModelAndView handleRequest() throws Exception {
 		return new ModelAndView("ListGroupProducts", "gProductList", 
-				gProductFacade.getGroupProductList());
+				gachiFarm.getGroupProductList());
 	}
 }
