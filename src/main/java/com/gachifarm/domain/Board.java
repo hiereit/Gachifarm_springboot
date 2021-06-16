@@ -6,35 +6,27 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name="BOARD")
 public class Board implements Serializable {
 	@Id
-	private int product_id;
-	
-	private String user_id;
+	@Column(name="product_id")
+	private int productId;
+	@Column(name="user_id")
+	private String userId;
 	private String question;
 	private String title;
 	private String boardPW;
-	@Column(name="product_id")
-	private int productId;
 	@Column(name="board_date")
 	private Date boardDate;
 	private String answer;
-	public int getProduct_id() {
-		return product_id;
+	
+	public String getUserId() {
+		return userId;
 	}
-	public void setProduct_id(int product_id) {
-		this.product_id = product_id;
-	}
-	public String getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public String getQuestion() {
 		return question;

@@ -5,26 +5,44 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name="GROUPPRODUCT")
-public class Group implements Serializable {
+public class GroupProduct implements Serializable {
 	@Id
+	@SequenceGenerator(name="GROUPPRODUCT_SEQ_GENERATOR",
+	sequenceName="GROUPPRODUCT_SEQUENCE", initialValue=1, allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,
+	generator="GROUPPRODUCT_SEQ_GENERATOR")
+	@Column(name="gProduct_id")
+	private int gProductId;
+	@Column(name="user_id")
+	private String userId;
+	
 	@Column(name="product_id")
 	private int productId;
 	
+	// Image domain 추가하기
+	// Product domain 추가하기
 	private int minQty;
 	private int currQty;
 	private int limitQty;
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date period;
 	private String recvPlace;
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm a")
 	private Date recvDate;
 	private String location;
-	@Column(name="gProduct_id")
-	private int gProductId;
 	private String status;
 	public int getMinQty() {
 		return minQty;
@@ -85,6 +103,12 @@ public class Group implements Serializable {
 	}
 	public void setgProductId(int gProductId) {
 		this.gProductId = gProductId;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	
 	
