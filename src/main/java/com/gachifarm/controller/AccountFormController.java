@@ -1,105 +1,82 @@
 package com.gachifarm.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.support.PagedListHolder;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.util.WebUtils;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.gachifarm.domain.Account;
+import com.gachifarm.domain.Address;
+import com.gachifarm.repository.AccountRepository;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
-@RequestMapping({"/user/newAccount.do","/user/editAccount.do"})
 public class AccountFormController {
 
-	@Value("EditAccountForm")
-	private String formViewName;
-	@Value("index")
-	private String successViewName;
+	GachiFarmFacade gachiFarm;
 	
 	@Autowired
-	private GachiFarmFacade gachiFarm;
-	public void setPetStore(GachiFarmFacade gachiFarm) {
+	public void setGachiFarm(GachiFarmFacade gachiFarm) {
 		this.gachiFarm = gachiFarm;
 	}
+
 	
-	/*
-	 * @Autowired private AccountFormValidator validator; public void
-	 * setValidator(AccountFormValidator validator) { this.validator = validator; }
-	 */
+	@GetMapping("/signup")
+	public String form() {
+		
+		return "Account/SignupForm";
+	}
 	
-	@ModelAttribute("accountForm")
-	public AccountForm formBackingObject(HttpServletRequest request) 
-			throws Exception {
-		UserSession userSession = 
-			(UserSession) WebUtils.getSessionAttribute(request, "userSession");
-		if (userSession != null) {	// edit an existing account
-			return new AccountForm(
-					gachiFarm.getAccount(userSession.getAccount().getUserId()));
-		}
-		else {	// create a new account
-			return new AccountForm();
-		}
+	@ModelAttribute(name="newAccount")
+	public SignupCommand formBacking() {
+		return new SignupCommand();
 	}
 
-//	@ModelAttribute("categories")
-//	public List<Category> getCategoryList() {
-//		return petStore.getCategoryList();
-//	}
-	
-	@RequestMapping(method = RequestMethod.GET)
-	public String showForm() {
-		return formViewName;
-	}	
-	
-	@RequestMapping(method = RequestMethod.POST)
-	public String onSubmit(
-			HttpServletRequest request, HttpSession session,
-			@ModelAttribute("accountForm") AccountForm accountForm,
-			BindingResult result) throws Exception {
 
-		accountForm.getAccount().setUserId(
-			accountForm.getAccount().getUserId());
+	@PostMapping(value="/user/confirm")
+	public String submit(@ModelAttribute("SignupForm") SignupCommand newAccount, BindingResult result, Model model) {
 
-//		if (request.getParameter("account.profile.listOption") == null) {
-//			accountForm.getAccount().setListOption(false);
-//		}
+		String userId = newAccount.getUserId();
+		String password = newAccount.getPassword();
+		String userName = newAccount.getUserName();
+		String phone = newAccount.getPhone();
+		String email = newAccount.getEmail();
+		Address address = newAccount.getAddress();
+		
+		Account account = new Account();
+		account.setUserId(userId);
+		account.setPassword(password);
+		account.setUserName(userName);
+		account.setPhone(phone);
+		account.setEmail(email);
+		account.setAddress(address);
 		
 		
-//		validator.validate(accountForm, result);
+		System.out.println("userId: " + newAccount.getUserId());
+		System.out.println("password: " + newAccount.getPassword());
+		System.out.println("userName: " + newAccount.getUserName());
+		System.out.println("email: " + newAccount.getEmail());
 		
-		if (result.hasErrors()) return formViewName;
-		try {
-			if (accountForm.isNewAccount()) {
-				gachiFarm.insertAccount(accountForm.getAccount());
-			}
-			else {
-				gachiFarm.updateAccount(accountForm.getAccount());
-			}
-		}
-		catch (DataIntegrityViolationException ex) {
-			result.rejectValue("account.username", "USER_ID_ALREADY_EXISTS",
-					"User ID already exists: choose a different ID.");
-			return formViewName; 
-		}
+		System.out.println("=====================================================");
 		
-		UserSession userSession = new UserSession(
-				gachiFarm.getAccount(accountForm.getAccount().getUserId()));
-//		PagedListHolder<Product> myList = new PagedListHolder<Product>(
-//				gachiFarm.getProductListByCategory(
-//					accountForm.getAccount().getProfile().getFavouriteCategoryId()));
-//		myList.setPageSize(4);
-//		userSession.setMyList(myList);
-		session.setAttribute("userSession", userSession);
-		return successViewName;
+		System.out.println("userId: " + account.getUserId());
+		System.out.println("password: " + account.getPassword());
+		System.out.println("userName: " + account.getUserName());
+		System.out.println("email: " + account.getEmail());
 		
+		model.addAttribute("account", account);
+		gachiFarm.save(account);
+		
+		return "Account/ConfirmSignup";
 	}
+	
+
 }
