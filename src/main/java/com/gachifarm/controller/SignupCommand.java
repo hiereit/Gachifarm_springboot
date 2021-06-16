@@ -1,36 +1,19 @@
-package com.gachifarm.domain;
+package com.gachifarm.controller;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.*;
+import com.gachifarm.domain.Address;
 
 @SuppressWarnings("serial")
-@Entity
-public class Account implements Serializable{
-	@Id
-	@Column(name="user_id")
-	@NotNull
-	String userId;
-	
-	@NotNull
-	String password;
-	
-	@NotNull
-	String userName;
-	
-	String phone;
-	
-	@NotNull
-	String email;
-	
-	@Embedded
-	Address address;
+public class SignupCommand implements Serializable {
+
+	private String userId;
+	private String password;
+	private String passwordConfirm;
+	private String userName;
+	private String phone;
+	private String email;
+	private Address address;
 	
 	public String getUserId() {
 		return userId;
@@ -43,6 +26,12 @@ public class Account implements Serializable{
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
 	}
 	public String getUserName() {
 		return userName;
@@ -62,19 +51,13 @@ public class Account implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 	public Address getAddress() {
 		return address;
 	}
-
 	public void setAddress(Address address) {
 		this.address = address;
 	}
 	
-	@Override
-	public String toString() {
-		return "Account [userId=" + userId + ", password=" + password + ", userName=" + userName + ", phone=" + phone
-				+ ", email=" + email + ", address=" + address + "]";
-	}
-
+	
+	
 }
