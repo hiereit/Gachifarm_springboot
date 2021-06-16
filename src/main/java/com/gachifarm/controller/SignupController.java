@@ -19,7 +19,7 @@ import com.gachifarm.repository.AccountRepository;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
-public class AccountFormController {
+public class SignupController {
 
 	GachiFarmFacade gachiFarm;
 	
