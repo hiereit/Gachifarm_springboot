@@ -24,8 +24,8 @@ public class GachiFarmImpl implements GachiFarmFacade {
 		return accountRepository.findByUserId(userId);
 	}
 	
-	public Account findByUserIdAndPassword(String userId, String password){
-		return accountRepository.findByUserIdAndPassword(userId, password);
+	public Account findAccount(String userId, String password){
+		return accountRepository.findAccount(userId, password);
 	}
 
 	public long countByUserId(String userId) {
