@@ -11,7 +11,7 @@ public interface GachiFarmFacade {
 	
 	Account findByUserId(String userId);
 	
-	Account findByUserIdAndPassword(String userId, String password);
+	Account findAccount(String userId, String password);
 	
 	long countByUserId(String userId);
 	
