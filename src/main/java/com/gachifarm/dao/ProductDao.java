@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.gachifarm.domain.Product;
 
 public interface ProductDao {
-	//상품id로 물품조회
+	//product_id로 Product 조회
 	Product getProduct(int prdt_id) throws DataAccessException;
 	//상품명으로 물품조회
 	Product getProductByName(String prdt_name) throws DataAccessException;

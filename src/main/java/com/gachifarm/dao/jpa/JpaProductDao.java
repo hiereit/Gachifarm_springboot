@@ -16,7 +16,6 @@ import com.gachifarm.domain.Product;
 
 @Repository
 public class JpaProductDao implements ProductDao{
-
 	@PersistenceContext
 	private EntityManager em;
 
