@@ -3,8 +3,10 @@ package com.gachifarm.dao.jpa;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
@@ -18,7 +20,7 @@ public class JpaProductDao implements ProductDao{
 	@PersistenceContext
 	private EntityManager em;
 
-	//상품이름으로 id 가져오기
+	//상품이름으로 id 가져오기 OK
 	@Override
 	public Product getProduct(int prdt_id) throws DataAccessException {
 		// TODO Auto-generated method stub
@@ -29,75 +31,88 @@ public class JpaProductDao implements ProductDao{
 		return product;
 	}
 	
-	final String getProductByName_query = "SELECT p FROM Product p WHERE p.prdt_name = :pname";
+	//상품명으로 상품가져오기 OK
+	final String getProductByName_query = "SELECT p FROM Product p WHERE p.prdtName = :pname";
 	@Override
 	public Product getProductByName(String prdt_name) throws DataAccessException {
 		// TODO Auto-generated method stub
-		Query query = em.createQuery(getProductByName_query);
+		TypedQuery<Product> query = em.createQuery(getProductByName_query, Product.class);
 		query.setParameter("pname", prdt_name);
-		return (Product) query.getSingleResult();
+		System.out.println("-------------------:" + query.getSingleResult());
+		try {
+	        return query.getSingleResult();
+	    } catch (NoResultException nre) {
+	    	System.out.println(nre.getMessage());
+	    }
+		return null;
 	}
 	
-	//공급자의 id로 product 가져오기
+	//공급자이름으로 product 가져오기 OK
 	final String getProductBySupplier_query = "SELECT p FROM Product p WHERE p.supplier = :psupplier";
 	@Override
-	public Product getProductBySupplier(String supplier) throws DataAccessException {
+	public List<Product> getProductBySupplier(String supplier) throws DataAccessException {
 		// TODO Auto-generated method stub
-		Query query = em.createQuery(getProductBySupplier_query);
+		TypedQuery<Product> query = em.createQuery(getProductBySupplier_query, Product.class);
 		query.setParameter("psupplier", supplier);
-		return (Product) query.getSingleResult();
+		return query.getResultList();
 	}
 	
-	//모든 상품 조회/////////////
-	final String getAllProduct_query = "SELECT * FROM Product";
+	//모든 상품 조회 OK
+	//final String getAllProduct_query = "SELECT * FROM Product";
 	@Override
 	public List<Product> getAllProduct() throws DataAccessException {
 		// TODO Auto-generated method stub
-		Query query = em.createNamedQuery(getAllProduct_query);
-		List<Product> products = query.getResultList();
-		return products;
+		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p", Product.class);
+		return query.getResultList();
 	}
 
-	//saleType에 따른 모든 상품 조회
-	final String getAllProductByType_query = "SELECT p FROM Product p WHERE p.saletype=?1";
+	//saleType에 따른 모든 상품 조회 OK
+	final String getAllProductByType_query = "SELECT p FROM Product p WHERE p.saletype = :psaletype";
 	@Override
 	public List<Product> getAllProductByType(String saleType) throws DataAccessException {
 		// TODO Auto-generated method stub
-		Query query = em.createQuery(getAllProductByType_query);
-		query.setParameter(1, saleType);
-		List<Product> products = query.getResultList();
-		return products;
+		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.saleType = :psaletype", Product.class);
+		query.setParameter("psaletype", saleType);
+		//List<Product> products = query.getResultList();
+		return query.getResultList();
 	}
-	////////////////////////////////////아직 구현 X//////////////////////////////////////
-	final String getAllProductByStore_query = "SELECT p  FROM Product p, Store s WHERE p.userId=?1AND p.userId=s.userId";
+	//userId에 따른 모든 상품 조회 OK
+	final String getAllProductByStore_query = "SELECT p  FROM Product p, Store s WHERE p.userId=:puId AND p.userId=s.userId";
 	@Override
 	public List<Product> getAllProductByStore(String userId) throws DataAccessException {
 		// TODO Auto-generated method stub
-		Query query = em.createQuery(getAllProductByStore_query);
-		query.setParameter(1, userId);
-		List<Product> products = query.getResultList();
-		return products;
+		TypedQuery<Product> query = em.createQuery(getAllProductByStore_query, Product.class);
+		query.setParameter("puId", userId);
+		return query.getResultList();
+	}
+	//storeName에 따른 모든 상품 조회 OK
+	final String getAllProductByStoreName_query = "SELECT p  FROM Product p, Store s WHERE s.storeName=:sname AND p.userId=s.userId";
+	@Override
+	public List<Product> getAllProductByStoreName(String storeName) throws DataAccessException {
+		// TODO Auto-generated method stub
+		TypedQuery<Product> query = em.createQuery(getAllProductByStoreName_query, Product.class);
+		query.setParameter("sname", storeName);
+		return query.getResultList();
 	}	
 	//키워드에 해당하는 전체상품 조회
 	final String searchAllProdcutList_query = "SELECT p FROM Product p "
-			+ "WHERE p.prdt_name LIKE:keyword";
+			+ "WHERE p.prdtName LIKE CONCAT('%',:kwd,'%')";
 	@Override
 	public List<Product> searchAllProdcutList(String keyword) throws DataAccessException {
 		// TODO Auto-generated method stub
-		Query query = em.createQuery(searchAllProdcutList_query);
-		query.setParameter("keyword", keyword);
-		List<Product> products = query.getResultList();
-		return products;
+		TypedQuery<Product> query = em.createQuery(searchAllProdcutList_query, Product.class);
+		query.setParameter("kwd", keyword);
+		//List<Product> products = query.getResultList();
+		return query.getResultList();
 	}
-	//키워드에 해당하는 전체상품 조회
-	final String searchAllProdcutListByCategory_query = "SELECT p FROM Product p WHERE p.category=?1";
+	
+	//카테고리에 해당하는 전체상품 조회 OK
 	@Override
 	public List<Product> searchAllProdcutListByCategory(String category) throws DataAccessException {
 		// TODO Auto-generated method stub
-		Query query = em.createQuery(searchAllProdcutList_query);
-		query.setParameter(1, category);
-		List<Product> products = query.getResultList();
-		return products;
+		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.category = :pcat", Product.class);
+		query.setParameter("pcat", category);
+		return query.getResultList();
 	}
 
 	@Override

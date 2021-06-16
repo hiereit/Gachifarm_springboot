@@ -1,11 +1,16 @@
 package com.gachifarm.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -16,36 +21,47 @@ import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
 @SessionAttributes("userSession")
+@RequestMapping("/login")
 public class LoginController {
-	private GachiFarmFacade gachiFarm;
+	GachiFarmFacade gachiFarm;
+	
 	@Autowired
-	public void setPetStore(GachiFarmFacade gachifarm) {
-		this.gachiFarm = gachifarm;
+	public void setGachiFarm(GachiFarmFacade gachiFarm) {
+		this.gachiFarm = gachiFarm;
+	}
+
+	
+	@GetMapping
+	public String form() {
+		return "Account/LoginForm";
 	}
 	
-	@RequestMapping("/user/signon")
-	public ModelAndView handleRequest(HttpServletRequest request,
-			@RequestParam("username") String username,
-			@RequestParam("password") String password,
-			@RequestParam(value="forwardAction", required=false) String forwardAction,
-			Model model) throws Exception {
-		Account account = gachiFarm.getAccount(username, password);
-		if (account == null) {
-			return new ModelAndView("Error", "message", 
-					"Invalid username or password.  Signon failed.");
-		}
-		else {
-			UserSession userSession = new UserSession(account);
-//			PagedListHolder<Product> myList = new PagedListHolder<Product>(
-//					this.gachiFarm.getProductListByCategory(
-//							account.getFavouriteCategoryId()));
-//			myList.setPageSize(4);
-//			userSession.setMyList(myList);
-			model.addAttribute("userSession", userSession);
-			if (forwardAction != null) 
-				return new ModelAndView("redirect:" + forwardAction);
-			else 
-				return new ModelAndView("index");
-		}
-	}	
+	@ModelAttribute
+	public LoginCommand formBacking() {
+		return new LoginCommand();
+	}
+	
+	@PostMapping
+	public String submit(@ModelAttribute("LoginForm") LoginCommand loginCommand, BindingResult result, Model model) {
+		// new LoginCommandValidator().validate(loginCommand, result);
+//		if (result.hasErrors()) {
+//			return "Account/LoginForm";
+//		}
+//		try {
+//			authenticator.authenticate(loginCommand);
+//			return "redirect:/index";
+//		} catch (AuthenticationException e) {
+//			result.reject("invalidIdOrPassword", new Object[] { loginCommand
+//					.getUserId() }, null);
+//			return formViewName;
+//		}
+		
+
+		model.addAttribute("account", new Account());
+		System.out.println("userId: " + loginCommand.getUserId());
+		System.out.println("password: " + loginCommand.getUserId());
+		return "Account/ConfirmSignup";
+	}
+
+
 }
