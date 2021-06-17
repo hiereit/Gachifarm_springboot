@@ -98,7 +98,14 @@
       td{
         padding: 10px;
       }
-
+      #withdrawalBtn{
+        background-color: white;
+        border: 3px solid #0AC175;
+        color: #0AC175;
+        width: 200px;
+        height: 40px;
+        font-weight: bolder;
+      }
       #submitBtn{
         background-color: #0AC175;
         color: white;
@@ -109,8 +116,8 @@
       }
      /**/
      
-     
 </style>
+
 
 
 </head>
@@ -128,8 +135,7 @@
     <input id="2" name="r" type="radio"/>
     <label class="collapse" for="2">주문목록</label>
     <div>
-	    <div>222222222222222222222</div>
-	    <!-- <div th:replace="Account/rpUpdateSignupForm :: body"></div> -->
+	    <div th:replace="Account/rpMyOrders :: body"></div>
 	</div>
 
     <input id="3" name="r" type="radio" />

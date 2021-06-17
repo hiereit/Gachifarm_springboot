@@ -35,8 +35,7 @@ public class MypageController {
 
 	@GetMapping
 	public String mypage(HttpSession session, Model model) {
-//		Account account = userSession.getAccount();
-//		UserSession userSession = (UserSession)WebUtils.getSessionAttribute(request, "userSession");
+
 		Account sessionAccount = (Account) session.getAttribute("account");
 		model.addAttribute("account", sessionAccount);
 
@@ -50,10 +49,12 @@ public class MypageController {
 
 		String password = changeAccount.getPassword();
 		System.out.println("updateAccount() - password: " + password);
-		String passwordConfirm = changeAccount.getPasswordConfirm();
-		if(!password.equals(passwordConfirm)) {
-			System.out.println("비밀번호가 다릅니다");
+		if(!changeAccount.isPasswordEqualToConfirmPassword()) {
+			String str = "비밀번호 불일치";
+			model.addAttribute("str", str);
+			return "Account/MypageLayout";
 		}
+		
 		String phone = changeAccount.getPhone();
 		System.out.println("updateAccount() - phone: " + phone);
 		String email = changeAccount.getEmail();
@@ -74,7 +75,7 @@ public class MypageController {
 		
 		model.addAttribute("account", account);
 		gachiFarm.save(account);
-		
+		System.out.println("수정완료!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		return "Account/MypageLayout";
 	}
 	

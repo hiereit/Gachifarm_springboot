@@ -32,24 +32,7 @@ public class LoginController {
 	public String form() {
 		return "Account/LoginForm";
 	}
-/*	
-	@PostMapping
-	public String login(String userId, String password, Model model) {
-		Account account = this.gachiFarm.findAccount(userId, password);
-		if(account != null) {
-			UserSession userSession = new UserSession(account);
-			System.out.println(userSession.getAccount());
-//			model.addAttribute("account", account);
-			model.addAttribute("account", userSession.getAccount());
-			
-			System.out.println("로그인 성공!");
-			return "Main";
-		}
-		System.out.println("로그인 실패!");
-		return "Account/LoginForm";
-	}
-*/	
-
+	
 	@PostMapping
 	public String login(@ModelAttribute("login") LoginCommand loginCommand, Model model) {
 		Account account = this.gachiFarm.findAccount(loginCommand.getUserId(), loginCommand.getPassword());
@@ -62,6 +45,8 @@ public class LoginController {
 			System.out.println("로그인 성공!");
 			return "Main";
 		}
+		String str = "아이디 또는 비밀번호가 일치하지 않습니다";
+		model.addAttribute("str", str);
 		System.out.println("로그인 실패!");
 		return "Account/LoginForm";
 	}

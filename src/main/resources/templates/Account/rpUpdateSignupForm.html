@@ -5,7 +5,6 @@
 
 </head>
 <body>
-<!-- 	<div th:replace="thyme/Top :: header"></div> -->
 <form action="#" th:action="@{mypage}" th:object="${changeAccount}" method="post">
 
     <table class="font-left">
@@ -17,13 +16,14 @@
 
      <tr>
         <th style="text-align: left;">비밀번호*</th>
-        <td><input type="password" id="password" th:field="*{password}" placeholder="변경할 비밀번호 입력해주세요"></td>
-      	<span th:each="err: ${#fields.errors('password')}" th:text="${err}"></span>
+        <td><input type="password" id="password" th:field="*{password}" placeholder="변경할 비밀번호 입력해주세요">
+      	<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
       </tr>
 
       <tr>
         <th style="text-align: left;">비밀번호 확인*</th>
-        <td><input type="password" id="passwordConfirm" th:field="*{passwordConfirm}" placeholder="비밀번호를 한번 더 입력해주세요"></td>
+        <td><input type="password" id="passwordConfirm" th:field="*{passwordConfirm}" placeholder="비밀번호를 한번 더 입력해주세요">
+        <span th:text="${str}">mismatch</span></td>
       </tr>
 
       <tr>
@@ -55,7 +55,8 @@
 
     <br>
     <div align="center">
-      <input type="submit" id="submitBtn" value="수정하기" >
+      <input type="submit" id="submitBtn" value="수정하기" th:onclick="'alert(\'변경완료되었습니다.\');'"><br><br>
+      <a href="#" th:href="@{/deleted}"><input type="button" id="withdrawalBtn" value="탈퇴하기" th:onclick="'alert(\'정말 탈퇴하시겠습니까?\');'"></a>
     </div>
 </form>
 </body>
