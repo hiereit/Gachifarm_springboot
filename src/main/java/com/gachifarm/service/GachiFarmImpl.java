@@ -17,6 +17,7 @@ import com.gachifarm.domain.Store;
 @Service
 @Transactional
 public class GachiFarmImpl implements GachiFarmFacade {
+
 	///@Autowired   
 	//private AccountRepository accountRepository;
 	
@@ -33,7 +34,21 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	//-------------------------------------------------------------------------
 	/*
 	public List<Account> findByUserId(String userId) {
+
+	@Autowired   
+	private AccountRepository accountRepository;
+
+//	public List<Account> findByUserId(String userId) {
+//		return accountRepository.findByUserId(userId);
+//	}
+	
+	public Account findByUserId(String userId) {
+
 		return accountRepository.findByUserId(userId);
+	}
+	
+	public Account findAccount(String userId, String password){
+		return accountRepository.findAccount(userId, password);
 	}
 
 	public long countByUserId(String userId) {
@@ -75,6 +90,7 @@ public class GachiFarmImpl implements GachiFarmFacade {
 		return productDao.searchAllProdcutListByCategory(category);
 	}
 	
+
 	
 	public void insertStore(Store store) {
 		storeDao.insertStore(store);
@@ -88,4 +104,11 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public List<Store> getAllStore(){
 		return storeDao.getAllStore();
 	}
+
+	public void save(Account account) {
+		System.out.println("!!!!!!!!!!!!!!!!!!!!Impl: " + account);
+		accountRepository.save(account);
+	}
+	
+
 }

@@ -1,51 +1,69 @@
 package com.gachifarm.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.gachifarm.domain.Account;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
-@SessionAttributes("userSession")
+@SessionAttributes("account")
+@RequestMapping("/login")
 public class LoginController {
-	private GachiFarmFacade gachiFarm;
+
+	GachiFarmFacade gachiFarm;
 	@Autowired
-	public void setPetStore(GachiFarmFacade gachifarm) {
-		this.gachiFarm = gachifarm;
+	public void setGachiFarm(GachiFarmFacade gachiFarm) {
+		this.gachiFarm = gachiFarm;
 	}
-	
-	@RequestMapping("/user/signon")
-	public ModelAndView handleRequest(HttpServletRequest request,
-			@RequestParam("username") String username,
-			@RequestParam("password") String password,
-			@RequestParam(value="forwardAction", required=false) String forwardAction,
-			Model model) throws Exception {
-		Account account = gachiFarm.getAccount(username, password);
-		if (account == null) {
-			return new ModelAndView("Error", "message", 
-					"Invalid username or password.  Signon failed.");
-		}
-		else {
+
+	@ModelAttribute("login")
+	public LoginCommand formBacking() {
+		return new LoginCommand();
+	}
+
+	@GetMapping
+	public String form() {
+		return "Account/LoginForm";
+	}
+/*	
+	@PostMapping
+	public String login(String userId, String password, Model model) {
+		Account account = this.gachiFarm.findAccount(userId, password);
+		if(account != null) {
 			UserSession userSession = new UserSession(account);
-//			PagedListHolder<Product> myList = new PagedListHolder<Product>(
-//					this.gachiFarm.getProductListByCategory(
-//							account.getFavouriteCategoryId()));
-//			myList.setPageSize(4);
-//			userSession.setMyList(myList);
-			model.addAttribute("userSession", userSession);
-			if (forwardAction != null) 
-				return new ModelAndView("redirect:" + forwardAction);
-			else 
-				return new ModelAndView("index");
+			System.out.println(userSession.getAccount());
+//			model.addAttribute("account", account);
+			model.addAttribute("account", userSession.getAccount());
+			
+			System.out.println("로그인 성공!");
+			return "Main";
 		}
-	}	
+		System.out.println("로그인 실패!");
+		return "Account/LoginForm";
+	}
+*/	
+
+	@PostMapping
+	public String login(@ModelAttribute("login") LoginCommand loginCommand, Model model) {
+		Account account = this.gachiFarm.findAccount(loginCommand.getUserId(), loginCommand.getPassword());
+		if(account != null) {
+			UserSession userSession = new UserSession(account);
+			System.out.println(userSession.getAccount());
+	//		model.addAttribute("account", account);
+			model.addAttribute("account", userSession.getAccount());
+			System.out.println(account);
+			System.out.println("로그인 성공!");
+			return "Main";
+		}
+		System.out.println("로그인 실패!");
+		return "Account/LoginForm";
+	}
+
 }

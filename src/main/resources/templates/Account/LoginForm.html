@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="EUC-KR">
- <title>∑Œ±◊¿Œ</title>  <!-- Lecture9-Thymeleaf p34~37 --> 
+<meta charset="UTF-8">
+ <title>Î°úÍ∑∏Ïù∏</title>  <!-- Lecture9-Thymeleaf p34~37 --> 
     <style>
       input{
         width: 200px;
@@ -31,23 +31,25 @@
     </style>
 </head>
 <body>
-	<div th:replace="thyme/Top :: header"></div>
+<!-- 	<div th:replace="thyme/Top :: header"></div> -->
 
- <div align="center">
-      <h3>∑Œ±◊¿Œ</h3>
+	 <div align="center">
+      <h3>Î°úÍ∑∏Ïù∏</h3>
     </div>
-
- <div align="center">
-      <input type="text"  placeholder="æ∆¿Ãµ∏¶ ¿‘∑¬«ÿ¡÷ººø‰"><br>
-      <input type="text"  placeholder="∫Òπ–π¯»£∏¶ ¿‘∑¬«ÿ¡÷ººø‰">
+    
+	<form action="#" th:action="@{login}" th:object="${login}" method="post">
+	 <div align="center">
+      <input type="text" th:field="*{userId}" placeholder="ÏïÑÏù¥ÎîîÎ•º ÏûÖÎ†•Ìï¥Ï£ºÏÑ∏Ïöî"><br>
+      
+      <input type="text" th:field="*{password}" placeholder="ÎπÑÎ∞ÄÎ≤àÌò∏Î•º ÏûÖÎ†•Ìï¥Ï£ºÏÑ∏Ïöî">
     </div>
 
     <br>
     <div align="center">
-      <input type="submit" class="loginBtn" value="∑Œ±◊¿Œ"><br>
-      <input type="submit" class="signupBtn" value="»∏ø¯∞°¿‘" >
+      <input type="submit" class="loginBtn" value="Î°úÍ∑∏Ïù∏"><br>
+      <input type="submit" class="signupBtn" value="ÌöåÏõêÍ∞ÄÏûÖ" >
     </div>
-    
-<div th:replace="thyme/Bottom :: footer"></div>
+    </form>
+<!-- <div th:replace="thyme/Bottom :: footer"></div> -->
 </body>
 </html>

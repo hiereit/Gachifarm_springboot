@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>가치팜</title>
+  <link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+  <style>
+    body		{ font-family: 'NanumSquare', sans-serif; }
+    hr {
+      height: 1px;
+      background-color: #707070;
+      margin: 0px;
+    }
+    .container {
+      max-width: 40%;
+      min-width: 700px;
+      margin: 0px auto;
+    }
+    legend {
+      color: black;
+      font-size: 20px;
+      font-family: 'NanumSquare', sans-serif !important;
+      font-weight: 700;
+    }
+    table {
+      width: 100%;
+      color: black;
+      font-size: 15px;
+    }
+    th {
+      text-align: center;
+      border-right: 0.5px solid #DDDDDD;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <div class="container">
+      <legend><b>공동구매 참여자 목록</b></legend>
+      <hr>
+      <table>
+        <tr style="height: 10px;">
+          <td colspan="5">
+          </td>
+        </tr>
+        <tr>
+          <th>
+            번호
+          </th>
+          <th>
+            아이디
+          </th>
+          <th>
+            이름
+          </th>
+          <th>
+            연락처
+          </th>
+          <th style="border: none">
+            수량
+          </th>
+        </tr>
+        <tr style="border-bottom: 0.5px solid #DDDDDD; height: 10px; width: 100%">
+          <td colspan="5">
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</body>
+
+</html>
