@@ -11,8 +11,8 @@
 	#menu label {
 	    height: 30px;
 	    background-color: #d1ecee;
-	    width: 100px;	/*기존엔 75px*/
-	    color: #2cb674;
+	    width: 120px;	/*기존엔 75px*/
+	    color: #0AC175;
 	    font-size: 15px;
 	    font-weight: bold;
 	    line-height: 30px;
@@ -26,32 +26,32 @@
 	#menu label:before {
 	    content: "";
 	    position: absolute;
-	    left: -20px;
+	    /* left: -20px; */
 	    width: 0;
 	    height: 0;
-	    border-top: 30px solid #d1ecee;
-	    border-left: 20px solid transparent;
+	    /* border-top: 30px solid #d1ecee; */
+	    /* border-left: 20px solid transparent; */
 	    display:block;
 	}
 	#menu label:after {
 	    content: "";
 	    position: absolute;
-	    right: -20px;
+	    /* right: -20px; */
 	    width: 0;
 	    height: 0;
-	    border-bottom: 30px solid #d1ecee;
-	    border-right: 20px solid transparent;
+	    /* border-bottom: 30px solid #d1ecee;
+	    border-right: 20px solid transparent; */
 	}
 	#menu input:checked + label {
-	    background-color: #2cb674;
+	    background-color: #0AC175;
 	    color: white;
 	}
 	#menu input:checked + label:before {
-	    border-top: 30px solid #2cb674;
+	    border-top: 30px solid #0AC175;
 	}
 	
 	#menu input:checked + label:after {
-	    border-bottom: 30px solid #2cb674;
+	    border-bottom: 30px solid #0AC175;
 	}
 	
 	/* Hide radio buttons */
@@ -78,8 +78,38 @@
 	body{
 		margin-left:550px !important;
 		margin-right:550px !important;
-	
 	}
+	
+	/* 개인정보 관련 css */
+	 h3{
+        margin: 0px;
+      }
+     #guideMention{
+        font-size: 5px;
+      }
+     table{
+        width: 100%;
+        padding-left: 90px;
+      }
+      th {
+	    text-align: left !important;
+		color: #707070 !important;
+      }
+      td{
+        padding: 10px;
+      }
+
+      #submitBtn{
+        background-color: #0AC175;
+        color: white;
+        border: none;
+        width: 200px;
+        height: 40px;
+        font-weight: bolder;
+      }
+     /**/
+     
+     
 </style>
 
 
