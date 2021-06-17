@@ -47,9 +47,6 @@ public class CartProduct implements Serializable {
 	public void setInStock(boolean inStock) {
 		this.inStock = inStock;
 	}
-	public void incrementQuantity() {
-		quantity++;
-	}//필요성
 	
 	public void calcInStock(Product product, int quantity) {
 		if(product.getQuantity() - quantity >= 0) {
