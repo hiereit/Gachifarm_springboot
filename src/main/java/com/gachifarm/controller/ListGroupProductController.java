@@ -15,9 +15,9 @@ public class ListGroupProductController {
 		this.gachiFarm = gachiFarm;
 	}
 
-	@RequestMapping("/group/listProducts.do")
+	@RequestMapping("/group/product/list")
 	public ModelAndView handleRequest() throws Exception {
-		return new ModelAndView("ListGroupProducts", "gProductList", 
+		return new ModelAndView("Group/GroupProductList", "gProductList", 
 				gachiFarm.getGroupProductList());
 	}
 }

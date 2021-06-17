@@ -91,6 +91,10 @@ textarea {
 	min-height: 270px !important;
 }
 
+.tui-is-blocked {
+	background-color: #ddd;
+}
+
 .prdtImg img {
 	height: 120px !important;
 	width: 120px;
@@ -130,7 +134,6 @@ legend {
 .tui-datepicker-input {
 	border: 1px solid #ced4da !important;
 	height: calc(1.5em + 0.75rem + 2px);
-	z-index: 1 !important;
 }
 
 .tui-datepicker-input input {
@@ -140,8 +143,8 @@ legend {
 }
 
 .tui-datepicker {
-	margin-top: 7px;
-	z-index: 100 !important;
+	margin-top: -15px;
+    margin-left: 156px;
 }
 
 select {
@@ -255,21 +258,34 @@ select {
 	<script
 		src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.js"></script>
 	<script class="code-js">
-		var today = new Date();
+		var min = new Date();
+		min.setDate(min.getDate() + 3);
+		var max = new Date();
+		max.setDate(max.getDate() + 14);
 		var endDatepicker = new tui.DatePicker('#wrapper1', {
 			language : 'ko',
-			date : today,
+			date : min,
 			input : {
 				element : '#end-datepicker-input'
-			}
+			},
+			selectableRanges: [
+		        [min, max]
+		    ]
 		});
 
+		var recvMin = new Date($('#end-datepicker-input').val());
+		recvMin.setDate(recvMin.getDate() + 1);
+		var recvMax = new Date($('#end-datepicker-input').val());
+		recvMax.setDate(recvMax.getDate() + 7);
 		var recvDatepicker = new tui.DatePicker('#wrapper2', {
 			language : 'ko',
-			date : today,
+			date : recvMin,
 			input : {
 				element : '#recv-datepicker-input'
-			}
+			},
+			selectableRanges: [
+		        [recvMin, recvMax]
+		    ]
 		});
 		
 		function changeDate() {

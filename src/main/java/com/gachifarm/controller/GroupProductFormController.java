@@ -33,19 +33,19 @@ public class GroupProductFormController {
 	ProductDao productDao;
 
 	@RequestMapping("/group/product/registerForm")
-	public String newGroupProductForm(HttpServletRequest request, Model model, HttpSession session) {
-		UserSession userSession = (UserSession) WebUtils.getSessionAttribute(request, "userSession");
+	public String newGroupProductForm(HttpServletRequest request, Model model) {
+		//UserSession userSession = (UserSession) WebUtils.getSessionAttribute(request, "userSession");
 		/*
 		if (userSession == null) {
 			return "로그인페이지";
 		}*/
-		int productId = 1; // 매개변수로 받아야됨
+		int productId = 2; // 매개변수로 받아야됨
 		// 상품 정보 가져오는 거 Facade에 추가
 		
 		Product product = productDao.getProduct(productId);
 		model.addAttribute("product", product);
 		model.addAttribute("groupProduct", new GroupProduct());
-		session.setAttribute("product", product);
+		//session.setAttribute("product", product);
 		return "Group/GroupProductForm";
 	}
 	
@@ -53,11 +53,18 @@ public class GroupProductFormController {
 	public String submit(@ModelAttribute("groupProduct") GroupProduct groupProduct, HttpSession session) {
 		// usersession 이용
 		Product product = (Product) session.getAttribute("product");
-		System.out.println("!!!!" + product + "!!!!");
+		int prdtQty = product.getQuantity();
+		int minQty = (int) (prdtQty * 0.05);
+		int limitQty = (int) (prdtQty * 0.15);
+		product.setQuatity(prdtQty - limitQty);
 		String loginId = "DONGDUK01";
 		groupProduct.setUserId(loginId);
 		groupProduct.setProductId(product.getProductId());
-		System.out.println("!!!!" + groupProduct.getProductId() + "!!!!");
+		groupProduct.setMinQty(minQty);
+		groupProduct.setLimitQty(limitQty);
+		String[] recvPlace = groupProduct.getRecvPlace().split(" ");
+		String location = recvPlace[0] + " " + recvPlace[1];
+		groupProduct.setLocation(location);
 		gachiFarm.insertGroupProduct(groupProduct, product);
 		return "Group/GroupProductForm";
 	}

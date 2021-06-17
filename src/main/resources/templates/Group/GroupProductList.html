@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+groupProductList
+<table>
+<tr th:each="gProduct : ${gProductList}">
+<td th:text="${gProduct.gProductId}"></td>
+<td th:text="${gProduct.location}"></td>
+</tr>
+</table>
+<div >
+
+</div>
+</body>
+</html>
