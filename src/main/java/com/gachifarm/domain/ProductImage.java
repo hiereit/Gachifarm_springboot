@@ -4,15 +4,20 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name="PRODUCTIMAGE")
+@SequenceGenerator(name = "PRDT_IMG_SEQ_GENERATOR", sequenceName = "PRDT_IMG_SEQ", initialValue = 1, allocationSize = 1)
 public class ProductImage implements Serializable{
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "PRDT_IMG_SEQ_GENERATOR")
 	@Column(name="img_id")
 	private int imgId;
 	private String imgName;
@@ -23,7 +28,7 @@ public class ProductImage implements Serializable{
 	public ProductImage() {
 		super();
 		// TODO Auto-generated constructor stub
-	}	
+	}	/*
 	public ProductImage(int imgId, String imgName, String imgPath, int productId) {
 		super();
 		this.imgId = imgId;
@@ -32,6 +37,13 @@ public class ProductImage implements Serializable{
 		this.productId = productId;
 	}
 
+	*/
+	public ProductImage(String imgName, String imgPath, int productId) {
+		super();
+		this.imgName = imgName;
+		this.imgPath = imgPath;
+		this.productId = productId;
+	}
 	public int getImgId() {
 		return imgId;
 	}
