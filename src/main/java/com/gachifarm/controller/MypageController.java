@@ -1,6 +1,6 @@
 package com.gachifarm.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,47 +9,73 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.util.WebUtils;
 
 import com.gachifarm.domain.Account;
 import com.gachifarm.service.GachiFarmFacade;
 @Controller
-@SessionAttributes("login")
+@RequestMapping("/user/mypage")
+@SessionAttributes("account")
 public class MypageController {
-	
+
 	UserSession userSession;
-	
+
 	GachiFarmFacade gachiFarm;
-	
+
 	@Autowired
 	public void setGachiFarm(GachiFarmFacade gachiFarm) {
 		this.gachiFarm = gachiFarm;
 	}
-	
-//	@ModelAttribute(name="login")
-//	public SignupCommand formBacking() {
-//		return new SignupCommand();
-//	}
-	
-	@GetMapping("/user/mypage")
-	public String mypage(@ModelAttribute("login") Account account, Model model, HttpServletRequest request) {
+
+	@ModelAttribute(name="changeAccount")
+	public SignupCommand formBacking() {
+		return new SignupCommand();
+	}
+
+	@GetMapping
+	public String mypage(HttpSession session, Model model) {
 //		Account account = userSession.getAccount();
-		UserSession userSession = (UserSession)WebUtils.getSessionAttribute(request, "userSession");
+//		UserSession userSession = (UserSession)WebUtils.getSessionAttribute(request, "userSession");
+		Account sessionAccount = (Account) session.getAttribute("account");
+		model.addAttribute("account", sessionAccount);
 
-
-		
-		System.out.println(userSession.getAccount());
+		System.out.println(sessionAccount.getUserId());
 		return "Account/MypageLayout";
-	
+
 	}
 	
-	@PostMapping("/user/mypage/update")
-	public String updateAccount(@ModelAttribute("login") SignupCommand changeAccount, BindingResult result, Model model) {
+	@PostMapping
+	public String updateAccount(@ModelAttribute("rpUpdateSignupForm") SignupCommand changeAccount, HttpSession session, Model model, BindingResult result) {
+
+		String password = changeAccount.getPassword();
+		System.out.println("updateAccount() - password: " + password);
+		String passwordConfirm = changeAccount.getPasswordConfirm();
+		if(!password.equals(passwordConfirm)) {
+			System.out.println("비밀번호가 다릅니다");
+		}
+		String phone = changeAccount.getPhone();
+		System.out.println("updateAccount() - phone: " + phone);
+		String email = changeAccount.getEmail();
+		String zip = changeAccount.getZip();
+		String addr1 = changeAccount.getAddr1();
+		String addr2 = changeAccount.getAddr2();
+
+		System.out.println("updateAccount() - " + session.getAttribute("account").toString());		
+		Account account = (Account) session.getAttribute("account");
+
+		account.setPassword(password);
+		account.setPhone(phone);
+		account.setEmail(email);
+		account.setZip(zip);
+		account.setAddr1(addr1);
+		account.setAddr2(addr2);
+		System.out.println("updateAccount: " + account);
 		
-//		String password = userSession.getAccount().getPassword();
-//		System.out.println("!!!!!!!!!!!!!!!!!!!!!!user: " + userSession.getAccount());
+		model.addAttribute("account", account);
+		gachiFarm.save(account);
 		
 		return "Account/MypageLayout";
 	}
+	
 }

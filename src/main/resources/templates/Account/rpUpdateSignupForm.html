@@ -2,90 +2,54 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>회원가입</title>
-  <style>
-  	span{
-  		text-align: left !important;
-  		align: left;
-    	color: #707070 ;
-    	background-color: #FFFFFF;
-    	border: #FFFFFF;
-  	}
-      h3{
-        margin: 0px;
-      }
-      #guideMention{
-        font-size: 5px;
-      }
-      table{
-        width: 50%;
-        padding-left: 90px;
-      }
-      th {
-        text-align: left;
-        color: #707070;
-      }
-      td{
-        padding: 10px;
-      }
-
-      #submitBtn{
-        background-color: #0AC175;
-        color: white;
-        border: none;
-        width: 200px;
-        height: 40px;
-        font-weight: bolder;
-      }
-    </style>
 
 </head>
 <body>
 <!-- 	<div th:replace="thyme/Top :: header"></div> -->
-<form action="#" th:action="@{user/mypage/update}" th:object="${login}" method="post">
+<form action="#" th:action="@{mypage}" th:object="${changeAccount}" method="post">
 
-    <table>
+    <table class="font-left">
       <tr>
-        <th><span>아이디</span></th>
+        <th style="text-align: left;">아이디</th>
       	<!-- <td th:text="${account.userId}">userId</td> -->
-      	<td>userId</td>
+      	<td><input type="text" th:value="${account.userId}" disabled></td>
       </tr>
 
      <tr>
-        <th><span>비밀번호*</span></th>
-        <td><input type="password" id="password"  placeholder="변경할 비밀번호 입력해주세요"></td>
+        <th style="text-align: left;">비밀번호*</th>
+        <td><input type="password" id="password" th:field="*{password}" placeholder="변경할 비밀번호 입력해주세요"></td>
+      	<span th:each="err: ${#fields.errors('password')}" th:text="${err}"></span>
       </tr>
 
       <tr>
-        <th><span>비밀번호 확인*</span></th>
-        <td><input type="password" id="passwordConfirm" placeholder="비밀번호를 한번 더 입력해주세요"></td>
+        <th style="text-align: left;">비밀번호 확인*</th>
+        <td><input type="password" id="passwordConfirm" th:field="*{passwordConfirm}" placeholder="비밀번호를 한번 더 입력해주세요"></td>
       </tr>
 
       <tr>
-        <th><span>이름</span></th>
-       <!--  <td th:text="${account.userName}">userName</td> -->
-        <td>userName</td>
+        <th style="text-align: left;">이름</th>
+	    <td><input type="text" th:value="${account.userName}" disabled></td>
       </tr>
 
       <tr>
-        <th><span>휴대폰</span></th>
-        <td><input type="text" id="phone" placeholder="숫자만 입력해주세요"></td>
+        <th style="text-align: left;">휴대폰</th>
+        <td><input type="text" th:id="phone" th:name="phone" th:value="${account.phone}" placeholder="숫자만 입력해주세요"></td>
       </tr>
 
       <tr>
-        <th><span>이메일*</span></th>
-        <td><input type="text" id="email" placeholder="예: gachifarm@dongduk.ac.kr"></td>
+        <th style="text-align: left;">이메일*</th>
+        <td><input type="text" th:id="email" th:name="email" th:value="${account.email}" placeholder="예: gachifarm@dongduk.ac.kr"></td>
       </tr>
 
       <tr>
-        <th><span>우편번호</span></th>
-        <td><input type="text" id="zip" placeholder="우편번호를 입력해주세요"></td>
+        <th style="text-align: left;">우편번호</th>
+        <td><input type="text" th:id="zip" th:name="zip" th:value="${account.zip}" placeholder="우편번호를 입력해주세요"></td>
       </tr>
 
       <tr>
-        <th><span>주소</span></th>
-        <td><input type="text" id="addr1" placeholder="예: 서울특별시 성북구 월곡2동 화랑로13길 60">
-          <input type="text" id="addr2" placeholder="예: 인문관"></td>
+        <th style="text-align: left;">주소</th>
+        <td><input type="text" th:id="addr1" th:name="addr1" th:value="${account.addr1}" placeholder="예: 서울특별시 성북구 월곡2동 화랑로13길 60">
+          <input type="text" th:id="addr2" th:name="addr2" th:value="${account.addr2}" placeholder="예: 인문관"></td>
       </tr> 
     </table>
 
