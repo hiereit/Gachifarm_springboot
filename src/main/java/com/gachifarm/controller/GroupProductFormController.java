@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.gachifarm.dao.ProductDao;
 import com.gachifarm.domain.GroupProduct;
 import com.gachifarm.domain.Product;
@@ -33,27 +34,22 @@ public class GroupProductFormController {
 	@Autowired
 	ProductDao productDao;
 
-	@RequestMapping("/group/product/registerForm")
-	public String newGroupProductForm(HttpServletRequest request, Model model) {
+	@RequestMapping("/group/product/registerForm/{productId}")
+	public ModelAndView newGroupProductForm(
+			@PathVariable("productId") int productId) {
 		//UserSession userSession = (UserSession) WebUtils.getSessionAttribute(request, "userSession");
 		/*
 		if (userSession == null) {
 			return "로그인페이지";
 		}*/
-		int productId = 2; // 매개변수로 받아야됨
 		// 상품 정보 가져오는 거 Facade에 추가
-		
-		Product product = productDao.getProduct(productId);
-		model.addAttribute("product", product);
-		model.addAttribute("groupProduct", new GroupProduct());
-		//session.setAttribute("product", product);
-		return "Group/GroupProductForm";
+		return new ModelAndView("Group/GroupProductForm", "groupProduct", productDao.getProduct(productId));
 	}
 	
 	@RequestMapping("/group/product/register")
 	public String submit(@ModelAttribute("groupProduct") GroupProduct groupProduct, HttpSession session) {
 		// user session 이용
-		Product product = (Product) session.getAttribute("product");
+		Product product = productDao.getProduct(groupProduct.getProduct().getProductId());
 		int prdtQty = product.getQuantity();
 		int minQty = (int) (prdtQty * 0.05);
 		int limitQty = (int) (prdtQty * 0.15);
@@ -67,23 +63,19 @@ public class GroupProductFormController {
 		String location = recvPlace[0] + " " + recvPlace[1];
 		groupProduct.setLocation(location);
 		gachiFarm.insertGroupProduct(groupProduct, product);
-		return "Group/GroupProductForm";
+		return "redirect:/group/product/list/1";
 	}
 	
-	@RequestMapping("/group/product/updateForm/{gProduct_id}")
-	public String updateGroupProductForm(
-			@PathVariable("gProduct_id") int gProductId, Model model) {
+	@RequestMapping("/group/product/updateForm/{gProductId}")
+	public ModelAndView updateGroupProductForm(
+			@PathVariable("gProductId") int gProductId, Model model) {
 		//UserSession userSession = (UserSession) WebUtils.getSessionAttribute(request, "userSession");
 		/*
 		if (userSession == null) {
 			return "로그인페이지";
 		}*/
 		// 상품 정보 가져오는 거 Facade에 추가
-		GroupProduct groupProduct = gachiFarm.getGroupProduct(gProductId);
-		Product product = productDao.getProduct(groupProduct.getProductId());
-		model.addAttribute("product", product);
-		model.addAttribute("groupProduct", groupProduct);
-		return "Group/GroupProductUpdateForm";
+		return new ModelAndView("Group/GroupProductUpdateForm", "groupProduct", gachiFarm.getGroupProduct(gProductId));
 	}
 	
 	@RequestMapping("/group/product/update")
@@ -93,6 +85,6 @@ public class GroupProductFormController {
 		GroupProduct groupProduct = gachiFarm.getGroupProduct(gProductId);
 		groupProduct.setRecvDate(recvDate);
 		gachiFarm.updateGroupProduct(groupProduct);
-		return "redirect:/group/product/" + gProductId; // 상품페이지로
+		return "redirect:/group/product/" + gProductId;
 	}
 }

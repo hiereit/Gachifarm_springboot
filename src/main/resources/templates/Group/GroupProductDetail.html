@@ -150,8 +150,8 @@ button {
 					<button type="button" class="btn btn-outline-warning disabled"
 						id="prdtType">가치장터</button>
 					<br>
-					<h3 style="margin-top: 9px" th:text="${product.prdtName}"></h3>
-					<span id="price" style="font-size: 30px; font-weight: bold;" th:text="${#numbers.formatInteger(T(Math).ceil(product.price * 0.9), 3,'COMMA')}"></span><span
+					<h3 style="margin-top: 9px" th:text="${gProduct.product.prdtName}"></h3>
+					<span id="price" style="font-size: 30px; font-weight: bold;" th:text="${#numbers.formatInteger(T(Math).ceil(gProduct.product.price * 0.9), 3,'COMMA')}"></span><span
 						style="font-size: 30px">원</span><br>
 					<ul id="gPrdtInfo">
 						<li style="font-size: 15px;" th:inline="text"><b>마감일</b> [[${gProduct.period}]]</li>

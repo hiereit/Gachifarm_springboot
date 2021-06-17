@@ -199,7 +199,7 @@ select {
 					<div class="prdtImg">
 						<img>
 					</div>
-					<div class="prdtName" th:object="${product}">
+					<div class="prdtName" th:object="${groupProduct.product}">
 						<b>상품명</b> <span th:text="*{prdtName}"></span><br> <b>남은
 							수량</b> <span th:text="*{quantity}"></span><br>
 					</div>
@@ -236,6 +236,8 @@ select {
 										th:value="${i}" th:text="${i}" th:selected="${i==0}"></option>
 							</select>
 							<input id="recvDate" type="hidden" th:field="*{recvDate}">
+							<div th:object=${groupProduct.product}>
+							<input id="productId" type="hidden" th:field="*{productId}" th:value="*{productId}"></div>
 							</td>
 						</tr>
 						<tr>

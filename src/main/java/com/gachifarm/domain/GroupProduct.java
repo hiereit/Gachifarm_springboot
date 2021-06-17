@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,8 +32,11 @@ public class GroupProduct implements Serializable {
 	@Column(name="product_id")
 	private int productId;
 	
+	@ManyToOne
+	@JoinColumn(name="product_id", insertable=false, updatable=false)
+	private Product product;
+	
 	// Image domain 추가하기
-	// Product domain 추가하기
 	private int minQty;
 	private int currQty;
 	private int limitQty;
@@ -44,6 +49,13 @@ public class GroupProduct implements Serializable {
 	private Date recvDate;
 	private String location;
 	private String status;
+	
+	public GroupProduct(Product product) {
+		this.product = product;
+	}
+	public GroupProduct() {
+	}
+	
 	public int getMinQty() {
 		return minQty;
 	}
@@ -109,6 +121,12 @@ public class GroupProduct implements Serializable {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	public Product getProduct() {
+		return product;
+	}
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 	
 	

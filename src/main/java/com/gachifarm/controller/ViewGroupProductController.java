@@ -2,13 +2,11 @@ package com.gachifarm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.gachifarm.dao.ProductDao;
-import com.gachifarm.domain.GroupProduct;
-import com.gachifarm.domain.Product;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
@@ -22,14 +20,9 @@ public class ViewGroupProductController {
 	@Autowired
 	ProductDao productDao;
 
-	@RequestMapping("/group/product/{gProduct_id}")
-	public String viewGroupProduct(
-			@PathVariable("gProduct_id") int gProductId,
-			Model model) throws Exception {
-		GroupProduct gProduct = gachiFarm.getGroupProduct(gProductId);
-		model.addAttribute("gProduct", gProduct);
-		Product product = productDao.getProduct(gProduct.getProductId());
-		model.addAttribute("product", product);
-		return "Group/GroupProductDetail";
+	@RequestMapping("/group/product/{gProductId}")
+	public ModelAndView viewGroupProduct(
+			@PathVariable("gProductId") int gProductId) throws Exception {
+		return new ModelAndView("Group/GroupProductDetail", "gProduct", gachiFarm.getGroupProduct(gProductId));
 	}
 }

@@ -202,7 +202,7 @@ input:disabled {
 					<div class="prdtImg">
 						<img>
 					</div>
-					<div class="prdtName" th:object="${product}">
+					<div class="prdtName" th:object="${groupProduct.product}">
 						<b>상품명</b> <span th:text="*{prdtName}"></span><br> <b>남은
 							수량</b> <span th:text="*{quantity}"></span><br>
 					</div>
