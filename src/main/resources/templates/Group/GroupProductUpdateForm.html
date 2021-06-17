@@ -180,6 +180,9 @@ select {
 	color: #333;
 }
 
+input:disabled {
+	background-color: white !important;
+}
 #recvPlace {
 	width: 300px !important;
 }
@@ -205,14 +208,14 @@ select {
 					</div>
 				</div>
 				<hr>
-				<form method="post" th:action="@{/group/product/register}" style="text-align: center;" th:object="${groupProduct}">
+				<form method="post" th:action="@{/group/product/update}" style="text-align: center;" th:object="${groupProduct}">
 					<table id="form_table">
 						<tr class="border_bottom">
 							<th>마감일</th>
 							<td>
 								<div
 									class="form-control tui-datepicker-input tui-datetime-input tui-has-focus enddatepicker">
-									<input id="end-datepicker-input" type="text" aria-label="Date" th:field="*{period}"
+									<input id="end-datepicker-input" type="text" aria-label="Date" th:field="*{period}" th:value="*{period}"
 										readonly> <span class="tui-ico-date" ></span>
 									<div id="wrapper1"></div>
 								</div>
@@ -235,16 +238,14 @@ select {
 									<option th:each="i : ${#numbers.sequence(0, 59, 5)}"
 										th:value="${i}" th:text="${i}" th:selected="${i==0}"></option>
 							</select>
-							<input id="recvDate" type="hidden" th:field="*{recvDate}">
+							<input id="recvDate" name="recvDate" type="hidden" th:value="*{recvDate}">
+							<input id="gProductId" name="gProductId" type="hidden" th:value="*{gProductId}">
 							</td>
 						</tr>
 						<tr>
 							<th>수령장소</th>
 							<td><input type="text" class="form-control" th:field="*{recvPlace}" onchange="changePlace()"
-								id="recvPlace" placeholder="주소" style="width: 200px;">
-								<input type="button" class="btn btn-outline-danger"
-								id="form_button" onclick="recvPlace()"
-								value="주소 검색"><br>
+								id="recvPlace" placeholder="주소" style="width: 200px;" disabled>
 							</td>
 						</tr>
 					</table>
@@ -262,28 +263,20 @@ select {
 	<script
 		src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.js"></script>
 	<script class="code-js">
-		var min = new Date();
-		min.setDate(min.getDate() + 3);
-		var max = new Date();
-		max.setDate(max.getDate() + 14);
-		var endDatepicker = new tui.DatePicker('#wrapper1', {
-			language : 'ko',
-			date : min,
-			input : {
-				element : '#end-datepicker-input'
-			},
-			selectableRanges: [
-		        [min, max]
-		    ]
-		});
+	    var recvDate = $('#recvDate').val();
+	    var dateSplit = recvDate.split(" ");
+		var sel = new Date(dateSplit[0]);
+		var timeSplit = dateSplit[1].split(":");
+		$("#recvHour").val(timeSplit[0]).prop("selected", true);
+		$("#recvMinute").val(timeSplit[1]).prop("selected", true);
 
-		var recvMin = new Date($('#end-datepicker-input').val());
+		var recvMin = new Date();
 		recvMin.setDate(recvMin.getDate() + 1);
 		var recvMax = new Date($('#end-datepicker-input').val());
 		recvMax.setDate(recvMax.getDate() + 7);
 		var recvDatepicker = new tui.DatePicker('#wrapper2', {
 			language : 'ko',
-			date : recvMin,
+			date : sel,
 			input : {
 				element : '#recv-datepicker-input'
 			},
@@ -311,25 +304,9 @@ select {
 			var recvDate = date + " " + hour + ":" + minute;
 			document.getElementById('recvDate').value = recvDate;
 		});
-	</script>
+		
+		
 
-	<!-- 주소 검색 -->
-	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script>
-		function recvPlace() {
-			var qq = new daum.Postcode({
-				oncomplete : function(data) {
-					var addr = data.address; // 최종 주소 변수
-
-					// 주소 정보를 해당 필드에 넣는다.
-					document.getElementById("recvPlace").value = addr;
-				
-				}
-			}).open({
-				popupName: 'postcodePopup',
-			    autoClose: true //기본값 true
-			});
-		}
 	</script>
 </body>
 
