@@ -3,6 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지</title>
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+
 
 <style>
 	#menu {
@@ -76,8 +83,7 @@
 	
 	/* */
 	body{
-		margin-left:550px !important;
-		margin-right:550px !important;
+
 	}
 	
 	/* 개인정보 관련 css */
@@ -115,43 +121,122 @@
         font-weight: bolder;
       }
      /**/
-     
 </style>
 
+<script>
 
+	$(function(){
+		var state = 1;
+		
+		$('#1').click(function(){
+			history.pushState('state' + state, 'State' + state, '/user/mypage');
+			state++;
+			
+		});
+	});
+	
+	$(function(){
+		var state = 2;
+		$('#2').click(function(){
+			history.pushState('state' + state, 'State' + state, '/user/mypage/myorders');
+			state++;
+		});
+	});
+	
+	$(function(){
+		var state = 3;
+		
+		$('#3').click(function(){
+			history.pushState('state' + state, 'State' + state, '/user/mypage/myborders');
+			state++;
+		});
+	});
+
+	$(function(){
+		var state = 4;
+		$('#4').click(function(){
+			history.pushState('state' + state, 'State' + state, '/user/mypage/myopengroups');
+			state++;
+		});
+	});
+	
+	$(function(){
+		var state = 5;
+		
+		$('#5').click(function(){
+			history.pushState('state' + state, 'State' + state, '/user/mypage/mygroups');
+			state++;
+		});
+	});
+	
+	
+	//새로고침 시 radio 유지
+	function test(){
+	    var test = 'test';
+	    try {
+	        localStorage.setItem(test, test);
+	        localStorage.removeItem(test);
+	        return true;
+	    } catch(e) {
+	        return false;
+	    }
+	}
+	 
+	$(document).ready(function() {
+	    if (test() === true) { // Available
+	        $(function() {
+	            $("input[type=radio]").on('click', function() {
+	                let choice = $(this).attr('id'); // Get this id
+	                localStorage.setItem("pollselected", choice); // Store
+	            });
+	            var storedValue = localStorage.getItem("pollselected");
+	            if (storedValue !== null) {
+	                console.log(storedValue) // yes or no
+	                $("#" + storedValue).click(); // We could make this simpiler if we stored #yes or #no
+	            }
+	        });
+	    } else {
+	        alert('No local storage')
+	    }
+	});
+	
+</script>
 
 </head>
 <body>
 
-<div id="menu">
-    <!-- Selected by default -->
-
-    <input id="1" name="r" type="radio" checked/>
+<div id="menu" >
+    <input class="r" id="1" name="r" type="radio" checked/>
     <label class="collapse" for="1">개인정보</label>
     <div>
 	    <div th:replace="Account/rpUpdateSignupForm :: body"></div>
 	</div>
 	
-    <input id="2" name="r" type="radio"/>
+    <input class="r" id="2" name="r" type="radio"/>
     <label class="collapse" for="2">주문목록</label>
-    <div>
+    <div id="22">
 	    <div th:replace="Account/rpMyOrders :: body"></div>
 	</div>
 
-    <input id="3" name="r" type="radio" />
+    <input class="r" id="3" name="r" type="radio" />
     <label class="collapse" for="3">게시글관리</label>
     <div>
 	    <div>3333333333333333333333</div>
 	    <!-- <div th:replace="Account/rpUpdateSignupForm :: body"></div> -->
 	</div>
     
-    <input id="4" name="r" type="radio" />
-    <label class="collapse" for="4">내 공구관리</label>
+    <input class="r" id="4" name="r" type="radio" />
+    <label class="collapse" for="4">내가 연 공구</label>
     <div>
-	    <div>444444444444444444444</div>
-	    <!-- <div th:replace="Account/rpUpdateSignupForm :: body"></div> -->
+	    <div th:replace="Account/rpMyOpenGroup :: body"></div>
 	</div>
 	
+	<input class="r" id="5" name="r" type="radio" />
+    <label class="collapse" for="5">내가 참여한 공구</label>
+    <div>
+	    <div>55555555555555555555555</div>
+	    <!-- <div th:replace="Account/rpUpdateSignupForm :: body"></div> -->
+	</div>
 </div>
 
 </body>

@@ -8,7 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gachifarm.domain.Account;
+import com.gachifarm.domain.GroupProduct;
+import com.gachifarm.domain.LineProduct;
+import com.gachifarm.domain.Orders;
 import com.gachifarm.repository.AccountRepository;
+import com.gachifarm.repository.GroupProductRepository;
+import com.gachifarm.repository.LineProductRepository;
+import com.gachifarm.repository.OrdersRepository;
 
 @Service
 @Transactional
@@ -41,4 +47,26 @@ public class GachiFarmImpl implements GachiFarmFacade {
 		accountRepository.save(account);
 	}
 	
+	
+	@Autowired   
+	private OrdersRepository ordersRepository;
+	public List<Orders> findOrdersByUserId(String userId){
+		return ordersRepository.findOrdersByUserId(userId);
+	}
+	
+	@Autowired   
+	private LineProductRepository lineProductRepository;
+	public long countByOrderId(int orderId) {
+		return lineProductRepository.countByOrderId(orderId);
+	}
+	public LineProduct findTop1ProductNameByOrderId(int orderId){
+		return lineProductRepository.findTop1ProductNameByOrderId(orderId);
+	}
+	
+	@Autowired
+	private GroupProductRepository groupProductRepository;
+	public List<GroupProduct> findGroupProductByUserId(String userId){
+		return groupProductRepository.findGroupProductByUserId(userId);
+	}
+
 }

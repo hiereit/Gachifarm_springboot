@@ -67,7 +67,6 @@
         <td><input type="password" id="passwordConfirm" th:field="*{passwordConfirm}" placeholder="비밀번호를 한번 더 입력해주세요">
       	<span th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}"></span>
       	<span th:text="${str}">mismatch</span></td>
-      	
       </tr>
       
       <tr>
@@ -77,7 +76,7 @@
       </tr>
 
       <tr>
-        <th><label>휴대폰</label></th>
+        <th><label>휴대폰*</label></th>
         <td><input type="text" id="phone" th:field="*{phone}" placeholder="숫자만 입력해주세요">
         <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Phone error</span></td>
       </tr>
@@ -89,13 +88,13 @@
       </tr>
 
       <tr>
-        <th><label>우편번호</label></th>
+        <th><label>우편번호*</label></th> 
         <td><input type="text" id="zip" th:field="*{zip}" placeholder="우편번호를 입력해주세요">
         <span th:if="${#fields.hasErrors('zip')}" th:errors="*{zip}"></span></td>
       </tr>
 
       <tr>
-        <th><label>주소</label></th>
+        <th><label>주소*</label></th>
         <td><input type="text" id="addr1" th:field="*{addr1}" placeholder="예: 서울특별시 성북구 월곡2동 화랑로13길 60">
           <input type="text" id="addr2" th:field="*{addr2}" placeholder="예: 인문관"></td>
       </tr> 

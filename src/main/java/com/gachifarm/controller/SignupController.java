@@ -46,6 +46,12 @@ public class SignupController {
 				String str = "비밀번호 불일치";
 				model.addAttribute("str", str);
 			}
+			String userId = newAccount.getUserId();
+			if(gachiFarm.findByUserId(userId) != null) {
+				String userIdExistedStr = "이미 존재하는 아이디입니다."; 
+				model.addAttribute("userIdExistedStr", userIdExistedStr);
+				return "Account/SignupForm";
+			}
 			return "Account/SignupForm";
 		}
 		

@@ -55,8 +55,9 @@
 
     <br>
     <div align="center">
-      <input type="submit" id="submitBtn" value="수정하기" th:onclick="'alert(\'변경완료되었습니다.\');'"><br><br>
-      <a href="#" th:href="@{/deleted}"><input type="button" id="withdrawalBtn" value="탈퇴하기" th:onclick="'alert(\'정말 탈퇴하시겠습니까?\');'"></a>
+      <input type="submit" id="submitBtn" value="수정하기"><br><br>
+      <a href="#" th:href="@{/deleted}"><input type="button" id="withdrawalBtn" value="탈퇴하기" th:onclick="'alert(\'정말 탈퇴하시겠습니까?\');'"></a><br>
+      <br><span th:text="${str2}">complete</span><br>
     </div>
 </form>
 </body>

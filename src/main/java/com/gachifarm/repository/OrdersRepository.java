@@ -6,7 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.gachifarm.domain.Orders;
 
-public interface OrdersRepository  extends JpaRepository<Orders, String> {
-	List<Orders> findByUserId(String userId);
+public interface OrdersRepository extends JpaRepository<Orders, Integer> {
+
+	List<Orders> findOrdersByUserId(String userId);
 	
 }

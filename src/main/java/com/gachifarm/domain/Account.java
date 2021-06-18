@@ -21,16 +21,19 @@ public class Account implements Serializable{
 	@NotNull
 	String userName;
 	
+	@NotNull
 	String phone;
 	
 	@NotNull
 	String email;
 	
-//	@Embedded
-//	Address address;
-	
+	@NotNull
 	String zip;
+	
+	@NotNull
 	String addr1;
+	
+	@NotNull
 	String addr2;
 	
 	public String getUserId() {

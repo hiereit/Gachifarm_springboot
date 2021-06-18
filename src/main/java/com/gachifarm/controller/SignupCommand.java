@@ -24,14 +24,13 @@ public class SignupCommand implements Serializable {
 	@NotEmpty
 	private String userName;
 	
-//	@Pattern(regexp = "[0-9]{10,11}", message = "10~11자리의 숫자만 입력가능합니다")
+	@Pattern(regexp = "[0-9]{10,11}", message = "10~11자리의 숫자만 입력가능합니다")
 	private String phone;
 	
 	@NotEmpty @Email
 	private String email;
 	
-//	private Address address;
-//	@Pattern(regexp ="^\\d{5}", message="우편번호는 5자리 숫자입니다.")
+	@Pattern(regexp ="^\\d{5}", message="우편번호는 5자리 숫자입니다.")
 	private String zip;
 	private String addr1;
 	private String addr2;

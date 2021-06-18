@@ -1,8 +1,6 @@
 package com.gachifarm.controller;
 
 import java.io.Serializable;
-
-
 import com.gachifarm.domain.Account;
 
 @SuppressWarnings("serial")
