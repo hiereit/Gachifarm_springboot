@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>StoreList</title>
+<link rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js">
+  </script>
+  <style>
+    @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+    .nanumsquare {
+        font-family: 'NanumSquare', sans-serif !important;
+    }
+    .nanumgothic * {
+     font-family: 'Nanum Gothic', sans-serif;
+    }
+    body {
+      /*font-family: 'Nanum Gothic', sans-serif; */
+      /* 폰트관련 주석! */
+      /* font-family: 'NanumSquare', sans-serif !important; */
+    }
+    .btn-primary {
+      /* 폰트관련 주석! */
+      /* font-family: 'NanumSquare', sans-serif !important; */
+
+      color: #fff;
+      background-color: #0AC175;
+      border-color: #0AC175;
+    }
+    label{
+      color: #707070;
+    }
+    th{
+      font-size:18px;
+    }
+    .form-control {
+      color: #DDDDDD;
+    }
+    #tableMargin {
+     padding-right:30px;
+    }
+    .tableColum {
+     color:#000;
+     text-align:center;
+     
+    }
+    td {
+    	height:50px;
+    	border-bottom:1px solid #DDDDDD;
+    }
+    #storeNameHover:hover {
+    	color:#0AC175;
+    }
+    a {
+    	text-decoration:none;
+    }
+  </style>
+</head>
+<body>
+	<p th:text="'안녕하세요. ' + ${data2}" >안녕하세요. StoreList.html입니다.</p>
+	<!-- 안내 메시지 HOME -->
+	<div align="center">
+	      <h2> 스토어 List</h2>
+	      <hr style="height:1px; background-color:#707070;">
+     </div>
+     
+     <div align="center" style="margin-top: 40px;">	      
+	     <table th:text-align="center">
+	     	<thead>
+		     	<tr style="margin-bottom:100px;border-bottom:1px solid #DDDDDD;">
+		     		<th scope="col" id="tableMargin" class="tableColum"></th>
+		     		<th scope="col" id="tableMargin" class="tableColum">이름</th>
+		     		<th scope="col" class="tableColum">소개글</th>
+		     	</tr>
+	     	</thead>
+	     	<tbody>
+		     	<tr th:each="store, i: ${data}">
+		     		<td id="tableMargin" th:text="${i.count}" style="text-align:center;font-weight:bold;"></td>
+		     		<td id="tableMargin"><a style="background-color: #0AC175; color:#fff;border-radius: 5px 5px 5px 5px;" th:id="storeNameHover" th:href="@{/store/{storeName}(storeName=${store.storeName})}"><span id="text1" th:text="${store.storeName}" style="font-size:14px; margin:5px;"></span></a></td>
+		     		<td th:text="${store.storeInfo}"></td>
+		     	</tr>
+	     	</tbody>
+	     </table>
+     </div>
+     
+</body>
+</html>
