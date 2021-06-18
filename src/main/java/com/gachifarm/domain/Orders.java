@@ -1,17 +1,18 @@
 package com.gachifarm.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 @SuppressWarnings("serial")
-
+@SequenceGenerator(name = "ORDER_SEQ_GENERATOR", sequenceName = "ORDER_SEQ", initialValue = 1, allocationSize = 1)
+@Entity
 public class Orders implements Serializable {
 	private String username;
 	private int totalPrice;
@@ -25,11 +26,30 @@ public class Orders implements Serializable {
 	private String cardType;
 	private String status;
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "ORDER_SEQ_GENERATOR")
 	@Column(name = "order_id")
 	private int orderId;
 	@Column(name = "user_id")
 	private String userId;
-	//private List<LineProduct> lineProducts = new ArrayList<LineProduct>();
+	
+	public Orders() {}
+	
+	public Orders(String username, int totalPrice, String phone, Date orderDate, String shipAddr1, String shipAddr2,
+			String zipCode, String creditNum, Date expireDate, String cardType, String status, String userId) {
+		super();
+		this.username = username;
+		this.totalPrice = totalPrice;
+		this.phone = phone;
+		this.orderDate = orderDate;
+		this.shipAddr1 = shipAddr1;
+		this.shipAddr2 = shipAddr2;
+		this.zipCode = zipCode;
+		this.creditNum = creditNum;
+		this.expireDate = expireDate;
+		this.cardType = cardType;
+		this.status = status;
+		this.userId = userId;
+	}
 
 	public String getUsername() {
 		return username;
@@ -109,40 +129,4 @@ public class Orders implements Serializable {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	//public void setLineProducts(List<LineProduct> lineProducts) { this.lineProducts = lineProducts; }
-	//public List<LineProduct> getLineProducts() { return lineProducts; }
-/*
-	//이 이후로 어떻게 구현해야할지 고민 필요
-	public void initOrder(Account account, Cart cart) {
-		/*userName = account.getUserName();
-	    orderDate = new Date();
-
-	    shipAddress1 = account.getAddress1();
-	    shipAddress2 = account.getAddress2();
-	    zipCode = account.getZipCode();
-
-	    totalPrice = cart.getSubTotal();
-
-	    creditCard = "999 9999 9999 9999";
-	    expiryDate = "12/03";
-	    cardType = "Visa";
-	    courier = "UPS";
-	    locale = "CA";
-	    status = "P";*/
-
-		Iterator<CartProduct> i = cart.getAllCartProducts();
-		while (i.hasNext()) {
-			CartProduct cartProduct = (CartProduct) i.next();
-			addLineProduct(cartProduct);
-		}
-	}
-
-	public void addLineProduct(CartProduct cartProduct) {
-		LineProduct lineProduct = new LineProduct(lineProducts.size() + 1, cartProduct);
-		addLineProduct(lineProduct);
-	}
-
-	public void addLineProduct(LineProduct lineProduct) {
-		lineProducts.add(lineProduct);
-	}*/
 }

@@ -18,11 +18,11 @@ public class CartProduct implements Serializable {
 	private boolean inStock;
 	
 	public CartProduct() {}
-	public CartProduct(CartPK cartId, int quantity, Product product) {
+	public CartProduct(CartPK cartId, int quantity) {
 		super();
 		this.cartId = cartId;
 		this.quantity = quantity;
-		calcInStock(product, quantity);
+		this.inStock = true;
 	}
 
 	public CartPK getCartId() {
@@ -47,9 +47,6 @@ public class CartProduct implements Serializable {
 	public void setInStock(boolean inStock) {
 		this.inStock = inStock;
 	}
-	public void incrementQuantity() {
-		quantity++;
-	}//필요성
 	
 	public void calcInStock(Product product, int quantity) {
 		if(product.getQuantity() - quantity >= 0) {

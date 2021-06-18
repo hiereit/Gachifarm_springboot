@@ -4,27 +4,48 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.SequenceGenerator;
 
 @SuppressWarnings("serial")
 @Entity
+@SequenceGenerator(name = "LINEPRODUCT_SEQ_GENERATOR", sequenceName = "LINEPRODUCT_SEQ", initialValue = 1, allocationSize = 1)
+@IdClass(LineProductPK.class)
 public class LineProduct implements Serializable {
+	@Id
 	@Column(name = "order_id")
 	private int orderId;
-	private int quantity;
-	private int unitPrice;
-	@Column(name = "product_id")
-	private int productId;
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "LINEPRODUCT_SEQ_GENERATOR")
 	@Column(name = "lineProduct_id")
 	private int lineProductId;
-	//linenum이랑 product객체 써야되는지
+	private int quantity;
+	private int totalPrice;
+	@Column(name = "product_id")
+	private int productId;
+	private String productName;
+	
 	public LineProduct() {}
-//lineProductId를 써도 되는지, num을 써야하는지 의문, 나머지 필드들도 셋하는건지
-	public LineProduct(int lineProductId, CartProduct cartProduct) {
-		this.quantity = cartProduct.getQuantity();
-		//this.unitPrice = cartProduct.getProduct().getPrice() * cartProduct.getProduct().getUnit();
-		//this.productId = cartProduct.getProduct().getProduct_id();
+
+	public LineProduct(int orderId, int quantity, int totalPrice, int productId,
+			String productName) {
+		super();
+		this.orderId = orderId;
+		this.quantity = quantity;
+		this.totalPrice = totalPrice;
+		this.productId = productId;
+		this.productName = productName;
+	}
+	
+	public int getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
 	}
 
 	public int getLineProductId() {
@@ -35,27 +56,41 @@ public class LineProduct implements Serializable {
 		this.lineProductId = lineProductId;
 	}
 
-	public int getOrderId() {
-		return orderId;
+	public int getQuantity() {
+		return quantity;
 	}
 
-	public void setOrderId(int orderId) {
-		this.orderId = orderId;
-	}
-
-
-	public int getProductId() { return productId; }
-	public void setProductId(int productId) { this.productId = productId; }
-
-	public double getUnitPrice() { return unitPrice; }
-	public void setUnitPrice(int unitPrice) { this.unitPrice = unitPrice; }
-
-	public int getQuantity() { return quantity; }
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 
-	public double getTotalPrice() {
-		return this.unitPrice * this.quantity;
+	public int getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(int totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public int getProductId() {
+		return productId;
+	}
+
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	@Override
+	public String toString() {
+		return "LineProduct [orderId=" + orderId + ", lineProductId=" + lineProductId + ", quantity=" + quantity
+				+ ", totalPrice=" + totalPrice + ", productId=" + productId + ", productName=" + productName + "]";
 	}
 }
