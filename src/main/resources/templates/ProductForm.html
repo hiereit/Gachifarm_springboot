@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>Product Form</title>
+  <link rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js">
+  </script>
+  <script>
+  var fileArr;
+  var fileInfoArr=[];
+
+  //썸네일 클릭시 삭제.
+  function fileRemove(index) {
+      console.log("index: "+index);
+      fileInfoArr.splice(index,1);
+   
+      var imgId="#img_id_"+index;
+      $(imgId).remove();
+      console.log(fileInfoArr);
+  }
+
+  //썸네일 미리보기.
+  function previewImage(targetObj, View_area) {
+      var files=targetObj.files;
+      fileArr=Array.prototype.slice.call(files);
+      
+      var preview = document.getElementById(View_area); //div id
+      var ua = window.navigator.userAgent;
+   
+      //ie일때(IE8 이하에서만 작동)
+      if (ua.indexOf("MSIE") > -1) {
+          targetObj.select();
+          try {
+              var src = document.selection.createRange().text; // get file full path(IE9, IE10에서 사용 불가)
+              var ie_preview_error = document.getElementById("ie_preview_error_" + View_area);
+   
+   
+              if (ie_preview_error) {
+                  preview.removeChild(ie_preview_error); //error가 있으면 delete
+              }
+   
+              var img = document.getElementById(View_area); //이미지가 뿌려질 곳
+   
+              //이미지 로딩, sizingMethod는 div에 맞춰서 사이즈를 자동조절 하는 역할
+              img.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+src+"', sizingMethod='scale')";
+          } catch (e) {
+              if (!document.getElementById("ie_preview_error_" + View_area)) {
+                  var info = document.createElement("<p>");
+                  info.id = "ie_preview_error_" + View_area;
+                  info.innerHTML = e.name;
+                  preview.insertBefore(info, null);
+              }
+          }
+          //ie가 아닐때(크롬, 사파리, FF)
+      } else {
+          var files = targetObj.files;
+          for ( var i = 0; i < files.length; i++) {
+              var file = files[i];
+              fileInfoArr.push(file);
+   
+              var imageType = /image.*/; //이미지 파일일경우만.. 뿌려준다.
+              if (!file.type.match(imageType))
+                  continue;
+              // var prevImg = document.getElementById("prev_" + View_area); //이전에 미리보기가 있다면 삭제
+              // if (prevImg) {
+              //     preview.removeChild(prevImg);
+              // }
+   
+              var span=document.createElement('span');
+              span.id="img_id_" +i;
+              span.style.width = '100px';
+              span.style.height = '100px';
+              preview.appendChild(span);
+   
+              var img = document.createElement("img");
+              img.className="addImg";
+              img.classList.add("obj");
+              img.file = file;
+              img.style.width='inherit';
+              img.style.height='inherit';
+              img.style.cursor='pointer';
+              const idx=i;
+              img.onclick=()=>fileRemove(idx);   //이미지를 클릭했을 때.
+              span.appendChild(img);
+   
+              if (window.FileReader) { // FireFox, Chrome, Opera 확인.
+                  var reader = new FileReader();
+                  reader.onloadend = (function(aImg) {
+                      return function(e) {
+                          aImg.src = e.target.result;
+                      };
+                  })(img);
+                  reader.readAsDataURL(file);
+              } else { // safari is not supported FileReader
+                  //alert('not supported FileReader');
+                  if (!document.getElementById("sfr_preview_error_"
+                      + View_area)) {
+                      var info = document.createElement("p");
+                      info.id = "sfr_preview_error_" + View_area;
+                      info.innerHTML = "not supported FileReader";
+                      preview.insertBefore(info, null);
+                  }
+              }
+          }
+      }
+  }
+//form데이터 전송
+  function dataSubmit() {
+      var token = $("meta[name='_csrf']").attr("content");
+      var header = $("meta[name='_csrf_header']").attr("content");
+   
+      var data=new FormData($("#storeAddForm")[0]);
+   
+      $.ajax({
+          beforeSend: function(xhr){
+              xhr.setRequestHeader(header,token);
+          },
+          url: "url",
+          data: data,
+          processData:false,
+          contentType:false,
+          enctype:'multipart/form-data',
+          type:"POST",
+      }).done(function (fragment) {
+          $("#resultDiv").replaceWith(fragment);
+      });
+  }
+  </script>
+  <script type="text/javascript">
+	function fileUpload(){
+		var fileInput = document.getElementById("image_upload");
+
+		alert(fileInput.files[0].name);
+		/*
+		for( var i=0; i<fileInput.length; i++ ){
+			if( fileInput[i].files.length > 0 ){
+				for( var j = 0; j < fileInput[i].files.length; j++ ){
+					console.log(fileInput[i].files[j].name); // 파일명 출력
+				}
+			}
+		}*/
+
+	}
+</script>
+  <style>
+    @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+    .nanumsquare {
+        font-family: 'NanumSquare', sans-serif !important;
+    }
+    .nanumgothic * {
+     font-family: 'Nanum Gothic', sans-serif;
+    }
+    body {
+      /*font-family: 'Nanum Gothic', sans-serif; */
+      /* 폰트관련 주석! */
+      /* font-family: 'NanumSquare', sans-serif !important; */
+    }
+    .btn-primary {
+      /* 폰트관련 주석! */
+      /* font-family: 'NanumSquare', sans-serif !important; */
+
+      color: #fff;
+      background-color: #0AC175;
+      border-color: #0AC175;
+    }
+    label{
+      color: #707070;
+    }
+    th{
+      font-size:16px;
+    }
+    .form-control {
+      color: #DDDDDD;
+    }
+  </style>
+</head>
+<body>
+	<div align="center" style="margin-top: 100px;">
+      <h3> 상품등록 </h3>
+      <hr style="height:1px; background-color:#707070;">
+
+      <form enctype="multipart/form-data" th:action="@{/product/regist}"  th:object="${productCommand}" method="post">
+        <table align="center">
+          <tr>
+            <td rowspan="7"> <!-- onchange="prviewImage(this, 'View_area')" th:field="*{productImg}" style="display:none; cursor:pointer;"-->
+              <label for="image_upload" th:text="#{image}" class="forForm">image</label>
+              <input type ="file" id="image_upload" name="img_upload" onchange="fileUpload()">
+    		  <span id='View_area' style="position:relative; color:black; border:0px solid black;"></span>
+    		  <img class="image-upload"style="width: 500px;" id="image-upload" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
+              <!-- <i class="far fa-pencil-ruler"></i> -->
+            </td>
+            <th><label class="forForm" for="prdtName" th:text="#{prdtName}">상품명</label></th>
+            <td><input type="text" id="prdtName" th:field="*{prdtName}" class="form-control" style="width:320px;"aria-describedby="emailHelp" placeholder="상품명을 입력하세요."></td>
+          </tr>
+          <tr>
+            <th><label class="forForm" for="price" th:text="#{price}">가격</label></th>
+            <td><input type="text" id="price" th:field="*{price}" class="form-control" aria-describedby="emailHelp"></td>
+          </tr>
+          <tr>
+            <th><label class="forForm" for="origin" th:text="#{origin}">원산지</label></th>
+            <td><input type="text" id="origin" th:field="*{origin}" class="form-control" aria-describedby="emailHelp"></td>
+          </tr>
+          <tr>
+            <th><label class="forForm" for="supplier" th:text="#{supplier}">생산자</label></th>
+            <td><input type="text" id="supplier" th:field="*{supplier}" class="form-control" aria-describedby="emailHelp"></td>
+          </tr>
+          <tr>
+            <th><label class="forForm" for="unit" th:text="#{unit}">상품용량 </label></th>
+            <td><input type="text" id="unit" th:field="*{unit}" class="form-control" aria-describedby="emailHelp" placeholder="상품의 단위를 입력해주세요. ex) kg, g.."></td>
+          </tr>
+          <tr>
+            <th><label class="forForm" for="quantity" th:text="#{quantity}">상품수량 </label></th>
+            <td><input type="text" id="quantity" th:field="*{quantity}" class="form-control" aria-describedby="emailHelp" placeholder="상품재고량을 입력해주세요. ex) kg, g.."></td>
+          </tr>
+          <tr>
+            <th><label class="forForm" for="exampleSelect1" th:text="#{category}">상품분류</label></th>
+            <td>
+              <select class="form-control" id="category" th:field="*{category}" th:value="#{category}">
+                <option th:value="#{category.fruit}"selected>과일</option>
+                <option th:value="#{category.vegi}">채소</option>
+                <option th:value="#{category.grain}">곡류</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th colspan="3">
+              <label for="desc" style="margin-top: 50px;" th:text="#{description}">상품설명</label>
+              <textarea class="form-control" id="description" th:field="*{description}"rows="20" placeholder="상품에 대한 정보를 입력해주세요."></textarea>
+            </th>
+          </tr>
+          <tr>
+            <td colspan="3" align="center"><button type="submit" class="btn btn-primary" style="margin-top:30px;" onclick="dataSubmit();">등록</button></td>
+          </tr>
+
+        </table>
+      </form>
+    </div>
+</body>
+</html>

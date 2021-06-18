@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Store</title>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+  <link rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js">
+  </script>
+<style>
+    @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+    .nanumsquare {
+        font-family: 'NanumSquare', sans-serif !important;
+    }
+    .nanumgothic * {
+     font-family: 'Nanum Gothic', sans-serif;
+    }
+    body{
+      /*font-family: 'Nanum Gothic', sans-serif; */
+      /* 폰트관련 주석! */
+      /* font-family: 'NanumSquare', sans-serif !important; */
+    }
+    .btn-primary {
+      /* 폰트관련 주석! */
+      /* font-family: 'NanumSquare', sans-serif !important; */
+
+      color: #fff;
+      background-color: #0AC175;
+      border-color: #0AC175;
+    }
+    label{
+      color: #707070;
+    }
+    th{
+      font-size:16px;
+    }
+    .form-control {
+      color: #DDDDDD;
+    }
+    .page-link {
+    	color: black;
+	    background-color: white;
+	    border: white;
+    }
+    .page-link:hover {
+    	color: black;
+	    background-color: white;
+	    border: white;
+    }
+    #tail{
+    	background-color:  #fff;
+    	color: #0AC175;
+    }
+    td {
+    	height:80px;
+    	border-bottom:1px solid #DDDDDD;
+    	padding-right:30px;
+    }
+    th {
+    	font-size:12px;
+    	padding-right:30px;
+    }
+    </style>
+</head>
+<body>
+<!-- <p th:text="'안녕하세요. ' + ${data2}" >안녕하세요. Store.html입니다.</p> -->
+
+	<!-- 안내 메시지 HOME -->
+	<div align="center">     
+     <h2 th:text="${storename}" >HOME</h2>
+     <small th:text="${sUserId}" ></small>
+     <hr style="height:1px; background-color:#707070;">
+    </div>
+    
+    <!-- 상품등록 or 상품리스트 가져오기-->
+    <div align="center">                                     <!-- if문으로 주인장이면 관리 페이지(등록, 주문 관리)로, 손님이면 상품리스트로 -->
+    	<a href="/product/registerForm"><input type="button" th:if="${sUserId.equals(myUserId)}" th:value="상품등록하기" class="btn btn-danger"></a>
+    
+    <!-- <small th:text="${prdt.description}"></small> -->
+    <table>
+	    <tr style="text-align:center;">
+	    	<th>미리보기</th>
+	    	<th>상품설명</th>
+	    	<th>상품분류</th>
+	    	<th>가격</th>
+	    	<th th:if="${sUserId.equals(myUserId)}">주문관리</th>
+	    </tr>
+	    <tr th:each="prdt:${data2}" >
+	    	<td><img style="width:50px;height:50px" src="/images/avo.jpg"></td>
+	    	<td >
+	    		<!-- <a th:href="@{/product/{productId}(productId=${data2[i*4+j].productId})}"><span th:text="${prdt.prdtName}"></span><br></a>
+	    		 -->
+	    		 <a><span th:text="${prdt.prdtName}"></span><br></a>
+	    		
+	    		<small th:text="${prdt.description}"></small>
+	    	</td>
+	    	<td th:text="${prdt.category}"></td>
+	    	<td th:text="${prdt.price}"></td>
+	    	<td th:if="${sUserId.equals(myUserId)}"><input type="button" value="주문관리"></td>
+	    </tr>
+	</table>	
+    </div>
+    
+    <!-- <small th:text="${prdt.description}"></small> -->
+    <br><br>
+   <div align="center">
+   <nav style="display:inline-block; text-align:center;">
+    <ul th:class="pagination"
+        th:with="start=${T(Math).floor(data.number/8)*8 + 1},
+                    last=(${start + 7 < data.totalPages ? start + 7 : data.totalPages})">
+        <li class="page-item">
+            <a th:id="tail" th:class="page-link" th:href="@{/store/{storeName}(storeName=${storename})/1}" aria-label="First">
+                <span aria-hidden="true">First</span>
+            </a>
+        </li>
+
+        <li th:class="${data.first} ? 'disabled'">
+            <a th:class="page-link" th:href="${data.first} ? '#' :@{/store/{storeName}(storeName=${storename})/{pageNo}(pageNo=${data.number})}" aria-label="Previous">
+                <span aria-hidden="true">&lt;</span>
+            </a>
+        </li>
+
+        <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == data.number + 1} ? 'active'">
+            <a th:class="page-link" th:text="${page}" th:href="@{/store/{storeName}(storeName=${storename})/{pageNo}(pageNo=${page})}"></a>
+        </li>
+
+        <li th:class="${data.last} ? 'disabled'">
+            <a th:class="page-link" th:href="${data.last} ? '#' : @{/store/{storeName}(storeName=${storename})/{pageNo}(pageNo=${data.number + 2})}" aria-label="Next">
+                <span aria-hidden="true">&gt;</span>
+            </a>
+        </li>
+
+        <li th:class="page-item">
+            <a  th:id="tail" th:class="page-link" th:href="@{/store/{storeName}(storeName=${storename})/{pageNo}(pageNo=${data.totalPages})}" aria-label="Last">
+                <span aria-hidden="true">Last</span>
+            </a>
+        </li>
+    </ul>
+	</nav>
+	</div>
+     
+</body>
+</html>
