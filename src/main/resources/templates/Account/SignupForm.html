@@ -37,11 +37,10 @@
         font-weight: bolder;
       }
     </style>
-
 </head>
 <body>
 <!-- 	<div th:replace="thyme/Top :: header"></div> -->
-<form action="#" th:action="@{user/confirm}" th:object="${newAccount}" method="post">
+<form action="#" th:action="@{/signup}" th:object="${newAccount}" method="post">
     <div align="center">
       <h3>회원가입</h3>
       <text id="guideMention">*필수입력사항<text>
@@ -53,49 +52,57 @@
         <th><label>아이디*</label></th>
         <td><input type="text" id="userId" th:field="*{userId}" placeholder="영문 혹은 영문과 숫자를 조합">
           &nbsp;
-        <button class="chkBtn">중복확인</button></td>
+        <span th:text="${userIdExistedStr}">mismatch</span></td>
       </tr>
 
      <tr>
         <th><label>비밀번호*</label></th>
-        <td><input type="password" id="password" th:field="*{password}" placeholder="비밀번호 입력해주세요"></td>
+        <td><input type="password" id="password" th:field="*{password}" placeholder="비밀번호 입력해주세요">
+        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+        </td>
       </tr>
 
       <tr>
         <th><label>비밀번호 확인*</label></th>
-        <td><input type="password" id="passwordConfirm" th:field="*{passwordConfirm}" placeholder="비밀번호를 한번 더 입력해주세요"></td>
+        <td><input type="password" id="passwordConfirm" th:field="*{passwordConfirm}" placeholder="비밀번호를 한번 더 입력해주세요">
+      	<span th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}"></span>
+      	<span th:text="${str}">mismatch</span></td>
       </tr>
-
+      
       <tr>
         <th><label>이름*</label></th>
-        <td><input type="text" id="userName" th:field="*{userName}" placeholder="이름을 입력해주세요"></td>
+        <td><input type="text" id="userName" th:field="*{userName}" placeholder="이름을 입력해주세요">
+        <span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></span></td>
       </tr>
 
       <tr>
-        <th><label>휴대폰</label></th>
-        <td><input type="text" id="phone" th:field="*{phone}" placeholder="숫자만 입력해주세요"></td>
+        <th><label>휴대폰*</label></th>
+        <td><input type="text" id="phone" th:field="*{phone}" placeholder="숫자만 입력해주세요">
+        <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Phone error</span></td>
       </tr>
 
       <tr>
         <th><label>이메일*</label></th>
-        <td><input type="text" id="email" th:field="*{email}" placeholder="예: gachifarm@dongduk.ac.kr"></td>
+        <td><input type="text" id="email" th:field="*{email}" placeholder="예: gachifarm@dongduk.ac.kr">
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span></td>
       </tr>
 
       <tr>
-        <th><label>우편번호</label></th>
-        <td><input type="text" id="zip" th:field="*{address.zip}" placeholder="우편번호를 입력해주세요"></td>
+        <th><label>우편번호*</label></th> 
+        <td><input type="text" id="zip" th:field="*{zip}" placeholder="우편번호를 입력해주세요">
+        <span th:if="${#fields.hasErrors('zip')}" th:errors="*{zip}"></span></td>
       </tr>
 
       <tr>
-        <th><label>주소</label></th>
-        <td><input type="text" id="addr1" th:field="*{address.addr1}" placeholder="예: 서울특별시 성북구 월곡2동 화랑로13길 60">
-          <input type="text" id="addr2" th:field="*{address.addr2}" placeholder="예: 인문관"></td>
+        <th><label>주소*</label></th>
+        <td><input type="text" id="addr1" th:field="*{addr1}" placeholder="예: 서울특별시 성북구 월곡2동 화랑로13길 60">
+          <input type="text" id="addr2" th:field="*{addr2}" placeholder="예: 인문관"></td>
       </tr> 
     </table>
-
+    
     <br>
     <div align="center">
-      <input type="submit" class="submitBtn" value="가입하기" >
+      <input type="submit" class="submitBtn" value="가입하기">
     </div>
 </form>
 <!-- 	<div th:replace="thyme/Bottom :: footer"></div> -->

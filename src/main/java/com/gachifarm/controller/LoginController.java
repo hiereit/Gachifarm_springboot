@@ -13,89 +13,42 @@ import com.gachifarm.domain.Account;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
-@SessionAttributes("login")
+@SessionAttributes("account")
 @RequestMapping("/login")
 public class LoginController {
-	
+
 	GachiFarmFacade gachiFarm;
 	@Autowired
 	public void setGachiFarm(GachiFarmFacade gachiFarm) {
 		this.gachiFarm = gachiFarm;
 	}
-	
-@	ModelAttribute("login")
+
+	@ModelAttribute("login")
 	public LoginCommand formBacking() {
 		return new LoginCommand();
 	}
-	
+
 	@GetMapping
 	public String form() {
 		return "Account/LoginForm";
 	}
-/*	
- 	private Authenticator authenticator;
-	@PostMapping
-	public String submit(@ModelAttribute("LoginForm") LoginCommand loginCommand,
-							BindingResult result, Model model) {
-		model.addAttribute("account", loginCommand);
-		System.out.println("LoginController-loginCommand.userId: " + loginCommand.getUserId());
-		
-		if(result.hasErrors()) {
-			return "Account/LoginForm";
-		}
-		try {
-			authenticator.authenticate(loginCommand.getUserId(), loginCommand.getPassword());
-			return "Account/ConfirmSignup";
-		} catch(AuthenticationException ex){
-			result.reject("invalidIdOrPassword", new Object[] { loginCommand.getUserId() }, null);
-			return "Account/LoginForm";
-		}
-	
-	}
-	
-	public void setAuthenticator(Authenticator authenticator) {
-		this.authenticator = authenticator;
-	}
-*/
-	
-	
-/*	
-	@PostMapping
-	public String submit(@ModelAttribute("LoginForm") LoginCommand loginCommand, BindingResult result, Model model) {
-		// new LoginCommandValidator().validate(loginCommand, result);
-//		if (result.hasErrors()) {
-//			return "Account/LoginForm";
-//		}
-//		try {
-//			authenticator.authenticate(loginCommand);
-//			return "redirect:/index";
-//		} catch (AuthenticationException e) {
-//			result.reject("invalidIdOrPassword", new Object[] { loginCommand
-//					.getUserId() }, null);
-//			return formViewName;
-//		}
-		
-
-		model.addAttribute("account", new Account());
-		System.out.println("userId: " + loginCommand.getUserId());
-		System.out.println("password: " + loginCommand.getUserId());
-		return "Account/ConfirmSignup";
-	}
-*/
 	
 	@PostMapping
-	public String login(String userId, String password, Model model) {
-		Account account = this.gachiFarm.findAccount(userId, password);
+	public String login(@ModelAttribute("login") LoginCommand loginCommand, Model model) {
+		Account account = this.gachiFarm.findAccount(loginCommand.getUserId(), loginCommand.getPassword());
 		if(account != null) {
 			UserSession userSession = new UserSession(account);
 			System.out.println(userSession.getAccount());
-			model.addAttribute("account", account);
+	//		model.addAttribute("account", account);
+			model.addAttribute("account", userSession.getAccount());
+			System.out.println(account);
 			System.out.println("로그인 성공!");
 			return "Main";
 		}
+		String str = "아이디 또는 비밀번호가 일치하지 않습니다";
+		model.addAttribute("str", str);
 		System.out.println("로그인 실패!");
 		return "Account/LoginForm";
 	}
-	
 
 }

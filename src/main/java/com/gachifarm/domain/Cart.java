@@ -7,57 +7,20 @@ import java.util.Iterator;
 import java.util.Map;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 
 import org.springframework.beans.support.PagedListHolder;
 
 @SuppressWarnings("serial")
-@Entity
-public class Cart implements Serializable {
-	@Id
-	@Column(name = "user_id")
-	private String userId;
-	@Column(name = "product_id")
-	private int productId;
-	private int quantity;
-	private boolean stock_check;
-	private final Map<String, CartProduct> productMap = Collections.synchronizedMap(new HashMap<String, CartProduct>());
+public class Cart implements Serializable {//cart는 보여주기 위한 수단으로 생각
+	private final Map<Integer, CartProduct> productMap = Collections.synchronizedMap(new HashMap<Integer, CartProduct>());
 	private final PagedListHolder<CartProduct> productList = new PagedListHolder<CartProduct>();
-	
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public int getProductId() {
-		return productId;
-	}
-
-	public void setProductId(int productId) {
-		this.productId = productId;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
-	public boolean isStock_check() {
-		return stock_check;
-	}
-
-	public void setStock_check(boolean stock_check) {
-		this.stock_check = stock_check;
-	}
-
-	public Map<String, CartProduct> getProductMap() {
+	public Map<Integer, CartProduct> getProductMap() {
 		return productMap;
 	}
 
@@ -66,25 +29,25 @@ public class Cart implements Serializable {
 	}
 
 	public Cart() {
-		this.productList.setPageSize(4);
+		this.productList.setPageSize(5);
 	}
+	
 
 	public Iterator<CartProduct> getAllCartProducts() { return productList.getSource().iterator(); }
 	public PagedListHolder<CartProduct> getCartProductList() { return productList; }
 	public int getNumberOfproducts() { return productList.getSource().size(); }
 
-	public boolean containsproductId(String productId) {
+	public boolean containsproductId(int productId) {
 		return productMap.containsKey(productId);
 	}
 
-	public void addproduct(Product product, boolean isInStock) {
-		CartProduct cartProduct = productMap.get(product.getPrdt_name());
-		if (cartProduct == null) {
+	public void addProduct(CartProduct cartProduct) {
+		if (cartProduct != null) {
 			cartProduct = new CartProduct();
 			cartProduct.setProduct(product);
 			cartProduct.setQuantity(0);
 			cartProduct.setInStock(isInStock);
-			//productMap.put(String.valueOf(product.getProduct_id()), cartProduct);
+			productMap.put(String.valueOf(product.getProduct_id()), cartProduct);
 			productList.getSource().add(cartProduct);
 		}
 		cartProduct.incrementQuantity();
@@ -101,6 +64,15 @@ public class Cart implements Serializable {
 		}
 	}
 
+	public void calcIsInstock(int cartQuantity) {
+		if ((product.getQuantity() - cartQuantity)  >= 0) {
+			setStock_check(true);
+		}
+		else {
+			setStock_check(false);
+		}
+	}
+	
 	public void incrementQuantityByproductId(String productId) {
 		CartProduct cartProduct = productMap.get(productId);
 		cartProduct.incrementQuantity();
