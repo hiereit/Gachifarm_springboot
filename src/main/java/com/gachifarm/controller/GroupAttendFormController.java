@@ -73,7 +73,7 @@ public class GroupAttendFormController {
 		groupBuyer.setGroupProudctId(gProduct.getgProductId());
 		gProduct.setCurrQty(gProduct.getCurrQty() + 1);
 		gachiFarm.updateGroupProduct(gProduct);
-		groupBuyer = gachiFarm.insertGroupBuyer(groupBuyer);
+		gachiFarm.insertGroupBuyer(groupBuyer);
 		model.addAttribute("groupBuyer", groupBuyer);
 		model.addAttribute("result", true);
 		return "Group/ResultGroupAttend";
