@@ -17,6 +17,7 @@ public class JpaProductImageDao implements ProductImageDao{
 	@PersistenceContext
 	private EntityManager em;
 	
+	//productImage PK로 찾기
 	@Override
 	public ProductImage getProductImage(int imgId) throws DataAccessException {
 		// TODO Auto-generated method stub
@@ -25,6 +26,7 @@ public class JpaProductImageDao implements ProductImageDao{
 		return img;
 	}
 	
+	//pId로 ProductImage객체 가져오기
 	final String getProductImageByPid_query=  "SELECT p FROM ProductImage p WHERE p.productId=:pid";
 	public ProductImage getProductImageByPid(int prdt_id) throws DataAccessException{
 		TypedQuery<ProductImage> query = em.createQuery(getProductImageByPid_query, ProductImage.class);
