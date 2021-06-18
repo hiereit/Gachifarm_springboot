@@ -6,4 +6,5 @@ import com.gachifarm.domain.Board;
 
 public interface BoardRepository extends JpaRepository<Board, String>{
 
+	
 }
