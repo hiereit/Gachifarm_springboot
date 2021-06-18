@@ -2,9 +2,10 @@ package com.gachifarm.controller;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 
 
@@ -17,21 +18,23 @@ public class SignupCommand implements Serializable {
 	@NotEmpty
 	private String password;
 	
-	@NotEmpty(message="비밀번호가 일치하지 않습니다")
+	@NotEmpty
 	private String passwordConfirm;
 	
 	@NotEmpty
 	private String userName;
 	
+	@Pattern(regexp = "[0-9]{10,11}", message = "10~11자리의 숫자만 입력가능합니다")
 	private String phone;
 	
-	@NotNull @Email 
+	@NotEmpty @Email
 	private String email;
 	
-//	private Address address;
+	@Pattern(regexp ="^\\d{5}", message="우편번호는 5자리 숫자입니다.")
 	private String zip;
 	private String addr1;
 	private String addr2;
+	
 	
 	public String getUserId() {
 		return userId;
@@ -50,6 +53,7 @@ public class SignupCommand implements Serializable {
 	}
 	public void setPasswordConfirm(String passwordConfirm) {
 		this.passwordConfirm = passwordConfirm;
+		isPasswordEqualToConfirmPassword();
 	}
 	public String getUserName() {
 		return userName;
@@ -94,8 +98,12 @@ public class SignupCommand implements Serializable {
 		this.addr2 = addr2;
 	}
 	
+
+	@AssertTrue(message = "비밀번호가 일치하지 않습니다s")
 	public boolean isPasswordEqualToConfirmPassword() {
+		System.out.println("비밀번호가 일치하지 않습니다");
 		return password.equals(passwordConfirm);
 	}
+	
 	
 }
