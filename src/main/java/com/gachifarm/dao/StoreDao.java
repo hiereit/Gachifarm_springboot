@@ -7,7 +7,7 @@ import org.springframework.dao.DataAccessException;
 import com.gachifarm.domain.Store;
 
 public interface StoreDao {
-	//유저아이디로 스토어 정보 가져오기
+	//유저아이디로 스토어 정보 가져오기 
 	Store getStore(String userId) throws DataAccessException;
 	//스토어 이름 가져오기.
 	Store getStoreName(String storename) throws DataAccessException;

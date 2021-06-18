@@ -4,15 +4,22 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name="PRODUCT")
+@SequenceGenerator(name = "PRDT_SEQ_GENERATOR", sequenceName = "PRDT_SEQ", initialValue = 20, allocationSize = 1)
 public class Product implements Serializable{
+	// name=식별자 생성기 이름, sequenceName=DB에 등록될 시퀀스이름, initialValue=최초시작하는 수, allocationSize=증가하는수)
 	//필드 선언
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "PRDT_SEQ_GENERATOR")
 	@Column(name="product_id")
 	private int productId;
 	private int price;
@@ -23,7 +30,8 @@ public class Product implements Serializable{
 	private int quantity;
 	private String description;
 	@Column(name="user_id")
-	private String userId;	
+	private String userId;
+	@Column(name="saletype")
 	private String saleType;
 	private String category;
 	@Column(name="prdt_name")
@@ -50,6 +58,22 @@ public class Product implements Serializable{
 		this.prdtName = prdtName;
 	}
 	
+	
+	public Product(int price, String origin, String supplier, String unit, char stock, int quantity, String description,
+			String userId, String saleType, String category, String prdtName) {
+		super();
+		this.price = price;
+		this.origin = origin;
+		this.supplier = supplier;
+		this.unit = unit;
+		this.stock = stock;
+		this.quantity = quantity;
+		this.description = description;
+		this.userId = userId;
+		this.saleType = saleType;
+		this.category = category;
+		this.prdtName = prdtName;
+	}
 	public int getProductId() {
 		return productId;
 	}

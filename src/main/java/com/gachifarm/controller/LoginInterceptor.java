@@ -1,5 +1,7 @@
 package com.gachifarm.controller;
 
-public class LoginInterceptor {
+import org.springframework.web.servlet.HandlerInterceptor;
+
+public class LoginInterceptor implements HandlerInterceptor{
 
 }
