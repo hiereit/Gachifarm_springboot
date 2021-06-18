@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>가치팜</title>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+<script src="https://kit.fontawesome.com/4c3ed7e582.js"></script>
+<style>
+body, h3 {
+	font-family: 'NanumSquare', sans-serif;
+	color: black;
+}
+
+hr {
+	height: 1px;
+	background-color: #707070;
+	margin: 0px;
+}
+
+.container {
+	max-width: 40%;
+	min-width: 700px;
+	margin: 0px auto;
+}
+
+legend {
+	color: black;
+	font-size: 20px;
+	font-family: 'NanumSquare', sans-serif !important;
+	font-weight: 700;
+}
+
+#prdtType {
+	border-color: #FFD75E !important;
+	border-width: medium !important;
+	width: 70px !important;
+	height: 30px !important;
+	font-size: 12px !important;
+	font-weight: bold;
+	padding: 0px !important;
+	pointer-events: none;
+}
+
+#gPrdtInfoLeft img {
+	height: 400px !important;
+	width: 400px;
+}
+
+#gPrdtInfoLeft, #gPrdtInfoMid, #gPrdtInfoRight {
+	display: inline-block;
+	vertical-align: middle;
+	color: black;
+}
+
+#gPrdtInfo {
+	list-style: none;
+	padding-left: 0px;
+	margin-top: 20px;
+}
+
+#qty {
+	width: 43px;
+	height: 43px;
+	border-color: #DDDDDD;
+	border-radius: 5px;
+	border-style: solid;
+	text-align: center;
+}
+
+#qtySub, #qty, #qtyAdd, #totalPrice {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+button {
+	font-family: 'NanumSquare', sans-serif !important;
+	font-weight: bold !important;
+	width: 100% !important;
+	margin-top: 10px;
+}
+</style>
+<script>
+    function clickQtyBtn(type) {
+      var qty = parseInt($('#qty').val());
+      if (type == "add") {
+        // th 추가하고 여기에 최대수량 안 넘기는지 체크
+        qty++;
+      }
+      else {
+        qty--;
+        if (qty == 0) {
+          qty = 1;
+        }
+      }
+      document.getElementById('qty').value = qty;
+      calcPrice();
+    }
+    function changeQty() {
+      var qty = parseInt($('#qty').val());
+      if (qty < 1 || isNaN(qty) ) {
+          qty = 1;
+          alert("1개 이상부터 구매할 수 있습니다.");
+        }
+      document.getElementById('qty').value = qty;
+      calcPrice();
+      }
+      function calcPrice() {
+        var qty = parseInt($('#qty').val());
+        var price = $('#price').text().replace(",", "");
+        price = parseInt(price);
+        var totalPrice = qty * price;
+        $('#totalPriceText').html(totalPrice.format());
+      }
+      $(document).ready(function() {
+        calcPrice();
+      });
+      Number.prototype.format = function(){
+    	    if(this==0) return 0;
+    	 
+    	    var reg = /(^[+-]?\d+)(\d{3})/;
+    	    var n = (this + '');
+    	 
+    	    while (reg.test(n)) n = n.replace(reg, '$1' + ',' + '$2');
+    	 
+    	    return n;
+    	};
+  </script>
+</head>
+
+<body>
+	<div>
+		<div class="container">
+		<form th:action="@{/group/product/attendForm}" th:method="post">
+			<div id="prdtInfo" style="height: 180px; width: 100%">
+				<div id="gPrdtInfoLeft">
+					<img>
+				</div>
+				<div id="gPrdtInfoMid" style="width: 50px;"></div>
+				
+				<div id="gPrdtInfoRight">
+					<button type="button" class="btn btn-outline-warning disabled"
+						id="prdtType">가치장터</button>
+					<br>
+					<h3 style="margin-top: 9px" th:text="${gProduct.product.prdtName}"></h3>
+					<span id="price" style="font-size: 30px; font-weight: bold;" th:text="${#numbers.formatInteger(T(Math).ceil(gProduct.product.price * 0.9), 3,'COMMA')}"></span><span
+						style="font-size: 30px">원</span><br>
+					<ul id="gPrdtInfo">
+						<li style="font-size: 15px;" th:inline="text"><b>마감일</b> [[${gProduct.period}]]</li>
+						<li style="font-size: 15px;" th:inline="text"><b>수령장소</b> [[${gProduct.recvPlace}]]</li>
+						<li style="font-size: 15px;" th:inline="text"><b>수령일자</b> [[${#calendars.format(gProduct.recvDate, 'yyyy-MM-dd HH시 mm분')}]]</li>
+						<li style="font-size: 15px;" th:inline="text"><b>최소 주문 수량</b> [[${gProduct.minQty}]]</li>
+						<li style="font-size: 15px;" th:inline="text"><b>현재 주문 수량</b> [[${gProduct.currQty}]]</li>
+					</ul>
+					<div>
+							<i id="qtySub" class="fas fa-solid fa-minus-square fa-3x"
+								style="color: #DDDDDD;" onclick="clickQtyBtn('sub')"></i>
+								<input name="qty" id="qty" type="number" value="1" style="font-size: 18px"
+								onchange="changeQty()"> <a id="qtyAdd"
+								class="fas fa-solid fa-plus-square fa-3x" style="color: #DDDDDD;"
+								onclick="clickQtyBtn('add')"></a>
+							<div id="totalPrice">
+								<span style="font-size: 20px; margin-left: 10px;">총</span> <span
+									style="font-size: 20px; font-weight: bold;" id="totalPriceText"></span><span
+									style="font-size: 20px">원</span><br>
+							</div>
+							<input type="hidden" th:value="${gProduct.gProductId}" name="gProductId" />
+						
+					</div>
+					<button type="submit" class="btn btn-danger" id="submit_button">공동
+						구매 참여</button>
+				</div>
+				
+			</div>
+			</form>
+		</div>
+	</div>
+</body>
+
+</html>

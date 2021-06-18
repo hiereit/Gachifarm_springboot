@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>가치팜</title>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css">
+<link rel="stylesheet"
+	href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+<style>
+body {
+	font-family: 'NanumSquare', sans-serif;
+}
+
+button {
+	font-family: 'NanumSquare', sans-serif !important;
+}
+
+hr {
+	height: 1px;
+	background-color: #707070;
+	margin: 0px;
+}
+
+.container {
+	max-width: 40%;
+	min-width: 700px;
+	margin: 0px auto;
+}
+
+#form_table {
+	border-collapse: collapse;
+	width: 100%;
+	text-align: left;
+}
+
+#form_table tr.border_bottom {
+	border-bottom: 0.5px solid #DDDDDD;
+}
+
+#form_table th, #form_table td {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+#form_table th {
+	font-size: 18px;
+	color: #707070;
+	width: 20%;
+	padding-left: 20px;
+}
+
+#form_table td {
+	color: black;
+	padding-right: 20px;
+}
+
+#form_button {
+	color: #FF724A !important;
+	border-color: #FF724A !important;
+	border-width: medium !important;
+	width: 100px !important;
+	height: 35px !important;
+	font-size: 12px !important;
+	padding: 0px !important;
+}
+
+#form_button:hover {
+	background-color: #FF724A !important;
+	color: white !important;
+}
+
+#submit_button {
+	background-color: #FF724A !important;
+	border-color: #FF724A !important;
+	width: 100px !important;
+	height: 35px !important;
+	font-size: 15px !important;
+	font-weight: bold;
+	margin-top: 20px;
+}
+
+textarea {
+	min-height: 270px !important;
+}
+
+.tui-is-blocked {
+	background-color: #ddd;
+}
+
+.prdtImg img {
+	height: 120px !important;
+	width: 120px;
+}
+
+.prdtImg, .prdtName {
+	display: inline-block;
+	vertical-align: middle;
+	color: black;
+}
+
+.prdtInfo {
+	padding: 30px 20px;
+	position: relative;
+}
+
+.prdtName {
+	font-size: 18px;
+	padding: 10px;
+}
+
+legend {
+	color: black;
+	font-size: 20px;
+	font-family: 'NanumSquare', sans-serif;
+	font-weight: 700;
+}
+
+.tui-calendar-body-inner th {
+	padding: 20px 0px !important;
+}
+
+.tui-calendar-week td {
+	padding: 20px 0px !important;
+}
+
+.tui-datepicker-input {
+	border: 1px solid #ced4da !important;
+	height: calc(1.5em + 0.75rem + 2px);
+}
+
+.tui-datepicker-input input {
+	height: 100% !important;
+	width: 100% !important;
+	outline: none !important;
+}
+
+.tui-datepicker {
+	margin-top: -15px;
+    margin-left: 156px;
+}
+
+select {
+	font-size: 15px;
+	width: 70px;
+	color: #333;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #ced4da;
+	border-radius: 0.4rem;
+	outline: none;
+	height: 38px;
+	background:
+		url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+)
+		no-repeat 3px;
+	background-position: right 5px top;
+	/* Change the px value here to change the distance */
+	-moz-appearance: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+	padding: 4px 20px;
+}
+
+#recvPlace, td .btn {
+	display: inline-block;
+	vertical-align: middle;
+	color: #333;
+}
+
+#recv-datepicker-input, #end-datepicker-input{
+	font-size: 15px !important;
+	color: #333;
+}
+
+input:disabled {
+	background-color: white !important;
+}
+#recvPlace {
+	width: 300px !important;
+}
+</style>
+
+</head>
+
+<body>
+	<div>
+		<div class="container">
+			<div>
+				<legend>
+					<b>공동구매</b>
+				</legend>
+				<hr>
+				<div class="prdtInfo" style="height: 180px; width: 100%">
+					<div class="prdtImg">
+						<img>
+					</div>
+					<div class="prdtName" th:object="${groupProduct.product}">
+						<b>상품명</b> <span th:text="*{prdtName}"></span><br> <b>남은
+							수량</b> <span th:text="*{quantity}"></span><br>
+					</div>
+				</div>
+				<hr>
+				<form method="post" th:action="@{/group/product/update}" style="text-align: center;" th:object="${groupProduct}">
+					<table id="form_table">
+						<tr class="border_bottom">
+							<th>마감일</th>
+							<td>
+								<div
+									class="form-control tui-datepicker-input tui-datetime-input tui-has-focus enddatepicker">
+									<input id="end-datepicker-input" type="text" aria-label="Date" th:field="*{period}" th:value="*{period}"
+										readonly> <span class="tui-ico-date" ></span>
+									<div id="wrapper1"></div>
+								</div>
+							</td>
+						</tr>
+						<tr class="border_bottom">
+							<th>수령일자</th>
+							<td>
+								<div
+									class="form-control tui-datepicker-input tui-datetime-input tui-has-focus recvdatepicker">
+									<input id="recv-datepicker-input" type="text" aria-label="Date"
+										onchange="changeDate();" readonly> <span class="tui-ico-date"></span>
+									<div id="wrapper2"></div>
+								</div> <span style="font-size: 15px">&emsp;시간&nbsp;</span>
+								<select onchange="changeDate()" id="recvHour">
+									<option th:each="i : ${#numbers.sequence(0, 23)}"
+										th:value="${i}" th:text="${i}" th:selected="${i==1}"></option>
+							</select> <span style="font-size: 15px"> : </span>
+							<select onchange="changeDate()" id="recvMinute">
+									<option th:each="i : ${#numbers.sequence(0, 59, 5)}"
+										th:value="${i}" th:text="${i}" th:selected="${i==0}"></option>
+							</select>
+							<input id="recvDate" name="recvDate" type="hidden" th:value="*{recvDate}">
+							<input id="gProductId" name="gProductId" type="hidden" th:value="*{gProductId}">
+							</td>
+						</tr>
+						<tr>
+							<th>수령장소</th>
+							<td><input type="text" class="form-control" th:field="*{recvPlace}" onchange="changePlace()"
+								id="recvPlace" placeholder="주소" style="width: 200px;" disabled>
+							</td>
+						</tr>
+					</table>
+					<button type="submit" class="btn btn-danger" id="submit_button">등록하기</button>
+
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- date, time picker -->
+	<script
+		src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
+	<script
+		src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.js"></script>
+	<script class="code-js">
+	    var recvDate = $('#recvDate').val();
+	    var dateSplit = recvDate.split(" ");
+		var sel = new Date(dateSplit[0]);
+		var timeSplit = dateSplit[1].split(":");
+		$("#recvHour").val(timeSplit[0]).prop("selected", true);
+		$("#recvMinute").val(timeSplit[1]).prop("selected", true);
+
+		var recvMin = new Date();
+		recvMin.setDate(recvMin.getDate() + 1);
+		var recvMax = new Date($('#end-datepicker-input').val());
+		recvMax.setDate(recvMax.getDate() + 7);
+		var recvDatepicker = new tui.DatePicker('#wrapper2', {
+			language : 'ko',
+			date : sel,
+			input : {
+				element : '#recv-datepicker-input'
+			},
+			selectableRanges: [
+		        [recvMin, recvMax]
+		    ]
+		});
+		
+		function changeDate() {
+			var date = $('#recv-datepicker-input').val();
+			var hour = $('#recvHour').val();
+			if (hour.length == 1) hour = '0' + hour;
+			var minute = $('#recvMinute').val();
+			if (minute.length == 1) minute = '0' + minute;
+			var recvDate = date + " " + hour + ":" + minute;
+			document.getElementById('recvDate').value = recvDate;
+		}
+		
+		recvDatepicker.on('change', function() {
+			var date = $('#recv-datepicker-input').val();
+			var hour = $('#recvHour').val();
+			if (hour.length == 1) hour = '0' + hour;
+			var minute = $('#recvMinute').val();
+			if (minute.length == 1) minute = '0' + minute;
+			var recvDate = date + " " + hour + ":" + minute;
+			document.getElementById('recvDate').value = recvDate;
+		});
+		
+		
+
+	</script>
+</body>
+
+</html>
+	

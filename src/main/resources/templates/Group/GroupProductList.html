@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Products</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css">
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js">
+	
+</script>
+<style>
+body {
+	font-family: 'NanumSquare', sans-serif;
+}
+
+.btn-primary {
+	/* 폰트관련 주석! */
+	/* font-family: 'NanumSquare', sans-serif !important; */
+	color: #fff;
+	background-color: #0AC175;
+	border-color: #0AC175;
+}
+
+label {
+	color: #707070;
+}
+
+th {
+	font-size: 16px;
+}
+
+.form-control {
+	color: #DDDDDD;
+}
+
+.page-link {
+	color: black;
+	background-color: white;
+	border: white;
+}
+
+.page-link:hover {
+	color: black;
+	background-color: white;
+	border: white;
+}
+
+#tail {
+	background-color: #fff;
+	color: black;
+}
+
+#prdtType {
+	border-color: #FFD75E !important;
+	border-width: medium !important;
+	width: 70px !important;
+	height: 30px !important;
+	font-size: 12px !important;
+	font-weight: bold;
+	padding: 0px !important;
+	pointer-events: none;
+}
+</style>
+</head>
+<body>
+	<div align="center">
+		<div>
+			<table
+				th:with="row=${gProductList.size() /4}, last =${gProductList.size() % 3} ">
+				<tr th:each="i:${#numbers.sequence(0,row)}">
+					<td th:each="j:${#numbers.sequence(0,3)}"
+						th:if="${(i*4+j) < gProductList.size()}"
+						th:with="p_id=${gProductList[i*4+j].gProductId}">
+						<ul style="list-style: none;">
+							<li><img style="width: 300px; height: 300px;"></img></li>
+							<li><button type="button"
+									class="btn btn-outline-warning disabled" id="prdtType">가치장터</button></li>
+							<li><a
+								th:href="@{/group/product/{gProductId}(gProductId=${gProductList[i*4+j].gProductId})}"><span
+									style="font-size: 20px;"
+									th:text="|${gProductList[i*4+j].product.prdtName}|"></span></a></li>
+							<li><a><span
+									th:text="${#numbers.formatInteger(T(Math).ceil(gProductList[i*4+j].product.price * 0.9), 3,'COMMA')}"></span>원</a></li>
+						</ul>
+					</td>
+			</table>
+		</div>
+	</div>
+	<br>
+	<br>
+	<div align="center">
+		<nav style="display: inline-block; text-align: center;">
+			<ul th:class="pagination"
+				th:with="start=${T(Math).floor(gProductPage.number/12)*12 + 1},
+                    last=(${start + 11 < gProductPage.totalPages ? start + 11 : gProductPage.totalPages})">
+				<li class="page-item"><a th:id="tail" th:class="page-link"
+					th:href="@{/group/product/list/1}" aria-label="First"> <span
+						aria-hidden="true">First</span>
+				</a></li>
+				<li th:class="${gProductPage.first} ? 'disabled'"><a
+					th:class="page-link"
+					th:href="${gProductPage.first} ? '#' :@{/group/product/list/{pageNo}(pageNo=${gProductPage.number})}"
+					aria-label="Previous"> <span aria-hidden="true">&lt;</span>
+				</a></li>
+				<li th:each="page: ${#numbers.sequence(start, last)}"
+					th:class="${page == gProductPage.number + 1} ? 'active'"><a
+					th:class="page-link" th:text="${page}"
+					th:href="@{/group/product/list/{pageNo}(pageNo=${page})}"></a></li>
+				<li th:class="${gProductPage.last} ? 'disabled'"><a
+					th:class="page-link"
+					th:href="${gProductPage.last} ? '#' : @{/group/product/list/{pageNo}(pageNo=${gProductPage.number + 2})}"
+					aria-label="Next"> <span aria-hidden="true">&gt;</span>
+				</a></li>
+				<li th:class="page-item"><a th:id="tail" th:class="page-link"
+					th:href="@{/group/product/list/{pageNo}(pageNo=${gProductPage.totalPages})}"
+					aria-label="Last"> <span aria-hidden="true">Last</span>
+				</a></li>
+			</ul>
+		</nav>
+	</div>
+</body>
+</html>

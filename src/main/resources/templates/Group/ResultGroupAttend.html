@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js">
+</script>
+<script
+	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js">
+</script>
+<script>
+function moveFocus(num,here,next){
+	 var str = here.value.length;
+	 if(str == num)
+	    next.focus();
+}
+function confirm() {
+	var form = document.getElementById("orderFrm");
+    var creditNum = document.getElementById("num0").value + document.getElementById("num1").value + document.getElementById("num2").value + document.getElementById("num3").value;
+    var expireDate = document.getElementById("month").value + "/" + document.getElementById("year").value;
+    document.getElementById("frmCreditNum").value = creditNum;
+    document.getElementById("frmExpireDate").value = expireDate;
+    form.submit();
+}
+
+function moveFocus(num,here,next){
+	 var str = here.value.length;
+	 if(str == num)
+	    next.focus();
+}
+</script>
+<title>가치팜</title>
+</head>
+<style>
+body, table, h3 {
+	font-family: 'NanumSquare', sans-serif !important;
+	color: black !important;
+}
+
+#hrstyle {
+	height: 1.5px;
+	background: #707070;
+	margin: 0px;
+}
+#thstyle {
+	padding-left: 20px;
+	padding-top: 20px;
+}
+#tdstyle {
+	padding-left: 60px;
+	padding-top: 20px;
+}
+</style>
+<body>
+	<div align="center">
+		<h3 th:if="${result} eq true" th:text="#{sGroupProductOrder}"></h3>
+		<h3 th:if="${result} eq false" th:text="#{fGroupProductOrder}"></h3>
+		<hr id="hrstyle">
+		<table th:if="${result} eq true">
+			<tr>
+				<th id="thstyle">주문번호</th>
+				<td id="tdstyle" th:text="${groupBuyer.gOrderId}"></td>
+			</tr>
+			<tr>
+				<th id="thstyle">주문금액</th>
+				<td id="tdstyle" th:text="|${#numbers.formatInteger(groupBuyer.totalPrice, 3, 'COMMA')}원|"></td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>
