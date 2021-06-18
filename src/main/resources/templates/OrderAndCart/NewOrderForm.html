@@ -17,37 +17,20 @@
     function sample4_execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {
-                var roadAddr = data.roadAddress; // 도로명 주소 변수
-                var extraRoadAddr = ''; // 참고 항목 변수
+                var roadAddr = data.roadAddress;
+                var extraRoadAddr = '';
 
-                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
                 if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
                     extraRoadAddr += data.bname;
                 }
-                // 건물명이 있고, 공동주택일 경우 추가한다.
                 if(data.buildingName !== '' && data.apartment === 'Y'){
                    extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
                 }
-                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
                 if(extraRoadAddr !== ''){
                     extraRoadAddr = ' (' + extraRoadAddr + ')';
                 }
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
                 document.getElementById('sample4_postcode').value = data.zonecode;
                 document.getElementById("sample4_roadAddress").value = roadAddr;
-
-                var guideTextBox = document.getElementById("guide");
-                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-                if(data.autoRoadAddress) {
-                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
-                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
-                    guideTextBox.style.display = 'block';
-                } else {
-                    guideTextBox.innerHTML = '';
-                    guideTextBox.style.display = 'none';
-                }
             }
         }).open();
         $('input:checkbox').prop('checked',false);
@@ -56,9 +39,13 @@
 <title>상품 주문</title>
 </head>
 <style>
-#name {
+#nameCol {
 	padding-top: 17px;
 	text-align: center;
+}
+#name {
+	padding-top: 17px;
+	padding-left: 60px;
 }
 #quantity {
 	padding-left: 450px;
@@ -122,7 +109,7 @@ h4 {
 		<table class="table table-hover">
 			<thead>
 				<tr>
-					<th scope="col" id="name">상품명</th>
+					<th scope="col" id="nameCol">상품명</th>
 					<th scope="col" id="quantity">수량</th>
 					<th scope="col" id="sum">금액</th>
 				</tr>
@@ -130,13 +117,11 @@ h4 {
 			<tbody id="cartTable">
 				<tr th:each="cart: ${cart}">
 			        <td id="name">
-			        	<img src="C:\sdfsdf.png" />
+			        	<img style="width:50px;height:50px;" th:src="${cart.img}" />
 			        	<span th:utext="'&nbsp;' + ${cart.productName}"></span>
 			        </td>
 			        <td id="quantity">
-						<button th:id="subBtn" class="btn btn-light" th:onClick="|changeQuantity(${cart.productId},'sub',this)|">-</button>
 						&nbsp;<span th:id="'quantity'+${cart.productId}" th:text="${cart.quantity}"></span>&nbsp;
-						<button th:id="addBtn" class="btn btn-light" th:onClick="|changeQuantity(${cart.productId},'add',this)|">+</button>
 					</td>
 					<td th:id="'totalPrice'+${cart.productId}" th:text="${cart.totalPrice}" style="text-align: center;"></td>
     			</tr>
@@ -157,7 +142,7 @@ h4 {
 		<table>
 			<tr>
 				<th id="thstyle">이름</th>
-				<td id="tdstyle"><input type="text" id="userName" name="userName" th:value="${user.userName}" disabled="disabled"></td>
+				<td id="tdstyle"><input type="text" id="userName" name="userName" th:value="*{user.userName}" disabled="disabled"></td>
 			</tr>
 			<tr>
 				<th id="thstyle">휴대폰</th>
@@ -168,6 +153,9 @@ h4 {
 				<td id="tdstyle"><input type="text" id="email" name="email" th:value="${user.email}" disabled="disabled"></td>
 			</tr>
 		</table>
+		<input type="hidden" id="userZip" value="" th:value="${user.zip}">
+		<input type="hidden" id="userAddr1" value="" th:value="${user.addr1}">
+		<input type="hidden" id="userAddr2" value="" th:value="${user.addr2}">
 		<form th:action="@{/order/confirm}" method="post" id="orderFrm" th:object="${order}">
 		<h4>배송지 정보</h4>
 		<hr id="hrstyle">
@@ -175,18 +163,29 @@ h4 {
 			<tr>
 				<th id="thstyle">주문자 정보와 동일</th>
 				<td id="tdstyle">
+					<span th:if="${error}">
+					<input class="form-check-input" style="margin-left:5px;"type="checkbox" value=""
+								id="check" onClick="sameCheck()"> <label class="form-check-label"
+								for="flexCheckDefault"></label>
+					</span>
+					<span th:unless="${error}">
 					<input class="form-check-input" style="margin-left:5px;"type="checkbox" value=""
 								id="check" onClick="sameCheck()" checked> <label class="form-check-label"
 								for="flexCheckDefault"></label>
+					</span>
 				</td>
 			</tr>
 			<tr>
 				<th id="thstyle">이름</th>
-				<td id="tdstyle"><input type="text" id="RecvUserName" name="RecvUserName" th:value="${user.userName}" onClick="clicked()"></td>
+				<td id="tdstyle"><input type="text" id="RecvUserName" name="RecvUserName" th:field="*{userName}" th:value="*{userName}" onClick="clicked()">
+				&nbsp;&nbsp;<span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></span>
+				</td>
 			</tr>
 			<tr>
 				<th id="thstyle">휴대폰</th>
-				<td id="tdstyle"><input type="text" id="RecvUserphone" name="RecvUserphone" th:value="${user.phone}" onClick="clicked()"></td>
+				<td id="tdstyle"><input type="text" id="RecvUserphone" name="RecvUserphone" th:field="*{phone}" th:value="*{phone}" onClick="clicked()" maxlength="11">
+				&nbsp;&nbsp;<span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
+				</td>
 			</tr>
 			<tr>
 				<th id="thstyle">배송지</th>
@@ -197,10 +196,11 @@ h4 {
 			<tr>
 				<td />
 				<td id="tdstyle">
-					<input type="text" id="sample4_postcode" placeholder="우편번호" readonly class="form-control-plaintext" style="width:200px" th:value="${user.zip}" disabled="disabled">
-					<input type="text" id="sample4_roadAddress" placeholder="도로명주소" readonly class="form-control-plaintext" style="width:400px" th:value="${user.addr1}" disabled="disabled">
+					<input type="text" id="sample4_postcode" placeholder="우편번호" readonly class="form-control-plaintext" style="width:200px" th:value="*{zip}" disabled="disabled">
+					<input type="text" id="sample4_roadAddress" placeholder="도로명주소" readonly class="form-control-plaintext" style="width:400px" th:value="*{addr1}" disabled="disabled">
 					<span id="guide" style="color:#999;display:none"></span>
-					<input type="text" id="sample4_detailAddress" placeholder="상세주소" class="form-control" style="width:400px; margin-top:15px;" th:value="${user.addr2}" onClick="clicked()">
+					<input type="text" id="sample4_detailAddress" placeholder="상세주소" class="form-control" style="width:400px; margin-top:15px;" th:field="*{addr2}" th:value="*{addr2}" onClick="clicked()">
+					&nbsp;&nbsp;<span th:if="${#fields.hasErrors('addr2')}" th:errors="*{addr2}"></span>
 				</td>
 			</tr>
 		</table>
@@ -209,7 +209,7 @@ h4 {
 		<hr id="hrstyle">
 		<table>
 			<tr>
-				<th id="thstyle">카드 타입</th>
+				<th id="thstyle">카드 선택</th>
 				<td id="tdstyle"><select id="cards" th:field="*{cardType}">
 						<option value="kb">국민</option>
 						<option value="bc">비씨</option>
@@ -226,32 +226,42 @@ h4 {
 			</tr>
 			<tr>
 				<th id="thstyle">카드 번호</th>
-				<td id="tdstyle"><input type="text" th:field="*{creditNum}" class="form-control"></td>
-				<!-- 수정필요 -->
+				<td id="tdstyle">
+				<input type="text" style="width:80px;display:inline-block;" id="num0" class="form-control" onKeyUp="moveFocus(4,this,this.form.num1);" placeholder="****"  maxlength="4">
+				&nbsp;&nbsp;
+				<input type="text" style="width:80px;display:inline-block;" id="num1" class="form-control" onKeyUp="moveFocus(4,this,this.form.num2);" placeholder="****"  maxlength="4">
+				&nbsp;&nbsp;
+				<input type="text" style="width:80px;display:inline-block;" id="num2" class="form-control" onKeyUp="moveFocus(4,this,this.form.num3);" placeholder="****"  maxlength="4">
+				&nbsp;&nbsp;
+				<input type="text" style="width:80px;display:inline-block;" id="num3" class="form-control" placeholder="****" maxlength="4">
+				&nbsp;&nbsp;<span th:if="${#fields.hasErrors('creditNum')}" th:errors="*{creditNum}"></span>
+				</td>
 			</tr>
 			<tr>
 				<th id="thstyle">만료 날짜</th>
-				<td id="tdstyle"><input type="text" th:field="*{expireDate}" class="form-control">
-				<!-- 수정필요 -->
+				<td id="tdstyle">
+				<input id="month" style="width:60px;display:inline-block;" type="text" class="form-control" onKeyUp="moveFocus(2,this,this.form.year);" placeholder="MM" maxlength="2">
+				&nbsp;&nbsp;/&nbsp;&nbsp;
+				<input id="year" style="width:60px;display:inline-block;" type="text" class="form-control" placeholder="YY" maxlength="2">
+				&nbsp;&nbsp;<span th:if="${#fields.hasErrors('expireDate')}" th:errors="*{expireDate}"></span>
 				</td>
 			</tr>
 		</table>
-		<input type="hidden" id="frmName" value="" th:field="*{userName}">
-		<input type="hidden" id="frmPhone" value="" th:field="*{phone}">
 		<input type="hidden" id="frmZip" value="" th:field="*{zip}">
 		<input type="hidden" id="frmAddr1" value="" th:field="*{addr1}">
-		<input type="hidden" id="frmAddr2" value="" th:field="*{addr2}">
+		<input type="hidden" id="frmCreditNum" value="" th:field="*{creditNum}">
+		<input type="hidden" id="frmCardType" value="" th:field="*{expireDate}">
 		<div align="center" id="btndiv">
-			<input id="btnstyle" type="button" value="결제하기" onClick="confirm()"/>
+		<input id="btnstyle" type="button" value="결제하기" onClick="confirm()"/>
 		</div>
 		</form>
 	</div>
 	<script>
-	var userName = document.getElementById("RecvUserName").value;
-	var phone = document.getElementById("RecvUserphone").value;
-	var postCode = document.getElementById("sample4_postcode").value;
-	var roadAddress = document.getElementById("sample4_roadAddress").value;
-	var detailAddress = document.getElementById("sample4_detailAddress").value;
+	var userName = document.getElementById("userName").value;
+	var phone = document.getElementById("phone").value;
+	var postCode = document.getElementById("userZip").value;
+	var roadAddress = document.getElementById("userAddr1").value;
+	var detailAddress = document.getElementById("userAddr2").value;
 	
 	function sameCheck() {
 		var checked = $('#check').is(':checked');
@@ -262,25 +272,32 @@ h4 {
 			document.getElementById("sample4_roadAddress").value = roadAddress;
 			document.getElementById("sample4_detailAddress").value = detailAddress;
 		}
+		else {
+			$('#check').prop('checked',true);
+		}
 	}
 	function clicked() {
 		$('#check').prop('checked',false);
 	}
 	function confirm() {
-		var form = document.getElementById("orderFrm");
+		var form = document.getElementById("orderFrm");/*
 	    document.getElementById("frmName").value = document.getElementById("RecvUserName").value;
-	    document.getElementById("frmPhone").value = document.getElementById("RecvUserphone").value;
+	    document.getElementById("frmPhone").value = document.getElementById("RecvUserphone").value;*/
 	    document.getElementById("frmZip").value = document.getElementById("sample4_postcode").value;
 	    document.getElementById("frmAddr1").value = document.getElementById("sample4_roadAddress").value;
-	    document.getElementById("frmAddr2").value = document.getElementById("sample4_detailAddress").value;
+	   // document.getElementById("frmAddr2").value = document.getElementById("sample4_detailAddress").value;
+	    var creditNum = document.getElementById("num0").value + document.getElementById("num1").value + document.getElementById("num2").value + document.getElementById("num3").value;
+	    var expireDate = document.getElementById("month").value + document.getElementById("year").value;
+	    document.getElementById("frmCreditNum").value = creditNum;
+	    document.getElementById("frmCardType").value = expireDate;
 	    form.submit();
 	}
-	/*
+	
 	function moveFocus(num,here,next){
 		 var str = here.value.length;
 		 if(str == num)
-		    next.focus();onKeyUp="moveFocus(3,this,this.form.userTelNo2);"
-		 }*/
+		    next.focus();
+	}
 	</script>
 </body>
 </html>

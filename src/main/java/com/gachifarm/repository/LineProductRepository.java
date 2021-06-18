@@ -1,7 +1,5 @@
 package com.gachifarm.repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.data.jpa.repository.Query;
@@ -15,6 +13,5 @@ public interface LineProductRepository  extends JpaRepository<LineProduct, LineP
 	long countByOrderId(int orderId);
 	
 	LineProduct findTop1ProductNameByOrderId(int orderId);
+
 }
-
-
