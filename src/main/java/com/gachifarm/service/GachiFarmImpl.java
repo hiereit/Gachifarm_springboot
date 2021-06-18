@@ -17,7 +17,7 @@ import com.gachifarm.domain.LineProduct;
 import com.gachifarm.domain.Orders;
 import com.gachifarm.domain.Product;
 import com.gachifarm.domain.ProductImage;
-import com.gachifarm.domain.ProductImageDao;
+import com.gachifarm.dao.ProductImageDao;
 import com.gachifarm.domain.Store;
 import com.gachifarm.repository.AccountRepository;
 import com.gachifarm.repository.BoardRepository;
@@ -49,9 +49,11 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	@Autowired
 	@Qualifier("jpaStoreDao")
 	private StoreDao storeDao;
+	
 	@Autowired
-	@Qualifier("jpaProductImageDao")
+	@Qualifier("ProductImageDao")
 	private ProductImageDao productImageDao;
+	
 	// Account
 	public Account findByUserId(String userId) {
 		return accountRepository.findByUserId(userId);
