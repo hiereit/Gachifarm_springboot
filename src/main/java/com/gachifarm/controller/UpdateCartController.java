@@ -54,12 +54,4 @@ public class UpdateCartController {
 			return null;
 		}
 	}
-	/*체크로 지우고 그러는 것 같은데 구현 가능 여부 불확실
-	@RequestMapping("/cart/{product_id}/update/check")
-	public String updateCartProductCheck(@ModelAttribute("userSession") UserSession userSession, @PathVariable int productId) throws Exception {
-		String userId = userSession.getAccount().getUserId();
-		CartPK cartId = new CartPK(userId, productId);
-		cartRepository.deleteCartByCartId(cartId);
-		return "Cart";
-	}*/
 }

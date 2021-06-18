@@ -34,6 +34,5 @@ public class RemovePrdtFromCartController {
 		Map<String, Object> retVal = new HashMap<String, Object>();
         retVal.put("code", "OK");
         return retVal;
- 
 	}
 }

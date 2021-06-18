@@ -4,14 +4,16 @@ import java.io.Serializable;
 
 @SuppressWarnings("serial")
 public class Cart implements Serializable {
+	private String img;
 	private int productId;
 	private String productName;
 	private int price;
 	private int quantity;
 	private int totalPrice;
 	
-	public Cart(int productId, String productName, int price, int quantity, int totalPrice) {
+	public Cart(String img, int productId, String productName, int price, int quantity, int totalPrice) {
 		super();
+		this.img = img;
 		this.productId = productId;
 		this.productName = productName;
 		this.price = price;
@@ -25,6 +27,13 @@ public class Cart implements Serializable {
 		this.price = price;
 		this.quantity = quantity;
 		this.totalPrice = totalPrice;
+	}
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
 	}
 
 	public int getProductId() {

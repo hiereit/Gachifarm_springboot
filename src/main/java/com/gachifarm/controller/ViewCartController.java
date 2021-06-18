@@ -14,12 +14,15 @@ import com.gachifarm.domain.Cart;
 import com.gachifarm.domain.CartProduct;
 import com.gachifarm.domain.Product;
 import com.gachifarm.repository.CartRepository;
+import com.gachifarm.repository.ProductImageRepository;
 
 @Controller
 @SessionAttributes("userSession")
 public class ViewCartController {
 	@Autowired
 	private CartRepository cartRepository;
+	@Autowired
+	private ProductImageRepository imgRepository;
 	@Autowired
 	private ProductDao productDao;
 	//@Autowired
@@ -34,11 +37,12 @@ public class ViewCartController {
 		for (int i = 0; i < cartPrdt.size(); i++) {
 			Product product = productDao.getProduct(cartPrdt.get(i).getCartId().getProductId());
 			int productId = product.getProductId();
+			String img = imgRepository.findProductImageByProductId(50).getImgPath();
 			String productName = product.getPrdtName();
 			int price = product.getPrice();
 			int quantity = cartPrdt.get(i).getQuantity();
 			int totalPrice = quantity * price;
-			Cart c = new Cart(productId, productName, price, quantity, totalPrice);
+			Cart c = new Cart(img, productId, productName, price, quantity, totalPrice);
 			cart.add(c);
 		}//서비스에서 작동시킬 것
 		return new ModelAndView("OrderAndCart/Cart", "cart", cart);
