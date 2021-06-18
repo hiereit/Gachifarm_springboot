@@ -51,7 +51,7 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	private StoreDao storeDao;
 	
 	@Autowired
-	@Qualifier("ProductImageDao")
+	@Qualifier("jpaProductImageDao")
 	private ProductImageDao productImageDao;
 	
 	// Account
