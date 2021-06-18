@@ -2,28 +2,27 @@ package com.gachifarm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.gachifarm.domain.GroupProduct;
-import com.gachifarm.service.GroupProductFacade;
+import com.gachifarm.dao.ProductDao;
+import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
 public class ViewGroupProductController {
-	private GroupProductFacade gProductFacade;
-	
-	@Autowired(required=false)
-	public void setGroupProductFacade(GroupProductFacade gProductFacade) {
-		this.gProductFacade = gProductFacade;
+	@Autowired
+	private GachiFarmFacade gachiFarm;
+	public void setGachiFarm(GachiFarmFacade gachiFarm) {
+		this.gachiFarm = gachiFarm;
 	}
+	
+	@Autowired
+	ProductDao productDao;
 
-	@RequestMapping("/group/viewProduct.do")
-	public String handleRequest(
-			@RequestParam("gProductId") int gProductId,
-			ModelMap model) throws Exception {
-		GroupProduct gProduct = gProductFacade.getGroupProduct(gProductId);
-		model.put("gProduct", gProduct);
-		return "GroupProduct";
+	@RequestMapping("/group/product/{gProductId}")
+	public ModelAndView viewGroupProduct(
+			@PathVariable("gProductId") int gProductId) throws Exception {
+		return new ModelAndView("Group/GroupProductDetail", "gProduct", gachiFarm.getGroupProduct(gProductId));
 	}
 }

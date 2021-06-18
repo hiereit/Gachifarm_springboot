@@ -2,27 +2,26 @@ package com.gachifarm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.gachifarm.repository.GroupBuyersRepository;
-import com.gachifarm.repository.GroupProductRepository;
-import com.gachifarm.service.GroupProductFacade;
+import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
 public class ListGroupBuyersController {
-	private GroupProductFacade gProductFacade;
-	
-	@Autowired(required=false)
-	public void setGroupProductFacade(GroupProductFacade gProductFacade) {
-		this.gProductFacade = gProductFacade;
+	@Autowired
+	private GachiFarmFacade gachiFarm;
+	public void setGachiFarm(GachiFarmFacade gachiFarm) {
+		this.gachiFarm = gachiFarm;
 	}
 
-	@RequestMapping("/group/listBuyers")
+	@RequestMapping("/group/buyer/list/{gProductId}")
 	public ModelAndView handleRequest(
-			@RequestParam("groupProductId") int groupProductId) throws Exception {
+			@PathVariable("gProductId") int gProductId) throws Exception {
+		// id RequestParam으로 변경
 		return new ModelAndView("/Group/GroupBuyersList", "groupBuyerList", 
-				gProductFacade.getGroupBuyersByGroupProductId(groupProductId));
+				gachiFarm.getGroupBuyersByGroupProductId(gProductId));
 	}
 }
