@@ -2,7 +2,11 @@ package com.gachifarm.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.gachifarm.domain.Product;
+import com.gachifarm.domain.ProductImage;
 import com.gachifarm.domain.Store;
 
 
@@ -45,6 +49,8 @@ public interface GachiFarmFacade {
 	
 	List<Product> searchAllProdcutListByCategory(String category);
 	
+	Page<Product> getProductListbyPage(Pageable pageable, int pageNo);
+	
 	//-------------------------------------------------------------------------
 	// Store 관련 메소드
 	//-------------------------------------------------------------------------
@@ -58,4 +64,8 @@ public interface GachiFarmFacade {
 	
 	void save(Account account);
 	
+	//-------------------------------------------------------------------------
+	// ProductImage 관련 메소드
+	//-------------------------------------------------------------------------
+	ProductImage getProductImageByPid(int pid);
 }
