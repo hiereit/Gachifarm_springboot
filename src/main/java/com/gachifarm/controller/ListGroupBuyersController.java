@@ -2,6 +2,7 @@ package com.gachifarm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,10 +17,11 @@ public class ListGroupBuyersController {
 		this.gachiFarm = gachiFarm;
 	}
 
-	@RequestMapping("/group/listBuyers")
+	@RequestMapping("/group/buyer/list/{gProductId}")
 	public ModelAndView handleRequest(
-			@RequestParam("groupProductId") int groupProductId) throws Exception {
+			@PathVariable("gProductId") int gProductId) throws Exception {
+		// id RequestParam으로 변경
 		return new ModelAndView("/Group/GroupBuyersList", "groupBuyerList", 
-				gachiFarm.getGroupBuyersByGroupProductId(groupProductId));
+				gachiFarm.getGroupBuyersByGroupProductId(gProductId));
 	}
 }
