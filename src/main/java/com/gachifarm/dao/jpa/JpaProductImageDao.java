@@ -17,7 +17,7 @@ public class JpaProductImageDao implements ProductImageDao{
 	@PersistenceContext
 	private EntityManager em;
 	
-	//productImage PK로 찾기
+	//productImage PK로 찾기 develop push
 	@Override
 	public ProductImage getProductImage(int imgId) throws DataAccessException {
 		// TODO Auto-generated method stub
