@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>가치팜</title>
+  <script src="https://code.jquery.com/jquery-latest.js"></script>
+  <link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+  <style>
+    body		{ font-family: 'NanumSquare', sans-serif; }
+    button { font-family: 'NanumSquare', sans-serif !important; float: right;}
+    hr {
+      height: 1px;
+      background-color: #707070;
+      margin: 0px;
+    }
+    .container {
+      max-width: 40%;
+      min-width: 700px;
+      margin: 0px auto;
+    }
+    #submit_button {
+      background-color: #FF724A !important;
+      border-color: #FF724A !important;
+      width: 100px !important;
+      height: 35px !important;
+      font-size: 15px !important;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    .prdtImg img {
+      height: 120px !important;
+      width: 120px;
+    }
+    .prdtImg, .prdtName {
+      display: inline-block;
+      vertical-align: middle;
+      color: black;
+    }
+    .prdtInfo {
+      padding: 30px 20px;
+      position: relative;
+    }
+    .prdtName {
+      font-size: 20px;
+      padding: 10px;
+    }
+    legend {
+      color: black;
+      font-size: 20px;
+      font-family: 'NanumSquare', sans-serif !important;
+      font-weight: 700;
+    }
+    #title, #userId {
+      display: inline-block;
+    }
+    #title {
+        font-size: 18px;
+        color: black
+    }
+    #userId {
+      width: 30%;
+      text-align: right;
+      font-size: 15px;
+    }
+    #question {
+        width: 100%;
+    }
+    .pd20 {
+        padding: 20px;
+    }
+    textarea {
+    	min-height: 270px !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <div class="container">
+      <div>
+        <legend><b>Q&A</b></legend>
+        <hr th:if="${board.product}">
+        <div th:if="${board.product}" class="prdtInfo" style="height: 180px; width: 100%">
+          <div class="prdtImg">
+            <img>
+          </div>
+          <div class="prdtName">
+            <b th:text="${board.product.prdtName}">상품명</b><br>
+          </div>
+        </div>
+        <hr>
+          <div id="question">
+            <div style="border-bottom: 0.5px solid #DDDDDD;" class="pd20">
+              <div id="title" th:text="${board.title}"></div>
+              <div id="userId" style="float:right;" th:text="${board.userId}"></div>
+            </div>
+            <div class="pd20" style="color: black; 
+    	min-height: 270px;" th:text="${board.question}"></div>
+            <hr th:unless="${board.answer}">
+            <form th:unless="${board.answer}"  style="margin-top:20px;">
+              <span style="color: black; font-weight:bold; font-size:18px;">답변하기</span>
+              <textarea class="form-control" style="margin-top:20px;" th:field="${board.answer}"></textarea>
+              <button type="submit" class="btn btn-danger" id="submit_button">등록하기</button>
+            </form>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
