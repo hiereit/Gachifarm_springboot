@@ -41,7 +41,7 @@ public class Product implements Serializable{
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Product(int productId, int price, String origin, String supplier, String unit, char stock, int quatity,
+	public Product(int productId, int price, String origin, String supplier, String unit, char stock, int quantity,
 			String description, String userId, String saleType, String category, String prdtName) {
 		super();
 		this.productId = productId;
@@ -50,7 +50,7 @@ public class Product implements Serializable{
 		this.supplier = supplier;
 		this.unit = unit;
 		this.stock = stock;
-		this.quantity = quatity;
+		this.quantity = quantity;
 		this.description = description;
 		this.userId = userId;
 		this.saleType = saleType;
@@ -113,8 +113,8 @@ public class Product implements Serializable{
 	public int getQuantity() {
 		return quantity;
 	}
-	public void setQuatity(int quatity) {
-		this.quantity = quatity;
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 	public String getDescription() {
 		return description;
@@ -151,7 +151,7 @@ public class Product implements Serializable{
 	@Override
 	public String toString() {
 		return "Product [productId=" + productId + ", price=" + price + ", origin=" + origin + ", supplier=" + supplier
-				+ ", unit=" + unit + ", stock=" + stock + ", quatity=" + quantity + ", description=" + description
+				+ ", unit=" + unit + ", stock=" + stock + ", quantity=" + quantity + ", description=" + description
 				+ ", userId=" + userId + ", saleType=" + saleType + ", category=" + category + ", prdtName=" + prdtName
 				+ "]";
 	}	
