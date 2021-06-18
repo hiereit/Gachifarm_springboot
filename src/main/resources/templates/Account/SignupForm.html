@@ -63,7 +63,8 @@
 
       <tr>
         <th><label>비밀번호 확인*</label></th>
-        <td><input type="password" id="passwordConfirm" th:field="*{passwordConfirm}" placeholder="비밀번호를 한번 더 입력해주세요"></td>
+        <td><input type="password" id="passwordConfirm" th:field="*{passwordConfirm}" placeholder="비밀번호를 한번 더 입력해주세요">
+      	<span th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></span></td>
       </tr>
 
       <tr>
@@ -83,13 +84,13 @@
 
       <tr>
         <th><label>우편번호</label></th>
-        <td><input type="text" id="zip" th:field="*{address.zip}" placeholder="우편번호를 입력해주세요"></td>
+        <td><input type="text" id="zip" th:field="*{zip}" placeholder="우편번호를 입력해주세요"></td>
       </tr>
 
       <tr>
         <th><label>주소</label></th>
-        <td><input type="text" id="addr1" th:field="*{address.addr1}" placeholder="예: 서울특별시 성북구 월곡2동 화랑로13길 60">
-          <input type="text" id="addr2" th:field="*{address.addr2}" placeholder="예: 인문관"></td>
+        <td><input type="text" id="addr1" th:field="*{addr1}" placeholder="예: 서울특별시 성북구 월곡2동 화랑로13길 60">
+          <input type="text" id="addr2" th:field="*{addr2}" placeholder="예: 인문관"></td>
       </tr> 
     </table>
 

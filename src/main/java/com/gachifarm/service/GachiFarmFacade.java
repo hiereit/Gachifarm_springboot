@@ -103,7 +103,7 @@ public interface GachiFarmFacade {
 
 	void insertQuestion(Board board);
 	
-	
+  
 	// Store 관련 메소드
 	
 	void insertStore(Store store);
@@ -113,8 +113,6 @@ public interface GachiFarmFacade {
 	Store getStoreName(String storename);
 		
 	List<Store> getAllStore();
-		
-	//void save(Account account);
 		
 	
 	// ProductImage 관련 메소드
@@ -126,5 +124,4 @@ public interface GachiFarmFacade {
 	void updateProductImage(ProductImage product);
 		
 	void deleteProductImage(ProductImage product);
-
 }

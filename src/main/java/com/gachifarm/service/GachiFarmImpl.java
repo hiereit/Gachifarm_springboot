@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.gachifarm.dao.ProductDao;
+import com.gachifarm.dao.ProductImageDao;
 import com.gachifarm.dao.StoreDao;
 import com.gachifarm.domain.Account;
 import com.gachifarm.domain.Board;
@@ -21,6 +22,7 @@ import com.gachifarm.domain.LineProduct;
 import com.gachifarm.domain.Orders;
 import com.gachifarm.domain.Product;
 import com.gachifarm.domain.ProductImage;
+
 import com.gachifarm.domain.ProductImageDao;
 import com.gachifarm.domain.Store;
 import com.gachifarm.repository.AccountRepository;
@@ -233,7 +235,7 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	}
 
 	// ProductImage
-	
+
 	@Override
 	public ProductImage getProductImageByPid(int pid) {
 		// TODO Auto-generated method stub
@@ -257,6 +259,4 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public void insertQuestion(Board board) {
 		boardRepository.saveAndFlush(board);
 	}
-
-	//
 }
