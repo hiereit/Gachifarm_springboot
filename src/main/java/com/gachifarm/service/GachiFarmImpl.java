@@ -59,7 +59,7 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	// 추가
 	@Autowired
 	private AdministratorRepository adminRepository;
-	
+	 
 	// Account
 	public Account findByUserId(String userId) {
 		return accountRepository.findByUserId(userId);

@@ -97,5 +97,5 @@ public interface GachiFarmFacade {
 	
 	void deleteBoard(int boardId);
 
-	boolean isAdmin(String userId);
+	boolean isAdmin(String userId); 
 }
