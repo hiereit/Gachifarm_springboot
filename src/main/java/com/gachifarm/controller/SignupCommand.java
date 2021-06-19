@@ -18,7 +18,6 @@ public class SignupCommand implements Serializable {
 	@NotEmpty
 	private String password;
 	
-	@NotEmpty
 	private String passwordConfirm;
 	
 	@NotEmpty
@@ -32,10 +31,27 @@ public class SignupCommand implements Serializable {
 	
 	@Pattern(regexp ="^\\d{5}", message="우편번호는 5자리 숫자입니다.")
 	private String zip;
+	@NotEmpty
 	private String addr1;
+	@NotEmpty
 	private String addr2;
 	
+	public SignupCommand() {}
 	
+	public SignupCommand(@NotEmpty String userId, @NotEmpty String password, @NotEmpty String userName,
+			@Pattern(regexp = "[0-9]{10,11}", message = "10~11자리의 숫자만 입력가능합니다") String phone,
+			@NotEmpty @Email String email, @Pattern(regexp = "^\\d{5}", message = "우편번호는 5자리 숫자입니다.") String zip,
+			String addr1, String addr2) {
+		super();
+		this.userId = userId;
+		this.password = password;
+		this.userName = userName;
+		this.phone = phone;
+		this.email = email;
+		this.zip = zip;
+		this.addr1 = addr1;
+		this.addr2 = addr2;
+	}
 	public String getUserId() {
 		return userId;
 	}
@@ -99,9 +115,9 @@ public class SignupCommand implements Serializable {
 	}
 	
 
-	@AssertTrue(message = "비밀번호가 일치하지 않습니다s")
+	@AssertTrue(message = "비밀번호가 일치하지 않습니다")
 	public boolean isPasswordEqualToConfirmPassword() {
-		System.out.println("비밀번호가 일치하지 않습니다");
+		System.out.println("Command print문 - 비밀번호가 일치하지 않습니다");
 		return password.equals(passwordConfirm);
 	}
 	
