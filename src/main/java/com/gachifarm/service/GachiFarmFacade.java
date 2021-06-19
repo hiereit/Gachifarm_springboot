@@ -10,6 +10,7 @@ import com.gachifarm.domain.LineProduct;
 import com.gachifarm.domain.Orders;
 import com.gachifarm.domain.Product;
 import com.gachifarm.domain.ProductImage;
+import com.gachifarm.domain.Review;
 import com.gachifarm.domain.Store;
 public interface GachiFarmFacade {
 	// Account
@@ -29,6 +30,7 @@ public interface GachiFarmFacade {
 	// LineProduct
 	LineProduct findTop1ProductNameByOrderId(int orderId);
 	List<GroupProduct> findGroupProductByUserId(String userId);
+	LineProduct findByLineProductId(int lineProductId);
 	
 	// Product 관련 메소드
 	void insertProduct(Product product);
@@ -59,10 +61,15 @@ public interface GachiFarmFacade {
 	List<GroupProduct> getGroupProductList();
 	List<GroupBuyer> getGroupBuyersByGroupProductId(int gProductId);
 	Page<GroupProduct> getGroupProductListbyPage(Pageable pageable, int pageNo);
+	List<GroupBuyer> findGroupBuyersByUserId(String userId);
+	GroupProduct findGroupProductBygProductId(int groupProudctId);
 	
 	// Board
 	void insertQuestion(Board board);
+	List<Board> findBoardByUserId(String userId);
 	
+	//Review
+	List<Review> findReviewByUserId(String userId);
 	
 	// Store 관련 메소드
 	
