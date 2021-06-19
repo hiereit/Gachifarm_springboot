@@ -41,11 +41,11 @@ table {
 			</thead>
 
 			<tbody th:unless="${#lists.isEmpty(boardList)}">
-				<th:block th:each="boardList : ${boardList}">
+				<th:block th:each="i : ${#numbers.sequence(0, boardList.size()-1)}">
 					<tr>
-						<th th:text="${#dates.format(boardList.boardDate, 'yyyy-MM-dd')}"></th>
-						<th th:text="${boardList.title}"></th>
-						<td th:text="${boardList.answer}"></td>
+						<th th:text="${#dates.format(boardList[i].boardDate, 'yyyy-MM-dd')}"></th>
+						<th th:text="${boardList[i].title}"></th>
+						<td th:text="${answerStatus[i]}">status</td>
 				</th:block>
 			</tbody>
 			<tbody th:if="${#lists.isEmpty(boardList)}">
