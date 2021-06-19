@@ -18,6 +18,7 @@ import com.gachifarm.domain.LineProduct;
 import com.gachifarm.domain.Orders;
 import com.gachifarm.domain.Product;
 import com.gachifarm.domain.ProductImage;
+import com.gachifarm.domain.Review;
 import com.gachifarm.dao.ProductImageDao;
 import com.gachifarm.domain.Store;
 import com.gachifarm.repository.AccountRepository;
@@ -28,6 +29,7 @@ import com.gachifarm.repository.GroupProductRepository;
 import com.gachifarm.repository.LineProductRepository;
 import com.gachifarm.repository.OrdersRepository;
 import com.gachifarm.repository.ProductRepository;
+import com.gachifarm.repository.ReviewRepository;
 @Service
 @Transactional
 public class GachiFarmImpl implements GachiFarmFacade {
@@ -39,6 +41,8 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	private GroupBuyersRepository groupBuyersRepository;
 	@Autowired
 	private BoardRepository boardRepository;
+	@Autowired
+	private ReviewRepository reviewRepository;
 	@Autowired
 	private OrdersRepository ordersRepository;
 	@Autowired
@@ -87,6 +91,10 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public LineProduct findTop1ProductNameByOrderId(int orderId) {
 		return lineProductRepository.findTop1ProductNameByOrderId(orderId);
 	}
+	public LineProduct findByLineProductId(int lineProductId) {
+		return lineProductRepository.findByLineProductId(lineProductId);
+	}
+	
 	// Product
 	public void insertProduct(Product product) {
 		productDao.insertProduct(product);
@@ -142,13 +150,10 @@ public class GachiFarmImpl implements GachiFarmFacade {
 		pageable = PageRequest.of(pageNo - 1, 8);
 		return productRepository.findByUserId(userId, pageable);
 	}
-	// Group
+	// GroupProduct
 	public void insertGroupProduct(GroupProduct groupProduct, Product product) {
 		productDao.updateProduct(product);
 		groupProductRepository.save(groupProduct);
-	}
-	public void insertGroupBuyer(GroupBuyer groupBuyer) {
-		groupBuyersRepository.saveAndFlush(groupBuyer);
 	}
 	public void updateGroupProduct(GroupProduct groupProduct) {
 		groupProductRepository.save(groupProduct);
@@ -164,15 +169,37 @@ public class GachiFarmImpl implements GachiFarmFacade {
 		pageable = PageRequest.of(pageNo - 1, 12);
 		return groupProductRepository.findAll(pageable);
 	}
-	public List<GroupBuyer> getGroupBuyersByGroupProductId(int groupProductId) {
-		return groupBuyersRepository.findByGroupProudctId(groupProductId);
-	}
 	public List<GroupProduct> findGroupProductByUserId(String userId) {
 		return groupProductRepository.findGroupProductByUserId(userId);
 	}
+	public GroupProduct findGroupProductBygProductId(int groupProudctId) {
+		return groupProductRepository.findGroupProductBygProductId(groupProudctId);
+	}
+	
+	// GroupBuyers
+	public void insertGroupBuyer(GroupBuyer groupBuyer) {
+		groupBuyersRepository.saveAndFlush(groupBuyer);
+	}
+	public List<GroupBuyer> getGroupBuyersByGroupProductId(int groupProductId) {
+		return groupBuyersRepository.findByGroupProudctId(groupProductId);
+	}
+	public List<GroupBuyer> findGroupBuyersByUserId(String userId){
+		return groupBuyersRepository.findGroupBuyersByUserId(userId);
+	}
+	
 	// Store
 	public void insertStore(Store store) {
 		storeDao.insertStore(store);
+	}
+	@Override
+	public void updateStore(Store store) {
+		// TODO Auto-generated method stub
+		storeDao.updateStore(store);
+	}
+	@Override
+	public void deleteStore(Store store) {
+		// TODO Auto-generated method stub
+		storeDao.deleteStore(store);
 	}
 	public Store getStore(String userId) {
 		return storeDao.getStore(userId);
@@ -183,8 +210,8 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public List<Store> getAllStore() {
 		return storeDao.getAllStore();
 	}
-	// ProductImage
 	
+	// ProductImage
 	@Override
 	public ProductImage getProductImageByPid(int pid) {
 		// TODO Auto-generated method stub
@@ -225,5 +252,14 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	
 	public boolean isAdmin(String userId) {
 		return adminRepository.existsByUserId(userId);
+	}
+	
+	public List<Board> findBoardByUserId(String userId){
+		return boardRepository.findBoardByUserId(userId);
+	}
+	
+	//Review
+	public List<Review> findReviewByUserId(String userId){
+		return reviewRepository.findReviewByUserId(userId);
 	}
 }
