@@ -71,26 +71,19 @@ public interface GachiFarmFacade {
 	//Review
 	List<Review> findReviewByUserId(String userId);
 	
-	// Store 관련 메소드
-	
+	// Store 관련 메소드	
 	void insertStore(Store store);
-		
+	void updateStore(Store store);
+	void deleteStore(Store store);
 	Store getStore(String userId);
-		
 	Store getStoreName(String storename);
 		
 	List<Store> getAllStore();
-		
-	//void save(Account account);
-		
-	
 	// ProductImage 관련 메소드
 		
 	ProductImage getProductImageByPid(int pid);
 	
-	void insertProductImage(ProductImage product);
-		
-	void updateProductImage(ProductImage product);
-		
+	void insertProductImage(ProductImage product);		
+	void updateProductImage(ProductImage product);	
 	void deleteProductImage(ProductImage product);
 }

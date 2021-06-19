@@ -185,6 +185,16 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public void insertStore(Store store) {
 		storeDao.insertStore(store);
 	}
+	@Override
+	public void updateStore(Store store) {
+		// TODO Auto-generated method stub
+		storeDao.updateStore(store);
+	}
+	@Override
+	public void deleteStore(Store store) {
+		// TODO Auto-generated method stub
+		storeDao.deleteStore(store);
+	}
 	public Store getStore(String userId) {
 		return storeDao.getStore(userId);
 	}
@@ -194,8 +204,8 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public List<Store> getAllStore() {
 		return storeDao.getAllStore();
 	}
-	// ProductImage
 	
+	// ProductImage
 	@Override
 	public ProductImage getProductImageByPid(int pid) {
 		// TODO Auto-generated method stub
@@ -222,4 +232,5 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public List<Review> findReviewByUserId(String userId){
 		return reviewRepository.findReviewByUserId(userId);
 	}
+	
 }
