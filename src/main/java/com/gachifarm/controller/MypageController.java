@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.gachifarm.domain.Account;
+import com.gachifarm.domain.Board;
 import com.gachifarm.domain.GroupBuyer;
 import com.gachifarm.domain.GroupProduct;
+import com.gachifarm.domain.LineProduct;
 import com.gachifarm.domain.Orders;
+import com.gachifarm.domain.Review;
 import com.gachifarm.service.GachiFarmFacade;
 @Controller
 @RequestMapping("/user/mypage")
@@ -35,10 +38,10 @@ public class MypageController {
 		this.gachiFarm = gachiFarm;
 	}
 
-//	@ModelAttribute(name="signupCommand")
-//	public SignupCommand formBacking() {
-//		return new SignupCommand();
-//	}
+	@ModelAttribute(name="signupCommand")
+	public SignupCommand formBacking() {
+		return new SignupCommand();
+	}
 
 	@GetMapping
 	public String mypage(HttpSession session, Model model) {
@@ -51,12 +54,12 @@ public class MypageController {
 				sessionAccount.getAddr1(), sessionAccount.getAddr2()
 				);
 		
-				/* model.addAttribute("account", sessionAccount); */
+		model.addAttribute("account", sessionAccount);
 		model.addAttribute("signupCommand", signupCommand);
 		
 		System.out.println("MypageController - " + sessionAccount.getUserId());
-		return "Account/MypageLayout";
 
+		return "Account/MypageUpdateSignupForm";
 	}
 
 	
@@ -74,9 +77,11 @@ public class MypageController {
 				System.out.println("!불일치!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 				String str = "비밀번호 불일치";
 				model.addAttribute("str", str);
-				return "Account/MypageLayout";
+
+				return "Account/MypageUpdateSignupForm";
 			}
-			return "Account/MypageLayout";
+
+			return "Account/MypageUpdateSignupForm";
 		}
 		
 		String phone = signupCommand.getPhone();
@@ -105,7 +110,8 @@ public class MypageController {
 		System.out.println("수정완료!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		String str = "수정이 완료되었습니다";
 		model.addAttribute("str2", str);
-		return "Account/MypageLayout";
+
+		return "Account/MypageUpdateSignupForm";
 	}
 	
 	@GetMapping("/myorders")
@@ -134,14 +140,33 @@ public class MypageController {
 			model.addAttribute("orders", orderList);
 		}
 		
-		return "Account/MypageLayout";
+		return "Account/MypageMyOrders";
 	}
 	
-	@GetMapping("/myborders")
-	public String myborders(HttpSession session, Model model) {
-	
+	@GetMapping("/myposts")
+	public String myposts(HttpSession session, Model model) {
+		Account account = (Account) session.getAttribute("account");
+		List<Board> boardList = gachiFarm.findBoardByUserId(account.getUserId());
+		System.out.println("myposts() - boardList: " + boardList);
+		if(boardList != null) {
+			model.addAttribute("boardList", boardList);
+		}
 		
-		return "Account/MypageLayout";
+		List<Review> reviewList = gachiFarm.findReviewByUserId(account.getUserId());
+		List<LineProduct> lineProduct = new ArrayList<LineProduct>();
+		int [] linePrdtId = new int[reviewList.size()];
+		System.out.println("myposts() - reviewList: " + reviewList);
+		if(boardList != null) {
+			for(int i = 0; i < reviewList.size(); i++) {
+				linePrdtId[i] = reviewList.get(i).getLineProductId();
+				lineProduct.add(i, gachiFarm.findByLineProductId(linePrdtId[i]));
+			}
+			System.out.println("myposts() - lineProduct: " + lineProduct);
+			model.addAttribute("lineProduct", lineProduct);
+			model.addAttribute("reviewList", reviewList);
+		}
+		
+		return "Account/MyPageMyBoardAndReview";
 	}
 	
 	@GetMapping("/mygroup/open")
@@ -152,7 +177,8 @@ public class MypageController {
 		if(gpList != null) {
 			model.addAttribute("groupProducts", gpList);
 		}
-		return "Account/MypageLayout";
+
+		return "Account/MypageMyOpenGroup";
 	}
 	
 	@GetMapping("/mygroup/orders")
@@ -173,6 +199,7 @@ public class MypageController {
 			model.addAttribute("groupProducts", gpList);
 			model.addAttribute("groupBuyers", gbList);
 		}
-		return "Account/MypageLayout";
+
+		return "Account/MypageMyParticipateGroup";
 	}
 }
