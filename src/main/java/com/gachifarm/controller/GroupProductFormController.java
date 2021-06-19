@@ -51,7 +51,7 @@ public class GroupProductFormController {
 		int prdtQty = product.getQuantity();
 		int minQty = (int) (prdtQty * 0.05);
 		int limitQty = (int) (prdtQty * 0.15);
-		product.setQuatity(prdtQty - limitQty);
+		product.setQuantity(prdtQty - limitQty);
 		String loginId = "DONGDUK01";
 		groupProduct.setUserId(loginId);
 		groupProduct.setProductId(product.getProductId());
