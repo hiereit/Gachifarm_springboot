@@ -100,4 +100,6 @@ public interface GachiFarmFacade {
 	void deleteBoard(int boardId);
 
 	boolean isAdmin(String userId); 
+	
+	Page<Review> getReviewListbyPageAndProductId(Pageable pageable, int pageNo, int count, int productId);
 }
