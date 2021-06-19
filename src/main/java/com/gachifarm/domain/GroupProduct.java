@@ -129,6 +129,14 @@ public class GroupProduct implements Serializable {
 		this.product = product;
 	}
 	
+	@Override
+	public String toString() {
+		return "GroupProduct [gProductId=" + gProductId + ", userId=" + userId + ", productId=" + productId
+				+ ", product=" + product + ", minQty=" + minQty + ", currQty=" + currQty + ", limitQty=" + limitQty
+				+ ", period=" + period + ", recvPlace=" + recvPlace + ", recvDate=" + recvDate + ", location="
+				+ location + ", status=" + status + "]";
+	}
+	
 	
 	
 }

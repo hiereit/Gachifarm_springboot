@@ -118,6 +118,13 @@ public class GroupBuyer implements Serializable {
 	public void setAttendDate(Date attendDate) {
 		this.attendDate = attendDate;
 	}
+	@Override
+	public String toString() {
+		return "GroupBuyer [gOrderId=" + gOrderId + ", userName=" + userName + ", totalPrice=" + totalPrice + ", phone="
+				+ phone + ", orderDate=" + orderDate + ", creditNum=" + creditNum + ", expireDate=" + expireDate
+				+ ", cardType=" + cardType + ", groupProudctId=" + groupProudctId + ", userId=" + userId + ", qty="
+				+ qty + ", attendDate=" + attendDate + "]\n";
+	}
 	
 	
 	
