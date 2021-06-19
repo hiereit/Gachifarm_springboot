@@ -107,37 +107,38 @@
 	</table>	
     </div>
     
-    <!-- <small th:text="${prdt.description}"></small> -->
+    <!-- <small th:text="${prdt.description}"></small> th:with="row=${data2.size() /4},-->
     <br><br>
    <div align="center">
-   <nav style="display:inline-block; text-align:center;">
+   		<nav style="display:inline-block; text-align:center;">
     <ul th:class="pagination"
         th:with="start=${T(Math).floor(data.number/8)*8 + 1},
                     last=(${start + 7 < data.totalPages ? start + 7 : data.totalPages})">
         <li class="page-item">
-            <a th:id="tail" th:class="page-link" th:href="@{/store/{storeName}(storeName=${storename})/1}" aria-label="First">
+            <a th:id="tail" th:class="page-link" th:href="@{/store/{storeName}/1(storeName=${storename})}" aria-label="First">
                 <span aria-hidden="true">First</span>
             </a>
         </li>
-
+															<!--@{/store/{storeName}/{pageNo}(storeName=${sName})(pageNo=${data.number})  -->
         <li th:class="${data.first} ? 'disabled'">
-            <a th:class="page-link" th:href="${data.first} ? '#' :@{/store/{storeName}(storeName=${storename})/{pageNo}(pageNo=${data.number})}" aria-label="Previous">
+            <a th:class="page-link" th:href="${data.first} ? '#' :@{/store/{storeName}/{data.first}(storeName=${storename})}" aria-label="Previous">
                 <span aria-hidden="true">&lt;</span>
             </a>
-        </li>
+        </li>             <!-- th:href="@{/store/{storeName}/{pageNo}(storeName=${storename})(pageNo=${page})" -->
 
-        <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == data.number + 1} ? 'active'">
-            <a th:class="page-link" th:text="${page}" th:href="@{/store/{storeName}(storeName=${storename})/{pageNo}(pageNo=${page})}"></a>
+        <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == data.number + 1} ? 'active'" >
+            <!-- <span th:class="page-link" th:text="${page}" th:onclick="location.href='/store/[[${storename}]]/[[${page}]]'"></span> -->
+            <a th:class="page-link" th:text="${page}" th:href="@{/store/{storeName}/{pageNo} (storeName=${storename}, pageNo=${page})}"></a>
         </li>
 
         <li th:class="${data.last} ? 'disabled'">
-            <a th:class="page-link" th:href="${data.last} ? '#' : @{/store/{storeName}(storeName=${storename})/{pageNo}(pageNo=${data.number + 2})}" aria-label="Next">
+            <a th:class="page-link" th:href="${data.last} ? '#' :@{/store/{storeName}/{pageNo}(storeName=${storename}, pageNo=${data.number + 2})}" aria-label="Next">
                 <span aria-hidden="true">&gt;</span>
             </a>
         </li>
 
         <li th:class="page-item">
-            <a  th:id="tail" th:class="page-link" th:href="@{/store/{storeName}(storeName=${storename})/{pageNo}(pageNo=${data.totalPages})}" aria-label="Last">
+            <a  th:id="tail" th:class="page-link" th:href="@{/store/{storeName}/{pageNo}(storeName=${storename}, pageNo=${data.totalPages})}" aria-label="Last">
                 <span aria-hidden="true">Last</span>
             </a>
         </li>

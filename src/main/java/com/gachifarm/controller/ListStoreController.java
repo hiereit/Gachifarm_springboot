@@ -37,7 +37,7 @@ public class ListStoreController {
     }
 	@RequestMapping("store/{storeName}/{pageNo}")
     public String getStore(@PageableDefault Pageable pageable,
-    		@PathVariable("pageNo") int pageNo, @PathVariable String storeName, Model model){
+    		@PathVariable("pageNo") int pageNo, @PathVariable("storeName") String storeName, Model model){
 		//Product products = this.gachifarm.getProduct(1);
 		//Store stores = this.gachifarm.getStore("DONGDUK01");
 		Store store = this.gachifarm.getStoreName(storeName);

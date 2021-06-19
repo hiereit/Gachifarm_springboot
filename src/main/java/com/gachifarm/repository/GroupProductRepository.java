@@ -8,6 +8,4 @@ import com.gachifarm.domain.GroupProduct;
 public interface GroupProductRepository extends JpaRepository<GroupProduct, Integer>{
 
 	List<GroupProduct> findGroupProductByUserId(String userId);
-	
-	GroupProduct findGroupProductBygProductId(int groupProudctId);
 }

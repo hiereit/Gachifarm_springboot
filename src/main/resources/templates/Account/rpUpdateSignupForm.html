@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+
+</head>
+<body>
+<form action="#" th:action="@{mypage}" th:object="${changeAccount}" method="post">
+
+    <table class="font-left">
+      <tr>
+        <th style="text-align: left;">아이디</th>
+      	<!-- <td th:text="${account.userId}">userId</td> -->
+      	<td><input type="text" th:value="${account.userId}" disabled></td>
+      </tr>
+
+     <tr>
+        <th style="text-align: left;">비밀번호*</th>
+        <td><input type="password" id="password" th:field="*{password}" placeholder="변경할 비밀번호 입력해주세요">
+      	<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+      </tr>
+
+      <tr>
+        <th style="text-align: left;">비밀번호 확인*</th>
+        <td><input type="password" id="passwordConfirm" th:field="*{passwordConfirm}" placeholder="비밀번호를 한번 더 입력해주세요">
+        <span th:text="${str}">mismatch</span></td>
+      </tr>
+
+      <tr>
+        <th style="text-align: left;">이름</th>
+	    <td><input type="text" th:value="${account.userName}" disabled></td>
+      </tr>
+
+      <tr>
+        <th style="text-align: left;">휴대폰</th>
+        <td><input type="text" th:id="phone" th:name="phone" th:value="${account.phone}" placeholder="숫자만 입력해주세요"></td>
+      </tr>
+
+      <tr>
+        <th style="text-align: left;">이메일*</th>
+        <td><input type="text" th:id="email" th:name="email" th:value="${account.email}" placeholder="예: gachifarm@dongduk.ac.kr"></td>
+      </tr>
+
+      <tr>
+        <th style="text-align: left;">우편번호</th>
+        <td><input type="text" th:id="zip" th:name="zip" th:value="${account.zip}" placeholder="우편번호를 입력해주세요"></td>
+      </tr>
+
+      <tr>
+        <th style="text-align: left;">주소</th>
+        <td><input type="text" th:id="addr1" th:name="addr1" th:value="${account.addr1}" placeholder="예: 서울특별시 성북구 월곡2동 화랑로13길 60">
+          <input type="text" th:id="addr2" th:name="addr2" th:value="${account.addr2}" placeholder="예: 인문관"></td>
+      </tr> 
+    </table>
+
+    <br>
+    <div align="center">
+      <input type="submit" id="submitBtn" value="수정하기"><br><br>
+      <a href="#" th:href="@{/deleted}"><input type="button" id="withdrawalBtn" value="탈퇴하기" th:onclick="'alert(\'정말 탈퇴하시겠습니까?\');'"></a><br>
+      <br><span th:text="${str2}">complete</span><br>
+    </div>
+</form>
+</body>
+</html>

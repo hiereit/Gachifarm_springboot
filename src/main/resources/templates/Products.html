@@ -122,7 +122,7 @@
    <br><br>
    <div align="center">
    <nav style="display:inline-block; text-align:center;">
-    <ul th:class="pagination"
+    <ul th:class="pagination" th:if="${}"
         th:with="start=${T(Math).floor(data.number/12)*12 + 1},
                     last=(${start + 11 < data.totalPages ? start + 11 : data.totalPages})">
         <li class="page-item">

@@ -65,32 +65,39 @@ public interface GachiFarmFacade {
 	GroupProduct findGroupProductBygProductId(int groupProudctId);
 	
 	// Board
-	void insertQuestion(Board board);
+	void saveBoard(Board board);
+
 	List<Board> findBoardByUserId(String userId);
+
 	
 	//Review
 	List<Review> findReviewByUserId(String userId);
 	
-	// Store 관련 메소드
-	
+	// Store 관련 메소드	
 	void insertStore(Store store);
-		
+	void updateStore(Store store);
+	void deleteStore(Store store);
 	Store getStore(String userId);
-		
 	Store getStoreName(String storename);
 		
 	List<Store> getAllStore();
-		
-	//void save(Account account);
-		
-	
 	// ProductImage 관련 메소드
 		
 	ProductImage getProductImageByPid(int pid);
 	
-	void insertProductImage(ProductImage product);
-		
-	void updateProductImage(ProductImage product);
-		
+	void insertProductImage(ProductImage product);		
+	void updateProductImage(ProductImage product);	
 	void deleteProductImage(ProductImage product);
+	
+	// 추가
+	
+	Board getBoardByBoardId(int boardId);
+	
+	Page<Board> getBoardListbyPage(Pageable pageable, int pageNo, int count);
+	
+	Page<Board> getBoardListbyPageAndProductId(Pageable pageable, int pageNo, int count, int productId);
+	
+	void deleteBoard(int boardId);
+
+	boolean isAdmin(String userId); 
 }

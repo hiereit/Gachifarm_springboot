@@ -14,5 +14,4 @@ public interface LineProductRepository  extends JpaRepository<LineProduct, LineP
 	
 	LineProduct findTop1ProductNameByOrderId(int orderId);
 
-	LineProduct findByLineProductId(int lineProductId);
 }

@@ -12,7 +12,13 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.*;
+<<<<<<< HEAD
 import org.springframework.format.annotation.DateTimeFormat;
+=======
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+>>>>>>> 0363fa3f1a101d96a7b244ae6efaa0991b78c2e8
 @SuppressWarnings("serial")
 @Entity
 public class Board implements Serializable {
@@ -27,6 +33,7 @@ public class Board implements Serializable {
 	private Integer productId;
 	@Column(name="user_id")
 	private String userId;
+<<<<<<< HEAD
 	@Size(max=2000, message="내용은 2000Byte까지만 입력 가능합니다.")
 	@NotEmpty(message="내용은 필수로 입력해야 합니다.")
 	private String question;
@@ -34,11 +41,23 @@ public class Board implements Serializable {
 	@NotEmpty(message="제목은 필수로 입력해야 합니다.")
 	private String title;
 	@Size(max=20, message="비밀번호는 20Byte까지만 입력 가능합니다.")
+=======
+	@Size(max=2000, message="2000Byte까지만 입력 가능합니다.")
+	@NotEmpty(message="내용은 필수로 입력해야 합니다.")
+	private String question;
+	@Size(max=50, message="50Byte까지만 입력 가능합니다.")
+	@NotEmpty(message="제목은 필수로 입력해야 합니다.")
+	private String title;
+	@Column(nullable = true)
+	@Size(max=20, message="20Byte까지만 입력 가능합니다.")
+>>>>>>> 0363fa3f1a101d96a7b244ae6efaa0991b78c2e8
 	private String boardPW;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@Column(name="board_date")
 	private Date boardDate;
+	@Column(nullable = true)
+	@Size(max=2000, message="2000Byte까지만 입력 가능합니다.")
 	private String answer;
 	
 	@ManyToOne
@@ -99,12 +118,15 @@ public class Board implements Serializable {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
+<<<<<<< HEAD
 	@Override
 	public String toString() {
 		return "Board [boardId=" + boardId + ", productId=" + productId + ", userId=" + userId + ", question="
 				+ question + ", title=" + title + ", boardPW=" + boardPW + ", boardDate=" + boardDate + ", answer="
 				+ answer + ", product=" + product + "]";
 	}
+=======
+>>>>>>> 0363fa3f1a101d96a7b244ae6efaa0991b78c2e8
 	
 	
 }
