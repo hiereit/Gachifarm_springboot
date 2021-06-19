@@ -65,8 +65,10 @@ public interface GachiFarmFacade {
 	GroupProduct findGroupProductBygProductId(int groupProudctId);
 	
 	// Board
-	void insertQuestion(Board board);
+	void saveBoard(Board board);
+
 	List<Board> findBoardByUserId(String userId);
+
 	
 	//Review
 	List<Review> findReviewByUserId(String userId);
@@ -86,4 +88,16 @@ public interface GachiFarmFacade {
 	void insertProductImage(ProductImage product);		
 	void updateProductImage(ProductImage product);	
 	void deleteProductImage(ProductImage product);
+	
+	// 추가
+	
+	Board getBoardByBoardId(int boardId);
+	
+	Page<Board> getBoardListbyPage(Pageable pageable, int pageNo, int count);
+	
+	Page<Board> getBoardListbyPageAndProductId(Pageable pageable, int pageNo, int count, int productId);
+	
+	void deleteBoard(int boardId);
+
+	boolean isAdmin(String userId); 
 }

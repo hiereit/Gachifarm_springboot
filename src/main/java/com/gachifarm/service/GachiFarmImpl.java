@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.gachifarm.dao.ProductDao;
 import com.gachifarm.dao.StoreDao;
@@ -21,6 +22,7 @@ import com.gachifarm.domain.Review;
 import com.gachifarm.dao.ProductImageDao;
 import com.gachifarm.domain.Store;
 import com.gachifarm.repository.AccountRepository;
+import com.gachifarm.repository.AdministratorRepository;
 import com.gachifarm.repository.BoardRepository;
 import com.gachifarm.repository.GroupBuyersRepository;
 import com.gachifarm.repository.GroupProductRepository;
@@ -58,6 +60,10 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	@Qualifier("jpaProductImageDao")
 	private ProductImageDao productImageDao;
 	
+	// 추가
+	@Autowired
+	private AdministratorRepository adminRepository;
+	 
 	// Account
 	public Account findByUserId(String userId) {
 		return accountRepository.findByUserId(userId);
@@ -221,9 +227,33 @@ public class GachiFarmImpl implements GachiFarmFacade {
 		productImageDao.deleteProductImage(product);
 	}
 	// Board
-	public void insertQuestion(Board board) {
+	public void saveBoard(Board board) {
 		boardRepository.saveAndFlush(board);
 	}
+	
+	// 추가
+	public Board getBoardByBoardId(int boardId) {
+		return boardRepository.getById(boardId);
+	}
+	
+	public Page<Board> getBoardListbyPage(Pageable pageable, int pageNo, int count) {
+		pageable = PageRequest.of(pageNo - 1, count, Sort.by("boardId").descending());
+		return boardRepository.findAll(pageable);
+	}
+	
+	public Page<Board> getBoardListbyPageAndProductId(Pageable pageable, int pageNo, int count, int productId) {
+		pageable = PageRequest.of(pageNo - 1, count, Sort.by("boardId").descending());
+		return boardRepository.findAllByProductId(pageable, productId);
+	}
+	
+	public void deleteBoard(int boardId) {
+		boardRepository.deleteById(boardId);
+	}
+	
+	public boolean isAdmin(String userId) {
+		return adminRepository.existsByUserId(userId);
+	}
+	
 	public List<Board> findBoardByUserId(String userId){
 		return boardRepository.findBoardByUserId(userId);
 	}
@@ -232,5 +262,4 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public List<Review> findReviewByUserId(String userId){
 		return reviewRepository.findReviewByUserId(userId);
 	}
-	
 }
