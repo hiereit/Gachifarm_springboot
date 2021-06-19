@@ -31,7 +31,9 @@ public class SignupCommand implements Serializable {
 	
 	@Pattern(regexp ="^\\d{5}", message="우편번호는 5자리 숫자입니다.")
 	private String zip;
+	@NotEmpty
 	private String addr1;
+	@NotEmpty
 	private String addr2;
 	
 	public SignupCommand() {}
