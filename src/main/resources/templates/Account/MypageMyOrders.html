@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+
+<style>
+table {
+	width: 50% !important;
+}
+</style>
+
+</head>
+
+<body>
+	<div th:replace="Account/rpMypageButtons :: body"></div>
+
+	<div align="center">
+		<h3>주문 목록</h3>
+		<hr
+			style="width: 50%; height: 3px; border: none; background-color: #707070;">
+	</div>
+
+	<div align="center">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th scope="col">주문날짜</th>
+					<th scope="col"></th>
+					<th scope="col">주문금액</th>
+					<th scope="col">배송상태</th>
+				</tr>
+			</thead>
+
+			<tbody th:unless="${#lists.isEmpty(orders)}">
+				<th:block th:each="i : ${#numbers.sequence(0, orders.size()-1)}">
+					<tr>
+						<th th:text="${#dates.format(orders[i].orderDate, 'yyyy-MM-dd')}">OrderDate</th>
+						<td><font th:text="${productNamesArray[i]}">ProductName</font>
+							외 <font th:text="${countsArray[i]}">Count</font>개</td>
+						<td th:text="${orders[i].totalPrice}">totalPrice</td>
+						<td th:text="${orders[i].status}">status</td>
+					</tr>
+				</th:block>
+			</tbody>
+
+			<tbody th:if="${#lists.isEmpty(orders)}">
+				<tr>
+					<th colspan="4">주문하신 목록이 없습니다.</th>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
