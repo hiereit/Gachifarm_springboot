@@ -112,7 +112,6 @@ public interface GachiFarmFacade {
 	void updateCart(CartProduct cartProduct);
 	void deleteCart(List<CartPK> cartIdList);
 	List<CartProduct> findCartListByUserId(String userId);
-	String findImgPath(int productId);
 	List<CartProduct> findCartListByCartId(List<CartPK> cartIdList);
 	void insertOrder(Orders orders);
 	void insertLineProduct(LineProduct lineProduct);

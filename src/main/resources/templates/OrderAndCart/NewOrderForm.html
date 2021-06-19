@@ -6,6 +6,7 @@
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js">
 </script>
@@ -39,58 +40,40 @@
 <title>상품 주문</title>
 </head>
 <style>
-#nameCol {
-	padding-top: 17px;
-	text-align: center;
-}
-#name {
-	padding-top: 17px;
-	padding-left: 60px;
-}
-#quantity {
-	padding-left: 450px;
-	text-align: center;
-}
-
-#sum {
-	padding-top: 10px;
-	text-align: center;
-}
-
+body		{ font-family: 'NanumSquare', sans-serif; }
 h4 {
 	padding-top: 70px;
+	font-family: 'NanumSquare', sans-serif;
 }
-
+h5 {
+	font-family: 'NanumSquare', sans-serif;
+}
 #hrstyle {
 	background-color: #707070;
 	height : 1.5px;
+	margin:0px;
 }
-
 #thstyle {
 	padding-left: 20px;
 	padding-top: 20px;
 }
-
 #tdstyle {
 	padding-left: 60px;
 	padding-top: 20px;
 }
-
 #btnstyle {
 	background-color: #FF724A;
 	color: white;
 	width: 400px;
 	height: 50px;
-	font-size: 18px;
+	font-size: 20px;
 	border: 0px;
 	border-radius: 3px;
 }
-
 #btndiv {
 	padding-top: 100px;
 	padding-bottom: 100px;
 }
-
 #cards {
 	border: 0px;
 }
@@ -103,40 +86,60 @@ h4 {
 	text-align: center;
 	background-color:transparent;
 }
+#productTable {
+      width: 100%;
+      color: black;
+      font-size: 15px;
+    }
+    .content td {
+    	text-align: center;
+    	padding: 5px;
+    }
 </style>
 <body>
+<th:block th:replace="fragment/Top :: headFragment"></th:block> 
 	<div id="orderForm" align="center">
 		<h4>주문 상품</h4>
 		<hr id="hrstyle">
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th scope="col" id="nameCol">상품명</th>
-					<th scope="col" id="quantity">수량</th>
-					<th scope="col" id="sum">금액</th>
-				</tr>
-			</thead>
-			<tbody id="cartTable">
-				<tr th:each="cart: ${cart}">
-			        <td id="name">
-			        	<img style="width:50px;height:50px;" th:src="${cart.img}" />
-			        	<span th:utext="'&nbsp;' + ${cart.productName}"></span>
-			        </td>
-			        <td id="quantity">
-						&nbsp;<span th:id="'quantity'+${cart.productId}" th:text="${cart.quantity}"></span>&nbsp;
-					</td>
-					<td th:id="'totalPrice'+${cart.productId}" th:text="${cart.totalPrice}" style="text-align: center;"></td>
-    			</tr>
-			</tbody>
-		</table>
-		<div align="right" style="padding-right: 20px;">
+		<table id="productTable">
+        <tr style="height: 10px;">
+          <td colspan="5">
+          </td>
+        </tr>
+        <tr>
+          <th style="text-align: center;border-right: 0.5px solid #DDDDDD;">
+            상품명
+          </th>
+          <th style="text-align: center;border-right: 0.5px solid #DDDDDD;">
+            수량
+          </th>
+          <th style="text-align: center;border: none">
+            금액
+          </th>
+        </tr>
+        <tr style="border-bottom: 0.5px solid #DDDDDD; height: 10px; width: 100%">
+          <td colspan="5">
+          </td>
+        </tr>
+        <tr style="border-bottom: 0.5px solid #DDDDDD; height: 10px; width: 100%" class="content" th:each="cart: ${cart}">
+        	<td style="text-align:left;padding-left:60px;">
+			   <img style="width:50px;height:50px;" th:src="${cart.img}" />
+			   <span th:utext="'&nbsp;' + ${cart.productName}"></span>
+			</td>
+			<td>
+				&nbsp;<span th:id="'quantity'+${cart.productId}" th:text="${cart.quantity}"></span>&nbsp;
+			</td>
+			<td th:id="'totalPrice'+${cart.productId}" th:text="${cart.totalPrice}" style="text-align: center;"></td>
+        </tr>
+      </table>
+      <div align="right" style="padding-right: 20px;margin-top:10px;">
 			<h5>상품금액&nbsp;&nbsp;&nbsp;<span th:text="${productTotal}"></span>원</h5>
 		</div>
 		<div align="right" style="padding-right: 20px;">
-			<h5>배송비&nbsp;&nbsp;&nbsp;3000원</h5>
+			<h5>+&nbsp;배송비&nbsp;&nbsp;&nbsp;3000원</h5>
 		</div>
 		<hr id="hrstyle">
-		<div align="right" style="padding-right: 20px;">
+		<div align="right" style="padding-right: 20px;padding-top: 10px;">
 			<h5>최종 결제 금액&nbsp;&nbsp;&nbsp;<span style="font-size: 30px;" th:text="${Total}"></span>원</h5>
 		</div>
 		<h4>주문자 정보</h4>
@@ -251,6 +254,7 @@ h4 {
 		</div>
 		</form>
 	</div>
+	<footer th:replace="fragment/Bottom :: footerFragment"></footer> 
 	<script>
 	var userName = document.getElementById("userName").value;
 	var phone = document.getElementById("phone").value;
