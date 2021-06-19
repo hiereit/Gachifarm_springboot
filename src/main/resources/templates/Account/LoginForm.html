@@ -2,7 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
- <title>로그인</title>  <!-- Lecture9-Thymeleaf p34~37 --> 
+ <title>로그인</title>
+ <script src="https://code.jquery.com/jquery-latest.js"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css"> 
     <style>
       input{
         width: 200px;
@@ -28,6 +35,10 @@
         height: 40px;
         font-weight: bolder;
       }
+      
+      .form-control{
+      	width: 225px !important;
+      }
     </style>
 </head>
 <body>
@@ -39,10 +50,12 @@
     
 	<form action="#" th:action="@{login}" th:object="${login}" method="post">
 	 <div align="center">
-	 <span th:text="${str}">mismatch<br><br></span><br>
-      <input type="text" th:field="*{userId}" placeholder="아이디를 입력해주세요"><br>
+	 <span th:text="${str}" style="margin: 10px;">mismatch<br><br></span><br>
+      <!-- <input type="text" th:field="*{userId}" placeholder="아이디를 입력해주세요"><br> -->
+      <input type="text" class="form-control" th:field="*{userId}" placeholder="아이디를 입력해주세요">
       
-      <input type="password" th:field="*{password}" placeholder="비밀번호를 입력해주세요">
+      <!-- <input type="password" th:field="*{password}" placeholder="비밀번호를 입력해주세요"> -->
+      <input type="password" class="form-control" id="exampleInputPassword1" th:field="*{password}" placeholder="비밀번호를 입력해주세요">
     </div>
 
     <br>

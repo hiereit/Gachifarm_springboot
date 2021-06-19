@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+
+<style>
+/* 개인정보 관련 css */
+h3 {
+	margin: 0px;
+}
+
+#guideMention {
+	font-size: 5px;
+}
+
+th {
+	text-align: left !important;
+	color: #707070 !important;
+}
+
+td {
+	padding: 10px;
+}
+
+#withdrawalBtn {
+	background-color: white;
+	border: 3px solid #0AC175;
+	color: #0AC175;
+	width: 200px;
+	height: 40px;
+	font-weight: bolder;
+}
+
+#submitBtn {
+	background-color: #0AC175;
+	color: white;
+	border: none;
+	width: 200px;
+	height: 40px;
+	font-weight: bolder;
+}
+</style>
+
+</head>
+
+<body>
+	<div th:replace="Account/rpMypageButtons :: body"></div>
+	<div align="center">
+		<h3 style="color: #707070">내 정보 수정</h3>
+		<text id="guideMention">*필수입력사항<text>
+		<hr style="width: 50%; height: 3px; border: none; background-color: #ECECEC;">
+	</div>
+
+
+	<form action="#" th:action="@{mypage}" th:object="${signupCommand}"
+		method="post">
+
+		<table align="center" style="width:35%">
+			<tr>
+				<th style="text-align: left;"><label class="form-label" for="disabledInput">아이디</label></th>
+				<td>
+					<input class="form-control" id="disabledInput" type="text" th:value="*{userId}" th:field="*{userId}" disabled>
+					<input type="hidden" id="id2" th:value="*{userId}" th:field="*{userId}">
+				</td>
+			</tr>
+
+			<tr>
+				<th style="text-align: left;"><label for="exampleInputPassword1" class="form-label mt-4">비밀번호*</label></th>
+				<td>
+					<input type="password" class="form-control" th:value="*{password}"
+					th:field="*{password}" placeholder="변경할 비밀번호 입력해주세요">
+					<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+				</td>
+			</tr>
+
+			<tr>
+				<th style="text-align: left;"><label for="exampleInputPassword1" class="form-label mt-4">비밀번호 확인*</label></th>
+				<td>
+					<input type="password" class="form-control" id="passwordConfirm" th:field="*{passwordConfirm}" placeholder="비밀번호를 한번 더 입력해주세요">
+					<span th:text="${str}">mismatch</span></td>
+			</tr>
+
+			<tr>
+				<th style="text-align: left;"><label class="form-label" for="disabledInput">이름</label></th>
+				<td>
+  					<input class="form-control" th:value="*{userName}" th:field="*{userName}" disabled>  
+					<input type="hidden" th:value="*{userName}" th:field="*{userName}"></td>
+			</tr>
+
+			<tr>
+				<th style="text-align: left;"><label class="col-form-label mt-4" for="inputDefault">휴대폰</label></th>
+				<td>
+					<input type="text" class="form-control" th:id="phone" th:name="phone"
+					th:value="*{phone}" th:field="*{phone}" placeholder="숫자만 입력해주세요">
+					<span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Phone error</span></td>
+			</tr>
+
+			<tr>
+				<th style="text-align: left;"><label for="exampleInputEmail1" class="form-label mt-4">이메일</label></th>
+				<td>
+					<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" th:value="*{email}" th:field="*{email}"
+					placeholder="예: gachifarm@dongduk.ac.kr">
+					<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+				</td>
+			</tr>
+
+			<tr>
+				<th style="text-align: left;"><label class="col-form-label mt-4" for="inputDefault">우편번호</label></th>
+				<td>
+					<input type="text" class="form-control" th:value="*{zip}" th:field="*{zip}"
+					placeholder="우편번호를 입력해주세요"> 
+					<span th:if="${#fields.hasErrors('zip')}" th:errors="*{zip}"></span></td>
+			</tr>
+
+<!-- 			<tr>
+				<th style="text-align: left;">주소</th>
+				<td><input type="text" th:value="*{addr1}" th:field="*{addr1}"
+					placeholder="예: 서울특별시 성북구 월곡2동 화랑로13길 60"> <span
+					th:if="${#fields.hasErrors('addr1')}" th:errors="*{addr1}"></span>
+
+					<input type="text" th:value="*{addr2}" th:field="*{addr2}"
+					placeholder="예: 인문관"> <span
+					th:if="${#fields.hasErrors('addr2')}" th:errors="*{addr2}"></span>
+				</td>
+			</tr> -->
+			
+			<tr>
+				<th style="text-align: left;"><label class="col-form-label mt-4" for="inputDefault">주소</label></th>
+				<td>
+					<input type="text" class="form-control" th:value="*{addr1}" th:field="*{addr1}"
+					placeholder="예: 서울특별시 성북구 월곡2동 화랑로13길 60">
+					<span
+					th:if="${#fields.hasErrors('addr1')}" th:errors="*{addr1}"></span>
+					
+					<input type="text" class="form-control" th:value="*{addr2}" th:field="*{addr2}"
+					placeholder="예: 인문관">
+					<span
+					th:if="${#fields.hasErrors('addr2')}" th:errors="*{addr2}"></span>
+				</td>
+			</tr>
+		</table>
+
+		<br>
+		<div align="center">
+			<input type="submit" id="submitBtn" value="수정하기"><br> <br>
+			<a href="#" th:href="@{/user/deleted}"><input type="button"
+				id="withdrawalBtn" value="탈퇴하기"
+				th:onclick="'alert(\'정말 탈퇴하시겠습니까?\');'"></a><br> <br>
+			<span th:text="${str2}">complete</span><br>
+		</div>
+	</form>
+</body>
+</html>
