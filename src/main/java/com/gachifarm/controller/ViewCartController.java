@@ -15,6 +15,7 @@ import com.gachifarm.domain.Account;
 import com.gachifarm.domain.Cart;
 import com.gachifarm.domain.CartProduct;
 import com.gachifarm.domain.Product;
+import com.gachifarm.domain.ProductImage;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
@@ -35,12 +36,19 @@ public class ViewCartController {
 		for (int i = 0; i < cartPrdt.size(); i++) {
 			Product product = gachifarm.getProduct(cartPrdt.get(i).getCartId().getProductId());
 			int productId = product.getProductId();
-			String img = gachifarm.findImgPath(productId);
+			String path;
+			ProductImage img = gachifarm.getProductImageByPid(productId);
+			if (img == null) {
+				path = "/images/noImage.png";
+			}
+			else {
+				path = img.getImgPath();
+			}
 			String productName = product.getPrdtName();
 			int price = product.getPrice();
 			int quantity = cartPrdt.get(i).getQuantity();
 			int totalPrice = quantity * price;
-			Cart c = new Cart(img, productId, productName, price, quantity, totalPrice);
+			Cart c = new Cart(path, productId, productName, price, quantity, totalPrice);
 			cart.add(c);
 		}
 		return new ModelAndView("OrderAndCart/Cart", "cart", cart);

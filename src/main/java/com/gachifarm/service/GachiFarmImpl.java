@@ -34,7 +34,6 @@ import com.gachifarm.repository.GroupBuyersRepository;
 import com.gachifarm.repository.GroupProductRepository;
 import com.gachifarm.repository.LineProductRepository;
 import com.gachifarm.repository.OrdersRepository;
-import com.gachifarm.repository.ProductImageRepository;
 import com.gachifarm.repository.ProductRepository;
 import com.gachifarm.repository.ReviewRepository;
 @Service
@@ -73,8 +72,6 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	
 	@Autowired
 	private CartRepository cartRepository;
-	@Autowired
-	private ProductImageRepository imgRepository;
 
 	// Account
 	public Account findByUserId(String userId) {
@@ -295,9 +292,6 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	}
 	public List<CartProduct> findCartListByUserId(String userId) {
 		return cartRepository.findByCartIdUserId(userId);
-	}
-	public String findImgPath(int productId) {
-		return imgRepository.findProductImageByProductId(productId).getImgPath();
 	}
 	public List<CartProduct> findCartListByCartId(List<CartPK> cartIdList) {
 		return cartRepository.findAllById(cartIdList);

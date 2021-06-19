@@ -28,6 +28,7 @@ import com.gachifarm.domain.CartProduct;
 import com.gachifarm.domain.LineProduct;
 import com.gachifarm.domain.Orders;
 import com.gachifarm.domain.Product;
+import com.gachifarm.domain.ProductImage;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
@@ -44,6 +45,16 @@ public class OrderController {
 	String productTotal;
 	String total;
 	Account user;
+	
+	public String getImgPath(int productId) {
+		ProductImage img = gachifarm.getProductImageByPid(productId);
+		if (img == null) {
+			return "/images/noImage.png";
+		}
+		else {
+			return img.getImgPath();
+		}
+	}
 	
 	@PostMapping("/order/form")
 	public ModelAndView addOrder(HttpServletRequest req, HttpSession userSession) throws Exception {
@@ -63,12 +74,12 @@ public class OrderController {
 		for (CartProduct cartProduct : cartProducts) {
 			Product product = gachifarm.getProduct(cartProduct.getCartId().getProductId());
 			int productId = product.getProductId();
-			String img = gachifarm.findImgPath(productId);
+			String path = getImgPath(productId);
 			String productName = product.getPrdtName();
 			int price = product.getPrice();
 			int quantity = cartProduct.getQuantity();
 			int totalPrice = quantity * price;
-			Cart c = new Cart(img, productId, productName, price, quantity, totalPrice);
+			Cart c = new Cart(path, productId, productName, price, quantity, totalPrice);
 			cart.add(c);
 		}
 		user = gachifarm.findByUserId(userId);
@@ -88,13 +99,13 @@ public class OrderController {
 		cart = new ArrayList<Cart>();
 		ModelAndView mav = new ModelAndView("OrderAndCart/NewOrderForm");
 		Product product = gachifarm.getProduct(productId);
-		String img = gachifarm.findImgPath(productId);
+		String path = getImgPath(productId);
 		String productName = product.getPrdtName();
 		int price = product.getPrice();
 		int totalPrice = quantity * price;
 		productTotal = String.valueOf(totalPrice);
 		total = String.valueOf(totalPrice + 3000);
-		Cart c = new Cart(img, productId, productName, price, quantity, totalPrice);
+		Cart c = new Cart(path, productId, productName, price, quantity, totalPrice);
 		cart.add(c);
 		user = gachifarm.findByUserId(userId);
 		OrdersCommand order = new OrdersCommand(user.getUserName(), user.getPhone(), user.getZip(), user.getAddr1(), user.getAddr2());
@@ -108,7 +119,7 @@ public class OrderController {
 	}
 	
 	@RequestMapping("/main")
-	public ModelAndView confirmForm(HttpServletRequest req, @Valid @ModelAttribute("order") OrdersCommand order, BindingResult result, HttpSession userSession) throws Exception {
+	public ModelAndView confirmForm() throws Exception {
 		return new ModelAndView("Main");
 	}
 	
