@@ -2,10 +2,13 @@ package com.gachifarm.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 @SuppressWarnings("serial")
 @Entity
@@ -27,6 +30,11 @@ public class Review implements Serializable {
 	private int orderId;
 	@Column(name="lineProduct_id")
 	private int lineProductId;
+	
+	@OneToMany
+	@JoinColumn(name="review_id")
+	private List<ReviewImage> imgList;
+	
 	public int getReview_id() {
 		return review_id;
 	}
