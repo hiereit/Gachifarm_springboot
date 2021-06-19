@@ -62,7 +62,8 @@ h4 {
 }
 
 #hrstyle {
-	border: solid 1.5px #707070;
+	background-color: #707070;
+	height : 1.5px;
 }
 
 #thstyle {
@@ -80,8 +81,9 @@ h4 {
 	color: white;
 	width: 400px;
 	height: 50px;
-	font-size: 20px;
+	font-size: 18px;
 	border: 0px;
+	border-radius: 3px;
 }
 
 #btndiv {
@@ -142,7 +144,7 @@ h4 {
 		<table>
 			<tr>
 				<th id="thstyle">이름</th>
-				<td id="tdstyle"><input type="text" id="userName" name="userName" th:value="*{user.userName}" disabled="disabled"></td>
+				<td id="tdstyle"><input type="text" id="userName" name="userName" th:value="${user.userName}" disabled="disabled"></td>
 			</tr>
 			<tr>
 				<th id="thstyle">휴대폰</th>
@@ -163,16 +165,8 @@ h4 {
 			<tr>
 				<th id="thstyle">주문자 정보와 동일</th>
 				<td id="tdstyle">
-					<span th:if="${error}">
 					<input class="form-check-input" style="margin-left:5px;"type="checkbox" value=""
-								id="check" onClick="sameCheck()"> <label class="form-check-label"
-								for="flexCheckDefault"></label>
-					</span>
-					<span th:unless="${error}">
-					<input class="form-check-input" style="margin-left:5px;"type="checkbox" value=""
-								id="check" onClick="sameCheck()" checked> <label class="form-check-label"
-								for="flexCheckDefault"></label>
-					</span>
+						id="check" onClick="sameCheck()" th:checked="${chk}"> <label class="form-check-label" for="flexCheckDefault"></label>
 				</td>
 			</tr>
 			<tr>
@@ -227,22 +221,22 @@ h4 {
 			<tr>
 				<th id="thstyle">카드 번호</th>
 				<td id="tdstyle">
-				<input type="text" style="width:80px;display:inline-block;" id="num0" class="form-control" onKeyUp="moveFocus(4,this,this.form.num1);" placeholder="****"  maxlength="4">
+				<input type="text" style="width:80px;display:inline-block;text-align:center;" id="num0" class="form-control" onKeyUp="moveFocus(4,this,this.form.num1);" placeholder="****"  maxlength="4">
 				&nbsp;&nbsp;
-				<input type="text" style="width:80px;display:inline-block;" id="num1" class="form-control" onKeyUp="moveFocus(4,this,this.form.num2);" placeholder="****"  maxlength="4">
+				<input type="text" style="width:80px;display:inline-block;text-align:center;" id="num1" class="form-control" onKeyUp="moveFocus(4,this,this.form.num2);" placeholder="****"  maxlength="4">
 				&nbsp;&nbsp;
-				<input type="text" style="width:80px;display:inline-block;" id="num2" class="form-control" onKeyUp="moveFocus(4,this,this.form.num3);" placeholder="****"  maxlength="4">
+				<input type="text" style="width:80px;display:inline-block;text-align:center;" id="num2" class="form-control" onKeyUp="moveFocus(4,this,this.form.num3);" placeholder="****"  maxlength="4">
 				&nbsp;&nbsp;
-				<input type="text" style="width:80px;display:inline-block;" id="num3" class="form-control" placeholder="****" maxlength="4">
+				<input type="text" style="width:80px;display:inline-block;text-align:center;" id="num3" class="form-control" placeholder="****" maxlength="4">
 				&nbsp;&nbsp;<span th:if="${#fields.hasErrors('creditNum')}" th:errors="*{creditNum}"></span>
 				</td>
 			</tr>
 			<tr>
 				<th id="thstyle">만료 날짜</th>
 				<td id="tdstyle">
-				<input id="month" style="width:60px;display:inline-block;" type="text" class="form-control" onKeyUp="moveFocus(2,this,this.form.year);" placeholder="MM" maxlength="2">
+				<input id="month" style="width:60px;display:inline-block;text-align:center;" type="text" class="form-control" onKeyUp="moveFocus(2,this,this.form.year);" placeholder="MM" maxlength="2">
 				&nbsp;&nbsp;/&nbsp;&nbsp;
-				<input id="year" style="width:60px;display:inline-block;" type="text" class="form-control" placeholder="YY" maxlength="2">
+				<input id="year" style="width:60px;display:inline-block;text-align:center;" type="text" class="form-control" placeholder="YY" maxlength="2">
 				&nbsp;&nbsp;<span th:if="${#fields.hasErrors('expireDate')}" th:errors="*{expireDate}"></span>
 				</td>
 			</tr>
@@ -251,6 +245,7 @@ h4 {
 		<input type="hidden" id="frmAddr1" value="" th:field="*{addr1}">
 		<input type="hidden" id="frmCreditNum" value="" th:field="*{creditNum}">
 		<input type="hidden" id="frmCardType" value="" th:field="*{expireDate}">
+		<input type="hidden" id="frmCheck" value="" name="frmCheck">
 		<div align="center" id="btndiv">
 		<input id="btnstyle" type="button" value="결제하기" onClick="confirm()"/>
 		</div>
@@ -280,16 +275,14 @@ h4 {
 		$('#check').prop('checked',false);
 	}
 	function confirm() {
-		var form = document.getElementById("orderFrm");/*
-	    document.getElementById("frmName").value = document.getElementById("RecvUserName").value;
-	    document.getElementById("frmPhone").value = document.getElementById("RecvUserphone").value;*/
+		var form = document.getElementById("orderFrm");
 	    document.getElementById("frmZip").value = document.getElementById("sample4_postcode").value;
 	    document.getElementById("frmAddr1").value = document.getElementById("sample4_roadAddress").value;
-	   // document.getElementById("frmAddr2").value = document.getElementById("sample4_detailAddress").value;
 	    var creditNum = document.getElementById("num0").value + document.getElementById("num1").value + document.getElementById("num2").value + document.getElementById("num3").value;
 	    var expireDate = document.getElementById("month").value + document.getElementById("year").value;
 	    document.getElementById("frmCreditNum").value = creditNum;
 	    document.getElementById("frmCardType").value = expireDate;
+	    document.getElementById("frmCheck").value = $('#check').is(':checked');
 	    form.submit();
 	}
 	
