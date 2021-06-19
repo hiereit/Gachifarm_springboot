@@ -48,19 +48,16 @@
             if(delArray.length == 0) {
             	return;
             }
-        $.ajax({
-            url         :   "/cart/delete",
-            dataType    :   "json",
-            contentType :   "application/x-www-form-urlencoded; charset=UTF-8",
-            type        :   "post",
-            data        :   objParams,
-            success     :   function(retVal){
-                if(retVal.code == "OK") {
-                    location.reload();
-                } else {
+            $.ajax({
+                url         :   "/cart/delete",
+                dataType    :   "json",
+                contentType :   "application/x-www-form-urlencoded; charset=UTF-8",
+                type        :   "post",
+                data        :   objParams,
+                success     :   function(retVal){
+                        location.reload();
                 }
-            }
-        });
+            });
 	}
 	function order() {
 		var checkedIdList = "";
@@ -70,18 +67,7 @@
 	   	});
 	    if(checkedIdList == "") {
 	        return;
-	    }	    /*
-	  	var objParams = {
-	        "orderArray" : orderArray
-	    };
-
-	    $.post({
-	      url         :   "/order/form",
-	      dataType    :   "json",
-	      contentType :   "application/x-www-form-urlencoded; charset=UTF-8",
-	      type        :   "post",
-	      data        :   objParams
-	     });*/
+	    }
 	     var form = document.getElementById("cartFrm");
 	     document.getElementById("checkedIdList").value = checkedIdList;
 	     document.getElementById("hiddenProdTotal").value = document.getElementById("productTotal").value;
@@ -120,7 +106,8 @@ h4 {
 }
 
 #hrstyle {
-	border: solid 1.5px #707070;
+	background-color: #707070;
+	height : 1.5px;
 }
 
 #sum1 {
@@ -148,8 +135,9 @@ h4 {
 	color: white;
 	width: 400px;
 	height: 50px;
-	font-size: 20px;
+	font-size: 18px;
 	border: 0px;
+	border-radius: 5px;
 }
 
 #btndiv {
