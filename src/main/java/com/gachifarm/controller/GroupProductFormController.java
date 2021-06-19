@@ -41,7 +41,9 @@ public class GroupProductFormController {
 			return "로그인페이지";
 		}*/
 		// 상품 정보 가져오는 거 Facade에 추가
-		return new ModelAndView("Group/GroupProductForm", "groupProduct", productDao.getProduct(productId));
+		GroupProduct groupProduct = new GroupProduct();
+		groupProduct.setProduct(productDao.getProduct(productId));
+		return new ModelAndView("Group/GroupProductForm", "groupProduct", groupProduct);
 	}
 	
 	@RequestMapping("/group/product/register")
