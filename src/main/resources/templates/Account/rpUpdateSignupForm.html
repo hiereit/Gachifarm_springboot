@@ -5,60 +5,89 @@
 
 </head>
 <body>
-<form action="#" th:action="@{mypage}" th:object="${changeAccount}" method="post">
+<script>
+	function f(){
+		alert(document.getElementById('id').value);
+	}
+</script>
+
+<form action="#" th:action="@{mypage}" th:object="${signupCommand}" method="post">
 
     <table class="font-left">
       <tr>
         <th style="text-align: left;">아이디</th>
-      	<!-- <td th:text="${account.userId}">userId</td> -->
-      	<td><input type="text" th:value="${account.userId}" disabled></td>
+      	<td>
+      		<!-- <input type="text" id="id" th:value="${account.userId}" disabled> -->
+      		<input type="text" id="id" th:value="*{userId}" th:field="*{userId}" disabled>
+      		<input type="hidden" id="id2" th:value="*{userId}" th:field="*{userId}">
+      	</td>
       </tr>
 
      <tr>
         <th style="text-align: left;">비밀번호*</th>
-        <td><input type="password" id="password" th:field="*{password}" placeholder="변경할 비밀번호 입력해주세요">
-      	<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+        <td>
+	        <input type="password" id="password" th:value="*{password}" th:field="*{password}" placeholder="변경할 비밀번호 입력해주세요">
+	        <!-- <input type="hidden" id="password" th:field="*{password}" placeholder="변경할 비밀번호 입력해주세요"> -->
+	        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+        </td>
       </tr>
 
       <tr>
         <th style="text-align: left;">비밀번호 확인*</th>
-        <td><input type="password" id="passwordConfirm" th:field="*{passwordConfirm}" placeholder="비밀번호를 한번 더 입력해주세요">
-        <span th:text="${str}">mismatch</span></td>
+        <td>
+        	<input type="password" id="passwordConfirm" th:field="*{passwordConfirm}" placeholder="비밀번호를 한번 더 입력해주세요">
+    	    <span th:text="${str}">mismatch</span>
+    	</td>
       </tr>
 
       <tr>
         <th style="text-align: left;">이름</th>
-	    <td><input type="text" th:value="${account.userName}" disabled></td>
+	    <td>
+	    	<input type="text" th:value="*{userName}" th:field="*{userName}" disabled>
+	    	<input type="hidden" th:value="*{userName}" th:field="*{userName}">
+	    </td>
       </tr>
 
       <tr>
         <th style="text-align: left;">휴대폰</th>
-        <td><input type="text" th:id="phone" th:name="phone" th:value="${account.phone}" placeholder="숫자만 입력해주세요"></td>
+       	<td>
+        	<input type="text" th:id="phone" th:name="phone" th:value="*{phone}" th:field="*{phone}" placeholder="숫자만 입력해주세요">
+<!--        		 <input type="hidden" th:field="*{phone}" placeholder="숫자만 입력해주세요"> -->
+       		 <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Phone error</span>
+      	</td>
       </tr>
 
       <tr>
         <th style="text-align: left;">이메일*</th>
-        <td><input type="text" th:id="email" th:name="email" th:value="${account.email}" placeholder="예: gachifarm@dongduk.ac.kr"></td>
+        <td>
+        	<input type="text" th:value="*{email}" th:field="*{email}" placeholder="예: gachifarm@dongduk.ac.kr">
+        	<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        </td>
       </tr>
 
       <tr>
         <th style="text-align: left;">우편번호</th>
-        <td><input type="text" th:id="zip" th:name="zip" th:value="${account.zip}" placeholder="우편번호를 입력해주세요"></td>
+        <td>
+        	<input type="text" th:value="*{zip}" th:field="*{zip}" placeholder="우편번호를 입력해주세요">
+        	<span th:if="${#fields.hasErrors('zip')}" th:errors="*{zip}"></span>
+        </td>
       </tr>
 
       <tr>
         <th style="text-align: left;">주소</th>
-        <td><input type="text" th:id="addr1" th:name="addr1" th:value="${account.addr1}" placeholder="예: 서울특별시 성북구 월곡2동 화랑로13길 60">
-          <input type="text" th:id="addr2" th:name="addr2" th:value="${account.addr2}" placeholder="예: 인문관"></td>
+        <td><input type="text" th:value="*{addr1}" th:field="*{addr1}" placeholder="예: 서울특별시 성북구 월곡2동 화랑로13길 60">
+          <input type="text" th:value="*{addr2}" th:field="*{addr2}" placeholder="예: 인문관"></td>
       </tr> 
     </table>
 
     <br>
     <div align="center">
       <input type="submit" id="submitBtn" value="수정하기"><br><br>
-      <a href="#" th:href="@{/deleted}"><input type="button" id="withdrawalBtn" value="탈퇴하기" th:onclick="'alert(\'정말 탈퇴하시겠습니까?\');'"></a><br>
+      <a href="#" th:href="@{/user/deleted}"><input type="button" id="withdrawalBtn" value="탈퇴하기" th:onclick="'alert(\'정말 탈퇴하시겠습니까?\');'"></a><br>
       <br><span th:text="${str2}">complete</span><br>
     </div>
 </form>
+
+
 </body>
 </html>

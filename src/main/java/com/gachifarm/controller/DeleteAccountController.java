@@ -12,9 +12,9 @@ import com.gachifarm.domain.Account;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
-@RequestMapping("/deleted")
+@RequestMapping("/user/deleted")
 @SessionAttributes("account")
-public class DeleteAccount {
+public class DeleteAccountController {
 	GachiFarmFacade gachiFarm;
 	@Autowired
 	public void setGachiFarm(GachiFarmFacade gachiFarm) {

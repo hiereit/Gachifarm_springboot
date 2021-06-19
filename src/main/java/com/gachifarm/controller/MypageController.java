@@ -1,8 +1,10 @@
 package com.gachifarm.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.gachifarm.domain.Account;
+import com.gachifarm.domain.GroupBuyer;
 import com.gachifarm.domain.GroupProduct;
 import com.gachifarm.domain.Orders;
 import com.gachifarm.service.GachiFarmFacade;
@@ -32,43 +35,63 @@ public class MypageController {
 		this.gachiFarm = gachiFarm;
 	}
 
-	@ModelAttribute(name="changeAccount")
-	public SignupCommand formBacking() {
-		return new SignupCommand();
-	}
+//	@ModelAttribute(name="signupCommand")
+//	public SignupCommand formBacking() {
+//		return new SignupCommand();
+//	}
 
 	@GetMapping
 	public String mypage(HttpSession session, Model model) {
 
 		Account sessionAccount = (Account) session.getAttribute("account");
-		model.addAttribute("account", sessionAccount);
-
-		System.out.println(sessionAccount.getUserId());
+		SignupCommand signupCommand = new SignupCommand(
+				sessionAccount.getUserId(), sessionAccount.getPassword(), 
+				sessionAccount.getUserName(), sessionAccount.getPhone(),
+				sessionAccount.getEmail(), sessionAccount.getZip(),
+				sessionAccount.getAddr1(), sessionAccount.getAddr2()
+				);
+		
+				/* model.addAttribute("account", sessionAccount); */
+		model.addAttribute("signupCommand", signupCommand);
+		
+		System.out.println("MypageController - " + sessionAccount.getUserId());
 		return "Account/MypageLayout";
 
 	}
+
 	
 	@PostMapping
-	public String updateAccount(@ModelAttribute("changeAccount") SignupCommand changeAccount, HttpSession session, Model model, BindingResult result) {
+	public String updateAccount(@Valid @ModelAttribute("signupCommand") SignupCommand signupCommand, BindingResult result, HttpSession session, Model model) {
+		System.out.println("==========================" + signupCommand.getPhone());
 
-		String password = changeAccount.getPassword();
+		String password = signupCommand.getPassword();
 		System.out.println("updateAccount() - password: " + password);
-		if(!changeAccount.isPasswordEqualToConfirmPassword()) {
-			String str = "비밀번호 불일치";
-			model.addAttribute("str", str);
+
+		if(result.hasErrors()) {
+			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			System.out.println(result.toString());
+			if(!signupCommand.isPasswordEqualToConfirmPassword()) {
+				System.out.println("!불일치!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+				String str = "비밀번호 불일치";
+				model.addAttribute("str", str);
+				return "Account/MypageLayout";
+			}
 			return "Account/MypageLayout";
 		}
 		
-		String phone = changeAccount.getPhone();
+		String phone = signupCommand.getPhone();
 		System.out.println("updateAccount() - phone: " + phone);
-		String email = changeAccount.getEmail();
-		String zip = changeAccount.getZip();
-		String addr1 = changeAccount.getAddr1();
-		String addr2 = changeAccount.getAddr2();
+		String email = signupCommand.getEmail();
+		String zip = signupCommand.getZip();
+		String addr1 = signupCommand.getAddr1();
+		String addr2 = signupCommand.getAddr2();
 
 		System.out.println("updateAccount() - " + session.getAttribute("account").toString());		
 		Account account = (Account) session.getAttribute("account");
 
+		account.setUserId(signupCommand.getUserId());
+		account.setUserName(signupCommand.getUserName());
+		
 		account.setPassword(password);
 		account.setPhone(phone);
 		account.setEmail(email);
@@ -77,7 +100,7 @@ public class MypageController {
 		account.setAddr2(addr2);
 		System.out.println("updateAccount: " + account);
 		
-		model.addAttribute("account", account);
+		model.addAttribute("changeAccount", account);
 		gachiFarm.save(account);
 		System.out.println("수정완료!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		String str = "수정이 완료되었습니다";
@@ -121,22 +144,35 @@ public class MypageController {
 		return "Account/MypageLayout";
 	}
 	
-	@GetMapping("/myopengroups")
+	@GetMapping("/mygroup/open")
 	public String myopengroups(HttpSession session, Model model) {
 		Account account = (Account) session.getAttribute("account");
 		List<GroupProduct> gpList = gachiFarm.findGroupProductByUserId(account.getUserId());
-		System.out.println("==========================================================================");
-		System.out.println(gpList);
+//		System.out.println(gpList);
 		if(gpList != null) {
 			model.addAttribute("groupProducts", gpList);
 		}
 		return "Account/MypageLayout";
 	}
 	
-	@GetMapping("/mygroups")
-	public String mygroups(HttpSession session, Model model) {
-		
-		
+	@GetMapping("/mygroup/orders")
+	public String myparticipategroups(HttpSession session, Model model) {
+		Account account = (Account) session.getAttribute("account");
+		List<GroupBuyer> gbList = gachiFarm.findGroupBuyersByUserId(account.getUserId());
+		int [] gPrdtId = new int[gbList.size()];
+		System.out.println("=============================List<GroupBuyer>==========================================");
+		System.out.println(gbList);
+		List<GroupProduct> gpList = new ArrayList<GroupProduct>();
+		if(gbList != null) {
+			for(int i = 0; i < gbList.size(); i++) {
+				gPrdtId[i] = gbList.get(i).getGroupProudctId();
+				System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!gPrdtId[" + i + "]: " + gPrdtId[i]);
+				System.out.println(gachiFarm.findGroupProductBygProductId(gPrdtId[i]));
+				gpList.add(i, gachiFarm.findGroupProductBygProductId(gPrdtId[i]));
+			}
+			model.addAttribute("groupProducts", gpList);
+			model.addAttribute("groupBuyers", gbList);
+		}
 		return "Account/MypageLayout";
 	}
 }

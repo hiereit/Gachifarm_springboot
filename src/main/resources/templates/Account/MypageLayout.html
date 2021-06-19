@@ -155,7 +155,7 @@
 	$(function(){
 		var state = 4;
 		$('#4').click(function(){
-			history.pushState('state' + state, 'State' + state, '/user/mypage/myopengroups');
+			history.pushState('state' + state, 'State' + state, '/user/mypage/mygroup/open');
 			state++;
 		});
 	});
@@ -164,7 +164,7 @@
 		var state = 5;
 		
 		$('#5').click(function(){
-			history.pushState('state' + state, 'State' + state, '/user/mypage/mygroups');
+			history.pushState('state' + state, 'State' + state, '/user/mypage/mygroup/orders');
 			state++;
 		});
 	});
@@ -214,7 +214,7 @@
 	
     <input class="r" id="2" name="r" type="radio"/>
     <label class="collapse" for="2">주문목록</label>
-    <div id="22">
+    <div id="22" style="margin: 0 auto;">
 	    <div th:replace="Account/rpMyOrders :: body"></div>
 	</div>
 
@@ -234,8 +234,7 @@
 	<input class="r" id="5" name="r" type="radio" />
     <label class="collapse" for="5">내가 참여한 공구</label>
     <div>
-	    <div>55555555555555555555555</div>
-	    <!-- <div th:replace="Account/rpUpdateSignupForm :: body"></div> -->
+	    <div th:replace="Account/rpMyParticipateGroup :: body"></div>
 	</div>
 </div>
 
