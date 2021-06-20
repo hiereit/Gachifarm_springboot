@@ -48,7 +48,7 @@ public class StoreRegController {
 		model.addAttribute("isUpdate", isUpdate);
 		model.addAttribute("storeCommand", new StoreRegRequest());
 
-		return "StoreForm";
+		return "Store/StoreForm";
 	}
 
 	@GetMapping("store/regist")
@@ -75,20 +75,20 @@ public class StoreRegController {
 			else {
 				isExistName = true; // 하지만, store객체가 넘어온다면 중복되는 거임
 				model.addAttribute("isExistName", isExistName); // 다시 폼으로
-				return "StoreForm";
+				return "Store/StoreForm";
 			}
 		}
 		model.addAttribute("isExistName", isExistName);
 
 		if (result.hasErrors() || isExistName) {
 			System.out.println("return 3$$$$$$$$$$$$");
-			return "StoreForm";
+			return "Store/StoreForm";
 		}
 
 		Store store = new Store(sessionAccount.getUserId(), regReq.getStoreName(), regReq.getStoreInfo());
 
 		gachifarm.insertStore(store);
-		return "Main";
+		return "Store/StoreList";
 	}
 
 	// Store 정보 수정
@@ -101,7 +101,7 @@ public class StoreRegController {
 		boolean isUpdate = true;
 		model.addAttribute("isUpdate", isUpdate);
 		model.addAttribute("storeCommnad", store);
-		return "StoreForm";
+		return "Store/StoreForm";
 	}
 
 	@GetMapping("store/update")
@@ -117,11 +117,11 @@ public class StoreRegController {
 		Account sessionAccount = (Account) session.getAttribute("account");
 
 		if (result.hasErrors()) {
-			return "StoreForm";
+			return "Store/StoreForm";
 		}
 		// 상품 Home으로 이동!
 		Store store = new Store(sessionAccount.getUserId(), regReq.getStoreName(), regReq.getStoreInfo());
 		gachifarm.updateStore(store);
-		return "Main";
+		return "Store/StoreList";
 	}
 }

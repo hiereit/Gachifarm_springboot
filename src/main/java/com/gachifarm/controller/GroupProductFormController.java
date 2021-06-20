@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.gachifarm.dao.ProductDao;
 import com.gachifarm.domain.GroupProduct;
 import com.gachifarm.domain.Product;
+import com.gachifarm.domain.ProductImage;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
@@ -34,7 +34,7 @@ public class GroupProductFormController {
 		GroupProduct groupProduct = new GroupProduct();
 		groupProduct.setProduct(gachiFarm.getProduct(productId));
 		groupProduct.setProductId(productId);
-		groupProduct.setFilePath(gachiFarm.getProductImageByPid(productId).getImgPath());
+		groupProduct.setFilePath(getImgPath(productId));
 		return new ModelAndView("Group/GroupProductForm", "groupProduct", groupProduct);
 	}
 	
@@ -42,7 +42,7 @@ public class GroupProductFormController {
 	public String submit(@ModelAttribute("groupProduct") @Valid GroupProduct groupProduct, BindingResult result, HttpSession session) {
 		if (result.hasErrors()) {
 			groupProduct.setProduct(gachiFarm.getProduct(groupProduct.getProductId()));
-			groupProduct.setFilePath(gachiFarm.getProductImageByPid(groupProduct.getProductId()).getImgPath());
+			groupProduct.setFilePath(getImgPath(groupProduct.getProductId()));
 			return "Group/GroupProductForm";
 		}
 		Product product = gachiFarm.getProduct(groupProduct.getProductId());
@@ -50,8 +50,7 @@ public class GroupProductFormController {
 		int minQty = (int) (prdtQty * 0.05);
 		int limitQty = (int) (prdtQty * 0.15);
 		product.setQuantity(prdtQty - limitQty);
-		//String loginId = ((UserSession) session.getAttribute("userSession")).getAccount().getUserId();
-		String loginId = "popo";
+		String loginId = ((UserSession) session.getAttribute("userSession")).getAccount().getUserId();
 		groupProduct.setUserId(loginId);
 		groupProduct.setMinQty(minQty);
 		groupProduct.setLimitQty(limitQty);
@@ -79,5 +78,15 @@ public class GroupProductFormController {
 		groupProduct.setRecvDate(recvDate);
 		gachiFarm.updateGroupProduct(groupProduct);
 		return "redirect:/group/product/" + gProductId;
+	}
+	
+	public String getImgPath(int productId) {
+		ProductImage img = gachiFarm.getProductImageByPid(productId);
+		if (img == null) {
+			return "/images/noImage.png";
+		}
+		else {
+			return img.getImgPath();
+		}
 	}
 }

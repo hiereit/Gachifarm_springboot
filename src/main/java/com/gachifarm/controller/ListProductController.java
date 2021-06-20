@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gachifarm.domain.Board;
 import com.gachifarm.domain.Product;
+import com.gachifarm.domain.Review;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
@@ -33,10 +35,10 @@ public class ListProductController {
 	}
 	
 	//상품 상세정보조회
-	@RequestMapping("product/{productId}")
-    public String getProduct(Model model, @PathVariable("productId") int productId){
-		//Product products = this.gachifarm.getProduct(1);
-		//List<Product> products = this.gachifarm.getAllProduct();
+	@RequestMapping("product/{productId}/{pageNo}")
+    public String getProduct(@PageableDefault Pageable pageable, Model model, 
+    		@PathVariable("productId") int productId, @PathVariable("pageNo") int pageNo){
+		
 		Product product = gachifarm.getProduct(productId);
 		
 		String link;
@@ -46,9 +48,7 @@ public class ListProductController {
         else {
         	link = gachifarm.getProductImageByPid(productId).getImgPath();
         }
-        
-        //HashMap<String, String> saleTypeMap = new HashMap<>();
-        //for(p : pr)
+
         String pSaleType;
         if(gachifarm.getGroupProduct(productId) != null) {
         	pSaleType= product.getSaleType();
@@ -56,13 +56,36 @@ public class ListProductController {
         else {
         	pSaleType = product.getSaleType();
         }
+        
+        int count = 15;
+		//Page<Board> boardPage = gachifarm.getBoardListbyPage(pageable, pageNo, count);
+        Page<Board> boardPage = gachifarm.getBoardListbyPageAndProductId(pageable, pageNo, count, productId);
+		List<Board> boardList = boardPage.getContent();
+		System.out.println(boardList.toString() + "---3--------------------------");
+		System.out.println(boardPage.getSize() + "---1--------------------------");
+		System.out.println(boardPage.isEmpty()+  "---2--------------------------");
+		
+		model.addAttribute("boardPage", boardPage);
+		model.addAttribute("boardList", boardList);
+		model.addAttribute("isAdmin", gachifarm.isAdmin("DONGDUK01")); //!!! session에서 꺼내기
+		model.addAttribute("count", count);
      
 		model.addAttribute("link", link);
 		model.addAttribute("pSaleType", pSaleType);
 		model.addAttribute("product", product);
         model.addAttribute("data2", "HI GACHI PRODUCT" + productId);
         
-        return "ProductDetail";
+        count = 10;
+		Page<Review> reviewPage = gachifarm.getReviewListbyPageAndProductId(pageable, pageNo, count, productId);
+		List<Review> reviewList = reviewPage.getContent();
+		System.out.println(reviewList.size());
+		model.addAttribute("productId", productId);
+		model.addAttribute("reviewPage", reviewPage);
+		model.addAttribute("reviewList", reviewList);
+		model.addAttribute("count", count);
+		
+        
+        return "Product/ProductDetail";
     }
 	//아직 안쓰임.!!!!!!!!!!!!!!!!!1
 	@RequestMapping("product/list")
@@ -73,7 +96,7 @@ public class ListProductController {
 		//model.addAttribute("data", "product/list");
         model.addAttribute("data", products);
         model.addAttribute("data2", "HI GACHI PRODUCT");
-        return "Products";
+        return "Product/Products";
     }
 	//전체상품목록 조회 페이지 처리!!!!!!
 	@RequestMapping("product/list/all/{pageNo}")
@@ -110,7 +133,7 @@ public class ListProductController {
 		model.addAttribute("isKeyword", false);
 		//model.addAttribute("prdtList", products.size());
 	
-		return "Products";
+		return "Product/Products";
     }
 	@RequestMapping("search/product/list/{keyword}/{pageNo}")
     public String searchProductListAll(@PageableDefault Pageable pageable,
@@ -152,7 +175,7 @@ public class ListProductController {
 		model.addAttribute("isKeyword", true);
 		//model.addAttribute("prdtList", products.size());
 	
-		return "Products";
+		return "Product/Products";
     }
 	
 	//userId로 상품들 가져오기
@@ -163,12 +186,12 @@ public class ListProductController {
 		List<Product> products = this.gachifarm.getProductBySupplier("김동덕");
 		//model.addAttribute("data", "store/product/list");
         model.addAttribute("data", products);
-        return "Products";
+        return "Product/Products";
     }
 	@GetMapping("product/{storeName}/product/list")
     public String storeProductList(Model model){
         model.addAttribute("data", "product/{storeName}/product/list");
-        return "Store";
+        return "Store/Store";
     }
 	
 

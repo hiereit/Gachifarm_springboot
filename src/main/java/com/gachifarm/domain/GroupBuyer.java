@@ -12,9 +12,10 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.*;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.CreditCardNumber;
 import org.springframework.format.annotation.DateTimeFormat;
 @SuppressWarnings("serial")
 @Entity
@@ -33,6 +34,8 @@ public class GroupBuyer implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date orderDate;
+	@CreditCardNumber
+	@NotEmpty(message="카드 번호는 필수로 입력해야 합니다.")
 	private String creditNum;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern="MM/yy")

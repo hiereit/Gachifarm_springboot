@@ -1,5 +1,7 @@
 package com.gachifarm.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,17 +15,15 @@ import com.gachifarm.service.GachiFarmFacade;
 public class ViewBoardController {
 	@Autowired
 	private GachiFarmFacade gachiFarm;
-	public void setGachiFarm(GachiFarmFacade gachiFarm) {
-		this.gachiFarm = gachiFarm;
-	}
 
 	@RequestMapping("/board/{boardId}")
 	public String viewGroupProduct(
-			@PathVariable("boardId") int boardId, Model model) throws Exception {
-		model.addAttribute("isAdmin", gachiFarm.isAdmin("admin"));
+			@PathVariable("boardId") int boardId, Model model, HttpSession session) throws Exception {
+		String userId = ((UserSession) session.getAttribute("userSession")).getAccount().getUserId();
+		model.addAttribute("isAdmin", gachiFarm.isAdmin(userId));
 		Board board = gachiFarm.getBoardByBoardId(boardId);
 		model.addAttribute("board", board);
-		model.addAttribute("isQST", board.getUserId().equals("admin"));
+		model.addAttribute("isQST", board.getUserId().equals(userId));
 		return "Board/BoardDetail";
 	}
 	

@@ -145,4 +145,5 @@ public interface GachiFarmFacade {
 	List<Integer> getBestProductIds();
 	List<Integer> getNewProductIds();
 
+	void updateCompleteGroup(Date date, int gProductId);
 }

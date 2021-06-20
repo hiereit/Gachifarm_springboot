@@ -406,6 +406,7 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public List<Integer> getNewProductIds() {
 		return productRepository.getNewProductIds();
 	}
+  
 	@Override
 	public String getImgPath(int productId) {
 		Optional<ProductImage> optional = productImageRepository.findByProductId(productId);
@@ -414,5 +415,8 @@ public class GachiFarmImpl implements GachiFarmFacade {
 		} else {
 			return "/images/noImage.png";
 		}
+	
+	public void updateCompleteGroup(Date date, int gProductId) {
+		groupBuyersRepository.updateCompleteGroup(date, gProductId);
 	}
 }
