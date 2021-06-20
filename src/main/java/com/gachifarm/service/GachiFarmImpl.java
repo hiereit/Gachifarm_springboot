@@ -73,13 +73,13 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	// 추가
 	@Autowired
 	private AdministratorRepository adminRepository;
-	
+
 	@Autowired
 	@Qualifier("jpaStoreOrderDao")
 	private StoreOrderDao storeOrderDao;
-	
+
 	private ReviewImageRepository reviewImgRepository;
-	 
+
 	private CartRepository cartRepository;
 
 	// Account
@@ -299,15 +299,15 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public void saveReview(Review review) {
 		reviewRepository.saveAndFlush(review);
 	}
-	
+
 	public void saveReviewImage(ReviewImage reviewImg) {
 		reviewImgRepository.saveAndFlush(reviewImg);
 	}
-	
+
 	public Review getReviewById(int reviewId) {
 		return reviewRepository.getById(reviewId);
 	}
-	
+
 	public ReviewImage getReviewImageById(int reviewId) {
 		return reviewImgRepository.findByReviewId(reviewId);
 	}
@@ -353,6 +353,15 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public void changeProductQty(Product product) {
 		productRepository.saveAndFlush(product);
 	}
+	public Orders findOrder(int orderId) {
+		return ordersRepository.getById(orderId);
+	}
+	public List<LineProduct> findLineProducts(int orderId) {
+		return lineProductRepository.findAllByOrderId(orderId);
+	}
+	public Review findReview(int lineProductId) {
+		return reviewRepository.findBylineProductId(lineProductId);
+	}
 
 	@Autowired
 	private ThreadPoolTaskScheduler scheduler;
@@ -381,9 +390,8 @@ public class GachiFarmImpl implements GachiFarmFacade {
 			}
 		};
 		scheduler.schedule(deliverComplete, deliverCompleteDate);
-
 	}
-	
+
 	//main
 	@Autowired
 	private ProductImageRepository productImageRepository;
