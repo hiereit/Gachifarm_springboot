@@ -137,15 +137,17 @@
 		var fileInput = document.getElementById("image_upload");
 
 		alert(fileInput.files[0].name);
-		/*
-		for( var i=0; i<fileInput.length; i++ ){
-			if( fileInput[i].files.length > 0 ){
-				for( var j = 0; j < fileInput[i].files.length; j++ ){
-					console.log(fileInput[i].files[j].name); // 파일명 출력
-				}
-			}
-		}*/
-
+	}
+</script>
+<script>
+	function setThumbnail(event) {
+		var reader = new FileReader(); 
+		reader.onload = function(event) { 
+			var img = document.getElementById("image-upload");
+			img.setAttribute("src", event.target.result);
+			document.querySelector("div#image_container").appendChild(img);
+			};
+		reader.readAsDataURL(event.target.files[0]); 
 	}
 </script>
   <style>
@@ -158,13 +160,13 @@
      font-family: 'Nanum Gothic', sans-serif;
     }
     body {
-      /*font-family: 'Nanum Gothic', sans-serif; */
+      font-family: 'Nanum Gothic', sans-serif;
       /* 폰트관련 주석! */
-      /* font-family: 'NanumSquare', sans-serif !important; */
+      font-family: 'NanumSquare', sans-serif !important;
     }
     .btn-primary {
       /* 폰트관련 주석! */
-      /* font-family: 'NanumSquare', sans-serif !important; */
+      font-family: 'NanumSquare', sans-serif !important;
 
       color: #fff;
       background-color: #0AC175;
@@ -175,49 +177,71 @@
     }
     th{
       font-size:16px;
+      padding-right:10px;
     }
     .form-control {
       color: #DDDDDD;
+    }
+    small {
+    	color:red;
+    }
+    h3 {
+    	 font-family: 'NanumSquare', sans-serif !important;
     }
   </style>
 </head>
 <body>
 	<div align="center" style="margin-top: 100px;">
-      <h3> 상품등록 </h3>
+      <h3><b> 상품등록</b> </h3>
       <hr style="height:1px; background-color:#707070;">
 
-      <form enctype="multipart/form-data" th:action="@{/product/regist}"  th:object="${productCommand}" method="post">
+      <form th:unless="${isUpdate}" enctype="multipart/form-data" th:action="@{/product/regist}"  th:object="${productCommand}" method="post">
         <table align="center">
-          <tr>
-            <td rowspan="7"> <!-- onchange="prviewImage(this, 'View_area')" th:field="*{productImg}" style="display:none; cursor:pointer;"-->
-              <label for="image_upload" th:text="#{image}" class="forForm">image</label>
-              <input type ="file" id="image_upload" name="img_upload" onchange="fileUpload()">
+          <tr><!--https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image  -->
+            <td rowspan="7" style="padding-right:20px;"> <!-- onchange="prviewImage(this, 'View_area')" th:field="*{productImg}" style="display:none; cursor:pointer;"-->
+              <!-- <label for="image_upload" th:text="#{image}" class="forForm">image</label> onchange="fileUpload()" -->
     		  <span id='View_area' style="position:relative; color:black; border:0px solid black;"></span>
-    		  <img class="image-upload"style="width: 500px;" id="image-upload" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
-              <!-- <i class="far fa-pencil-ruler"></i> -->
+    		  <div id="image_container"></div>
+    		  <img class="image-upload"style="width:300px; height:300px;" id="image-upload" src="/images/fileUploadImg.png"><br>
+    		  <input type ="file" id="image_upload" name="img_upload" onchange="setThumbnail(event);">
+    		  <!-- <span th:if="${#fields.hasErrors('imgPath')}" th:errors="imgPath"></span>
+               --><!-- <i class="far fa-pencil-ruler"></i> -->
             </td>
             <th><label class="forForm" for="prdtName" th:text="#{prdtName}">상품명</label></th>
-            <td><input type="text" id="prdtName" th:field="*{prdtName}" class="form-control" style="width:320px;"aria-describedby="emailHelp" placeholder="상품명을 입력하세요."></td>
+            <td><input type="text" id="prdtName" th:field="*{prdtName}" class="form-control" style="width:320px;"aria-describedby="emailHelp" placeholder="상품명을 입력하세요.">
+            	<small th:if="${#fields.hasErrors('prdtName')}" th:errors="*{prdtName}"></small>
+            </td>
+          	
           </tr>
           <tr>
             <th><label class="forForm" for="price" th:text="#{price}">가격</label></th>
-            <td><input type="text" id="price" th:field="*{price}" class="form-control" aria-describedby="emailHelp"></td>
+            <td><input type="text" id="price" th:field="*{price}" class="form-control" aria-describedby="emailHelp" placeholder="숫자만 입력">
+            	<small th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>
+            </td>
           </tr>
           <tr>
             <th><label class="forForm" for="origin" th:text="#{origin}">원산지</label></th>
-            <td><input type="text" id="origin" th:field="*{origin}" class="form-control" aria-describedby="emailHelp"></td>
+            <td><input type="text" id="origin" th:field="*{origin}" class="form-control" aria-describedby="emailHelp">
+            	<small th:if="${#fields.hasErrors('origin')}" th:errors="*{origin}"></small>
+            </td>
           </tr>
           <tr>
             <th><label class="forForm" for="supplier" th:text="#{supplier}">생산자</label></th>
-            <td><input type="text" id="supplier" th:field="*{supplier}" class="form-control" aria-describedby="emailHelp"></td>
+            <td><input type="text" id="supplier" th:field="*{supplier}" class="form-control" aria-describedby="emailHelp">
+            	<small th:if="${#fields.hasErrors('supplier')}" th:errors="*{supplier}"></small>
+            </td>
           </tr>
           <tr>
             <th><label class="forForm" for="unit" th:text="#{unit}">상품용량 </label></th>
-            <td><input type="text" id="unit" th:field="*{unit}" class="form-control" aria-describedby="emailHelp" placeholder="상품의 단위를 입력해주세요. ex) kg, g.."></td>
+            <td><input type="text" id="unit" th:field="*{unit}" class="form-control" aria-describedby="emailHelp" placeholder="상품단위 입력: 예시) 5-6개/1box  10g/1팩">
+            	<small th:if="${#fields.hasErrors('unit')}" th:errors="*{unit}"></small>
+            </td>
           </tr>
           <tr>
             <th><label class="forForm" for="quantity" th:text="#{quantity}">상품수량 </label></th>
-            <td><input type="text" id="quantity" th:field="*{quantity}" class="form-control" aria-describedby="emailHelp" placeholder="상품재고량을 입력해주세요. ex) kg, g.."></td>
+            <td><input type="text" id="quantity" th:field="*{quantity}" class="form-control" aria-describedby="emailHelp" placeholder="상품의 총 재고 입력 '숫자만입력'">
+            	<small th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></small>
+            </td>
           </tr>
           <tr>
             <th><label class="forForm" for="exampleSelect1" th:text="#{category}">상품분류</label></th>
@@ -231,12 +255,86 @@
           </tr>
           <tr>
             <th colspan="3">
-              <label for="desc" style="margin-top: 50px;" th:text="#{description}">상품설명</label>
-              <textarea class="form-control" id="description" th:field="*{description}"rows="20" placeholder="상품에 대한 정보를 입력해주세요."></textarea>
-            </th>
+              <label for="desc" style="display:inline-block;margin-top: 50px;" th:text="#{description}">상품설명</label>&nbsp;&nbsp;&nbsp;
+              <small style="text-align:right; display:inline-block;" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></small>            
+              <textarea class="form-control" id="description" th:field="*{description}"rows="10" placeholder="상품에 대한 정보를 입력해주세요."></textarea>
+            	</th>
           </tr>
           <tr>
-            <td colspan="3" align="center"><button type="submit" class="btn btn-primary" style="margin-top:30px;" onclick="dataSubmit();">등록</button></td>
+            <td colspan="3" style="text-align:center;"><button type="submit" class="btn btn-primary" style="margin-top:10px;" onclick="dataSubmit();"><b>등록</b></button></td>
+          </tr>
+
+        </table>
+      </form>
+      
+      <!-- 업데이트 폼 -->
+      <form th:if="${isUpdate}" enctype="multipart/form-data" th:action="@{/product/update}"  th:object="${productCommand}" method="post">
+        <table align="center">
+          <tr><!--https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image  -->
+            <td rowspan="7" style="padding-right:20px;"> <!-- onchange="prviewImage(this, 'View_area')" th:field="*{productImg}" style="display:none; cursor:pointer;"-->
+              <!-- <label for="image_upload" th:text="#{image}" class="forForm">image</label> onchange="fileUpload()" -->
+    		  <span id='View_area' style="position:relative; color:black; border:0px solid black;"></span>
+    		  <div id="image_container"></div>
+    		  <img class="image-upload"style="width:300px; height:300px;" id="image-upload" src="/images/fileUploadImg.png"><br>
+    		  <input type ="file" id="image_upload" name="img_upload" onchange="setThumbnail(event);" th:readonly="${isUpdate}">
+    		  <!-- <span th:if="${#fields.hasErrors('imgPath')}" th:errors="imgPath"></span>
+               --><!-- <i class="far fa-pencil-ruler"></i> -->
+            </td>
+            <th><label class="forForm" for="prdtName" th:text="#{prdtName}">상품명</label></th>
+            <td><input type="text" id="prdtName" th:field="*{prdtName}" class="form-control" style="width:320px;"aria-describedby="emailHelp" placeholder="상품명을 입력하세요.">
+            	<small th:if="${#fields.hasErrors('prdtName')}" th:errors="*{prdtName}"></small>
+            </td>
+          	
+          </tr>
+          <tr>
+            <th><label class="forForm" for="price" th:text="#{price}">가격</label></th>
+            <td><input type="text" id="price" th:field="*{price}" class="form-control" aria-describedby="emailHelp" placeholder="숫자만 입력">
+            	<small th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>
+            </td>
+          </tr>
+          <tr>
+            <th><label class="forForm" for="origin" th:text="#{origin}">원산지</label></th>
+            <td><input type="text" id="origin" th:field="*{origin}" class="form-control" aria-describedby="emailHelp">
+            	<small th:if="${#fields.hasErrors('origin')}" th:errors="*{origin}"></small>
+            </td>
+          </tr>
+          <tr>
+            <th><label class="forForm" for="supplier" th:text="#{supplier}">생산자</label></th>
+            <td><input type="text" id="supplier" th:field="*{supplier}" class="form-control" aria-describedby="emailHelp">
+            	<small th:if="${#fields.hasErrors('supplier')}" th:errors="*{supplier}"></small>
+            </td>
+          </tr>
+          <tr>
+            <th><label class="forForm" for="unit" th:text="#{unit}">상품용량 </label></th>
+            <td><input type="text" id="unit" th:field="*{unit}" class="form-control" aria-describedby="emailHelp" placeholder="상품단위 입력: 예시) 5-6개/1box  10g/1팩">
+            	<small th:if="${#fields.hasErrors('unit')}" th:errors="*{unit}"></small>
+            </td>
+          </tr>
+          <tr>
+            <th><label class="forForm" for="quantity" th:text="#{quantity}">상품수량 </label></th>
+            <td><input type="text" id="quantity" th:field="*{quantity}" class="form-control" aria-describedby="emailHelp" placeholder="상품의 총 재고 입력 '숫자만입력'">
+            	<small th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></small>
+            </td>
+          </tr>
+          <tr>
+            <th><label class="forForm" for="exampleSelect1" th:text="#{category}">상품분류</label></th>
+            <td>
+              <select class="form-control" id="category" th:field="*{category}" th:value="#{category}">
+                <option th:value="#{category.fruit}"selected>과일</option>
+                <option th:value="#{category.vegi}">채소</option>
+                <option th:value="#{category.grain}">곡류</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th colspan="3">
+              <label for="desc" style="display:inline-block;margin-top: 50px;" th:text="#{description}">상품설명</label>&nbsp;&nbsp;&nbsp;
+              <small style="text-align:right; display:inline-block;" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></small>            
+              <textarea class="form-control" id="description" th:field="*{description}"rows="10" placeholder="상품에 대한 정보를 입력해주세요."></textarea>
+            	</th>
+          </tr>
+          <tr>
+            <td colspan="3" style="text-align:center;"><button type="submit" class="btn btn-primary" style="margin-top:10px;" onclick="dataSubmit();"><b>등록</b></button></td>
           </tr>
 
         </table>

@@ -42,13 +42,24 @@ public class ListProductController {
 		
 		String link;
         if(gachifarm.getProductImageByPid(productId) == null) {
-        	link = "http://cdn.011st.com/11dims/resize/600x600/quality/75/11src/ak/3/5/6/0/8/6/537356086_B_V4.jpg";
+        	link = "/images/noImage.png";
         }
         else {
         	link = gachifarm.getProductImageByPid(productId).getImgPath();
         }
+        
+        //HashMap<String, String> saleTypeMap = new HashMap<>();
+        //for(p : pr)
+        String pSaleType;
+        if(gachifarm.getGroupProduct(productId) != null) {
+        	pSaleType= product.getSaleType();
+        }
+        else {
+        	pSaleType = product.getSaleType();
+        }
+     
 		model.addAttribute("link", link);
-		
+		model.addAttribute("pSaleType", pSaleType);
 		model.addAttribute("product", product);
         model.addAttribute("data2", "HI GACHI PRODUCT" + productId);
         
@@ -83,7 +94,8 @@ public class ListProductController {
 		for(int i=0;i < product.size();i++) {
 			int p_id = product.get(i).getProductId();
 			if(gachifarm.getProductImageByPid(p_id) == null) {
-				map.put(p_id, "http://cdn.011st.com/11dims/resize/600x600/quality/75/11src/ak/3/5/6/0/8/6/537356086_B_V4.jpg");
+				//map.put(p_id, "http://cdn.011st.com/11dims/resize/600x600/quality/75/11src/ak/3/5/6/0/8/6/537356086_B_V4.jpg");
+				map.put(p_id, "/images/noImage.png");
 			}
 			else {
 				map.put(p_id, gachifarm.getProductImageByPid(p_id).getImgPath());
@@ -96,6 +108,7 @@ public class ListProductController {
 		model.addAttribute("data2", product);
 		model.addAttribute("data", products);
 		model.addAttribute("link", "product/list/all/{pageNo}");
+		model.addAttribute("isKeyword", false);
 		//model.addAttribute("prdtList", products.size());
 	
 		return "Products";
@@ -121,7 +134,8 @@ public class ListProductController {
 		for(int i=0;i < product.size();i++) {
 			int p_id = product.get(i).getProductId();
 			if(gachifarm.getProductImageByPid(p_id) == null) {
-				map.put(p_id, "http://cdn.011st.com/11dims/resize/600x600/quality/75/11src/ak/3/5/6/0/8/6/537356086_B_V4.jpg");
+				//map.put(p_id, "http://cdn.011st.com/11dims/resize/600x600/quality/75/11src/ak/3/5/6/0/8/6/537356086_B_V4.jpg");
+				map.put(p_id, "/images/noImage.png");
 			}
 			else {
 				map.put(p_id, gachifarm.getProductImageByPid(p_id).getImgPath());
@@ -136,6 +150,7 @@ public class ListProductController {
 		model.addAttribute("data2", product);
 		model.addAttribute("data", products);
 		model.addAttribute("link", "search/product/list/{keyword}/{pageNo}");
+		model.addAttribute("isKeyword", true);
 		//model.addAttribute("prdtList", products.size());
 	
 		return "Products";

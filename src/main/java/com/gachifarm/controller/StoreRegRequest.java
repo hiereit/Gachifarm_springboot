@@ -8,7 +8,6 @@ import org.hibernate.validator.constraints.Length;
 
 public class StoreRegRequest {
 	@NotEmpty
-	@NotNull
 	private String storeName;
 	
 	@Length(max=250)
@@ -27,4 +26,9 @@ public class StoreRegRequest {
 	public void setStoreInfo(String storeInfo) {
 		this.storeInfo = storeInfo;
 	}
+	@Override
+	public String toString() {
+		return "StoreRegRequest [storeName=" + storeName + ", storeInfo=" + storeInfo + "]";
+	}
+	
 }

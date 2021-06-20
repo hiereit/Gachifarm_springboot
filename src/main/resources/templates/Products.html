@@ -22,13 +22,13 @@
      font-family: 'Nanum Gothic', sans-serif;
     }
     body{
-      /*font-family: 'Nanum Gothic', sans-serif; */
+     font-family: 'Nanum Gothic', sans-serif; 
       /* 폰트관련 주석! */
-      /* font-family: 'NanumSquare', sans-serif !important; */
+      font-family: 'NanumSquare', sans-serif !important;
     }
     .btn-primary {
       /* 폰트관련 주석! */
-      /* font-family: 'NanumSquare', sans-serif !important; */
+      font-family: 'NanumSquare', sans-serif !important;
 
       color: #fff;
       background-color: #0AC175;
@@ -57,6 +57,9 @@
     	background-color:  #fff;
     	color: #0AC175;
     }
+    h3 {
+    	font-family: 'NanumSquare', sans-serif !important;
+    }
   </style>
   <script>
   	function searchProduct(){
@@ -68,6 +71,7 @@
   		//{keyword}/{pageNo}
   		if(value == ""){
   			formValue.action='/product/list/all/1';
+  			alert('검색할 단어를 입력하세요')
   		}
   		else{
   			formValue.action='/search/product/list/' + value + '/1';
@@ -79,38 +83,50 @@
   </script>
 </head>
 <body>
-	<p align="center" th:text="'안녕하세요. ' + ${link}" >안녕하세요. Product!!.html입니다.</p>
 	<!-- Title -->
   <div align="center">
-    <h2 th:text="#{productList}">Product Name</h2>
+    <h3 th:text="#{productList}">Product Name</h3>
     <hr style="height:1px; background-color:#707070;"><br>
     
     <!-- 검색 창 th:action="@{/search/product/list/${searchKeyword}/1}"  th:action="@{|/search/product/list/${searchKeyword}/1|} -->
     <div style="margin-bottom:100px;">
+    	<hr style="height:1px; width:700px; background-color:#FF724A;">
     	<form id="keywordForm">
 	    	<label style="font-size:18px; margin-right:10px;" for="keyWord" th:utext="#{keywordSearch}" class="forForm"></label>  
 	    	<input style="width:500px; display:inline-block;" type="text" id="keyword" class="form-control" aria-describedby="emailHelp">
 	    	<input style="width:80px; display:inline-block;" th:value="#{search}"class="btn btn-danger" type="button" onclick="searchProduct()">
-	    	 <!-- <input style="width:80px; display:inline-block;" th:value="#{search}"class="btn btn-danger" type="submit"> -->
-	    	 <!-- <a th:href="@{/search/product/list/${keyword}/1}">검색</a> -->
     	</form>
+    	<hr style="height:1px; width:700px; background-color:#FF724A; margin-bottom:30px;">
+    	<a th:href="@{/product/list/all/1}">가치장터</a>&nbsp;&nbsp;<a href="#">|</a >&nbsp;&nbsp;<a th:href="@{/store/list}">오픈마켓</a>&nbsp;&nbsp;<a href="#">|</a>&nbsp;&nbsp;<a th:href="@{/group/product/list/1}">공동구매</a>
     </div>
     
     <!-- 상품목록 리스트 -->
     <div>
 	    <div th:if="${data2.size() == 0}">
-		    <h2  style="color: #FF724A;">일치하는 검색결과가 없습니다.</h2>
+		    <h3  style="color: #FF724A;">일치하는 검색결과가 없습니다.</h3>
 			<small> 다른 조건으로 다시 검색해 보세요</small>    
 		</div>
     <table th:with="row=${data2.size() /4}, last =${data2.size() % 3} ">
 	    <tr th:each="i:${#numbers.sequence(0,row)}">
 	    	<td th:each="j:${#numbers.sequence(0,3)}" th:if="${(i*4+j) < data2.size()}" th:with="p_id=${data2[i*4+j].productId}">
 		    	<ul style=" list-style:none;">
-		    	<li><img style="width: 250px; height:300px;" th:src="|${map.get(p_id)}|"></img></li>
-		        <li><a ><span th:text="|${data2[i*4+j].saleType}|"></span></a></li>
-		        <li><a th:href="@{/product/{productId}(productId=${data2[i*4+j].productId})}"><span style="font-size:20px;" th:text="|${data2[i*4+j].prdtName}|"></span></a></li>
+		    	<li><img style="width: 250px; height:300px; object-fit: contain;" th:src="|${map.get(p_id)}|"></img></li>
+		        <!-- <li><a ><span th:text="|${data2[i*4+j].saleType}|"></span>
+		        </a></li> -->
+		        <li><a th:href="@{/product/{productId}(productId=${data2[i*4+j].productId})}"><span style="font-size:20px;" th:text="|${data2[i*4+j].prdtName}|"></span></a>
+		        <button th:if="${data2[i*4+j].saleType.equals('GACHI')}" style="float:right;width:70px;height:30px;font-size:11px;font-weight:bold;margin-top:5px;" type="button" class="btn btn-outline-warning disabled"
+						id="prdtType_gachi">가치장터</button>
+					<button th:if="${data2[i*4+j].saleType.equals('STORE')}" style="float:right;width:70px;height:30px;font-size:11px;font-weight:bold;margin-top:5px;" type="button" class="btn btn-outline-danger disabled"
+						id="prdtType_store">오픈마켓</button>
+					<button th:if="${data2[i*4+j].saleType.equals('GROUP')}" style="float:right;width:70px;height:30px;font-size:11px;font-weight:bold;margin-top:5px;" type="button" class="btn btn-outline-success disabled"
+						id="prdtType_group">공동구매</button>
+		        </li>
 		        <!-- <li><a><span th:text="|${data2[i*4+j].price}원|">80,000원</span></a></li> -->
-		        <li><a><span th:text="|${#numbers.formatInteger(T(Math).ceil(data2[i*4+j].price), 3,'COMMA')}원|">80,000원</span></a></li>
+		        <li><a><span th:text="|${#numbers.formatInteger(T(Math).ceil(data2[i*4+j].price), 3,'COMMA')}원|">80,000원</span>
+		        		<span th:text="|( ${data2[i*4+j].unit} )|">80,000원</span>
+		        </a>
+		        
+		        </li>
 		        
 	        	</ul>
 	        </td>
@@ -121,8 +137,8 @@
    <!-- 페이지 바! -->
    <br><br>
    <div align="center">
-   <nav style="display:inline-block; text-align:center;">
-    <ul th:class="pagination" th:if="${}"
+   <nav style="display:inline-block; text-align:center;" th:unless="${data2.size() == 0}">
+    <ul th:class="pagination" th:unless="${isKeyword}"
         th:with="start=${T(Math).floor(data.number/12)*12 + 1},
                     last=(${start + 11 < data.totalPages ? start + 11 : data.totalPages})">
         <li class="page-item">
@@ -149,6 +165,37 @@
 
         <li th:class="page-item">
             <a  th:id="tail" th:class="page-link" th:href="@{/product/list/all/{pageNo}(pageNo=${data.totalPages})}" aria-label="Last">
+                <span aria-hidden="true">Last</span>
+            </a>
+        </li>
+    </ul>
+    <ul th:class="pagination" th:if="${isKeyword}"
+        th:with="start=${T(Math).floor(data.number/12)*12 + 1},
+                    last=(${start + 11 < data.totalPages ? start + 11 : data.totalPages})">
+        <li class="page-item">
+            <a th:id="tail" th:class="page-link" th:href="@{/search/product/list/{keyword}/1(keyword=${searchKeyword})}" aria-label="First">
+                <span aria-hidden="true">First</span>
+            </a>
+        </li>
+
+        <li th:class="${data.first} ? 'disabled'">
+            <a th:class="page-link" th:href="${data.first} ? '#' :@{/search/product/list/{keyword}/{pageNo}(keyword=${searchKeyword}, pageNo=${data.number})}" aria-label="Previous">
+                <span aria-hidden="true">&lt;</span>
+            </a>
+        </li>
+
+        <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == data.number + 1} ? 'active'">
+            <a th:class="page-link" th:text="${page}" th:href="@{/search/product/list/{keyword}/{pageNo}(keyword=${searchKeyword}, pageNo=${page})}"></a>
+        </li>
+
+        <li th:class="${data.last} ? 'disabled'">
+            <a th:class="page-link" th:href="${data.last} ? '#' : @{/search/product/list/{keyword}/{pageNo}(keyword=${searchKeyword}, pageNo=${data.number + 2})}" aria-label="Next">
+                <span aria-hidden="true">&gt;</span>
+            </a>
+        </li>
+
+        <li th:class="page-item">
+            <a  th:id="tail" th:class="page-link" th:href="@{/search/product/list/{keyword}/{pageNo}(keyword=${searchKeyword}, pageNo=${data.totalPages})}" aria-label="Last">
                 <span aria-hidden="true">Last</span>
             </a>
         </li>

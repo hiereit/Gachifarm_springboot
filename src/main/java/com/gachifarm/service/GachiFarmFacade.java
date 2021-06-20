@@ -86,4 +86,8 @@ public interface GachiFarmFacade {
 	void insertProductImage(ProductImage product);		
 	void updateProductImage(ProductImage product);	
 	void deleteProductImage(ProductImage product);
+	
+	//StoreOrderDao 
+	List<LineProduct> getLineProduct(int productId);
+	List<Orders> getStoreOrderProduct(int prdtId);
 }

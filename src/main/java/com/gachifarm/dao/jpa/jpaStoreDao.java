@@ -3,6 +3,7 @@ package com.gachifarm.dao.jpa;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -35,9 +36,14 @@ public class jpaStoreDao implements StoreDao{
 	@Override
 	public Store getStoreName(String storename) throws DataAccessException {
 		// TODO Auto-generated method stub
-		TypedQuery<Store> query = em.createQuery(getStoreName_query, Store.class);
-		query.setParameter("sname", storename);
-		return query.getSingleResult();
+		try {
+			TypedQuery<Store> query = em.createQuery(getStoreName_query, Store.class);
+			query.setParameter("sname", storename);
+			return query.getSingleResult();
+		}catch(NoResultException e) {
+			System.out.println("reutnr null in jpa");
+			return null;
+		}		
 	}
 	
 	//모든 Store 객체 조회 OK

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.gachifarm.dao.ProductDao;
 import com.gachifarm.dao.StoreDao;
+import com.gachifarm.dao.StoreOrderDao;
 import com.gachifarm.domain.Account;
 import com.gachifarm.domain.Board;
 import com.gachifarm.domain.GroupBuyer;
@@ -57,6 +58,11 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	@Autowired
 	@Qualifier("jpaProductImageDao")
 	private ProductImageDao productImageDao;
+	
+	@Autowired
+	@Qualifier("jpaStoreOrderDao")
+	private StoreOrderDao storeOrderDao;
+	
 	
 	// Account
 	public Account findByUserId(String userId) {
@@ -231,6 +237,15 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	//Review
 	public List<Review> findReviewByUserId(String userId){
 		return reviewRepository.findReviewByUserId(userId);
+	}
+	//StoreOrder & LinItem
+	public List<LineProduct> getLineProduct(int productId) {
+		// TODO Auto-generated method stub
+		return storeOrderDao.getLineProduct(productId);
+	}
+	public List<Orders> getStoreOrderProduct(int prdtId) {
+		// TODO Auto-generated method stub
+		return storeOrderDao.getStoreOrderProduct(prdtId);
 	}
 	
 }
