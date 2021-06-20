@@ -14,10 +14,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -59,7 +57,7 @@ public class OrderController {
 		}
 	}
 	
-	@PostMapping("/order/form")
+	@RequestMapping("/order/form")
 	public ModelAndView addOrder(HttpServletRequest req, HttpSession userSession) throws Exception {
 		String userId = ((UserSession) userSession.getAttribute("userSession")).getAccount().getUserId();
 		cart = new ArrayList<Cart>();
@@ -96,7 +94,7 @@ public class OrderController {
 		return mav;
 	}
 	
-	@GetMapping("/order/form")
+	@RequestMapping("/order/onePrdt/form")
 	public ModelAndView addOneOrder(@RequestParam("productId") int productId, @RequestParam("quantity") int quantity, HttpSession userSession) throws Exception {
 		String userId = ((UserSession) userSession.getAttribute("userSession")).getAccount().getUserId();
 		cart = new ArrayList<Cart>();
@@ -162,6 +160,22 @@ public class OrderController {
 		gachifarm.changeOrderStatus(orders, orderDate);
 		int orderId = orders.getOrderId();
 		
+		if(cart.size() == 1) {
+			Cart oneLineProduct = cart.get(0);
+			int quantity = oneLineProduct.getQuantity();
+			int price = oneLineProduct.getTotalPrice();
+			int productId = oneLineProduct.getProductId();
+			String productName = oneLineProduct.getProductName();
+			Product product = gachifarm.getProduct(productId);
+			product.setQuantity(product.getQuantity() - quantity);
+			gachifarm.changeProductQty(product);
+			LineProduct lineProduct = new LineProduct(orderId, quantity, price, productId, productName);
+			gachifarm.insertLineProduct(lineProduct);
+			mav.addObject("orderId", orderId);
+			mav.addObject("total", total);
+			return mav;
+		}
+		
 		for (Cart lineProducts : cart) {
 			int quantity = lineProducts.getQuantity();
 			int price = lineProducts.getTotalPrice();
@@ -189,7 +203,8 @@ public class OrderController {
 		String email = user.getEmail();
 		List<LineProduct> orderProducts = gachifarm.findLineProducts(orderId);
 		List<Cart> lineProducts = new ArrayList<Cart>();
-		HashMap<Integer, Boolean> IsReview = new HashMap<>();
+		HashMap<Integer, Integer> reviewMap1 = new HashMap<>();
+		HashMap<Integer, Integer> reviewMap2 = new HashMap<>();
 		for (LineProduct line : orderProducts) {
 			Product product = gachifarm.getProduct(line.getProductId());
 			int productId = product.getProductId();
@@ -201,14 +216,18 @@ public class OrderController {
 			Cart cart = new Cart(path, productId, productName, price, quantity, totalPrice);
 			lineProducts.add(cart);
 			Review review = gachifarm.findReview(line.getLineProductId());
-			if (review != null) {
-				IsReview.put(productId, true);
+			if (review == null) {
+				reviewMap1.put(productId, line.getLineProductId());
+			}
+			else {
+				reviewMap2.put(productId, review.getReviewId());
 			}
 		}
 		mav.addObject("order", order);
 		mav.addObject("email", email);
 		mav.addObject("lineProducts", lineProducts);
-		mav.addObject("review", IsReview);
+		mav.addObject("review1", reviewMap1);
+		mav.addObject("review2", reviewMap2);
 		mav.addObject("productTotal", (order.getTotalPrice() - 3000));
 		return mav;
 	}

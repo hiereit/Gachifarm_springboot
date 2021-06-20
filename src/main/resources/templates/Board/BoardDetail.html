@@ -128,6 +128,7 @@
 </head>
 
 <body>
+<th:block th:insert="fragment/Top :: headFragment"></th:block>
   <div>
     <div class="container">
       <div>
@@ -180,12 +181,13 @@
             <div style="margin-top: 10px;" th:text="${board.answer}">
             </div>
             </div>
-            <hr style="margin-top: 20px;margin-bottom: 20px;">
+            <hr style="margin-top: 20px;margin-bottom: 20px;" th:if="${board.answer}" >
 			</div>
            
       </div>
     </div>
   </div>
+  <footer th:replace="fragment/Bottom :: footerFragment"></footer>  
 </body>
 
 </html>

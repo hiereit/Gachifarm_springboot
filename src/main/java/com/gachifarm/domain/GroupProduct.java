@@ -13,7 +13,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import javax.validation.constraints.*;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.validator.constraints.CreditCardNumber;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @SuppressWarnings("serial")
@@ -36,19 +40,33 @@ public class GroupProduct implements Serializable {
 	@JoinColumn(name="product_id", insertable=false, updatable=false)
 	private Product product;
 	
-	// Image domain 추가하기
+	@Column(nullable = false)
 	private int minQty;
+	@Column(nullable = false)
 	private int currQty;
+	@Column(nullable = false)
 	private int limitQty;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@NotNull(message="마감일은 필수로 입력해야 합니다.")
+	@Column(nullable = false)
 	private Date period;
+	@NotEmpty(message="수령장소는 필수로 입력해야 합니다.")
+	@Column(nullable = false)
 	private String recvPlace;
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
+	@NotNull(message="수령일자는 필수로 입력해야 합니다.")
+	@Column(nullable = false)
 	private Date recvDate;
+	@Column(nullable = false)
 	private String location;
-	private String status;
+	@Column(nullable = false)
+	private String status = "오픈 전";
+	
+	@Transient
+	private String filePath;
+	
 	
 	public GroupProduct(Product product) {
 		this.product = product;
@@ -129,12 +147,19 @@ public class GroupProduct implements Serializable {
 		this.product = product;
 	}
 	
+
 	@Override
 	public String toString() {
 		return "GroupProduct [gProductId=" + gProductId + ", userId=" + userId + ", productId=" + productId
 				+ ", product=" + product + ", minQty=" + minQty + ", currQty=" + currQty + ", limitQty=" + limitQty
 				+ ", period=" + period + ", recvPlace=" + recvPlace + ", recvDate=" + recvDate + ", location="
 				+ location + ", status=" + status + "]";
+	}
+	public String getFilePath() {
+		return filePath;
+	}
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 	
 	

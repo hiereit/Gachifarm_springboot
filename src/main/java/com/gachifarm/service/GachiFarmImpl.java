@@ -77,9 +77,9 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	@Autowired
 	@Qualifier("jpaStoreOrderDao")
 	private StoreOrderDao storeOrderDao;
-
+	@Autowired
 	private ReviewImageRepository reviewImgRepository;
-
+	@Autowired
 	private CartRepository cartRepository;
 
 	// Account
@@ -169,9 +169,9 @@ public class GachiFarmImpl implements GachiFarmFacade {
 		return productRepository.findByUserId(userId, pageable);
 	}
 	// GroupProduct
-	public void insertGroupProduct(GroupProduct groupProduct, Product product) {
-		productDao.updateProduct(product);
-		groupProductRepository.save(groupProduct);
+	public void insertGroupProduct(GroupProduct groupProduct) {
+		productRepository.save(groupProduct.getProduct());
+		groupProductRepository.saveAndFlush(groupProduct);
 	}
 	public void updateGroupProduct(GroupProduct groupProduct) {
 		groupProductRepository.save(groupProduct);
@@ -403,5 +403,9 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	}
 	public List<Integer> getNewProductIds() {
 		return productRepository.getNewProductIds();
+	}
+	
+	public void updateCompleteGroup(Date date, int gProductId) {
+		groupBuyersRepository.updateCompleteGroup(date, gProductId);
 	}
 }

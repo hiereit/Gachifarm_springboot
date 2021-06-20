@@ -14,7 +14,7 @@
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js">
 </script>
 <script src="https://code.jquery.com/jquery-latest.js"></script>
-<title>상세 주문</title>
+<title>가치팜</title>
 </head>
 <style>
 body		{ font-family: 'NanumSquare', sans-serif; }
@@ -40,6 +40,15 @@ table {
     }
 #btnstyle {
 	background-color: #707070;
+	color: white;
+	width: 70px;
+	height: 30px;
+	font-size: 13px;
+	border: 0px;
+	border-radius: 3px;
+}
+#btnstyle2 {
+	background-color: #0AC175;
 	color: white;
 	width: 70px;
 	height: 30px;
@@ -171,8 +180,8 @@ table {
 				&nbsp;<span th:text="${line.quantity}"></span>&nbsp;
 			</td>
 			<td th:text="${line.totalPrice}" style="text-align: center;"></td>
-			<td th:unless="${review.get(line.productId)}"><a th:href="@{#}"><button id="btnstyle">리뷰 쓰기</button></a></td>
-			<td th:if="${review.get(line.productId)}"></td>
+			<td th:if="${review1.get(line.productId)}"><a th:href="@{|/review/registerForm/${line.productId}/${review1.get(line.productId)}|}"><button id="btnstyle">리뷰 쓰기</button></a></td>
+			<td th:unless="${review1.get(line.productId)}"><a th:href="@{|/review/${review2.get(line.productId)}|}"><button id="btnstyle2">리뷰 보기</button></a></td>
         </tr>
       </table>
       <div align="right" style="padding-right: 20px;margin-top:10px;">

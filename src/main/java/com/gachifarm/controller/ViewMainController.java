@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +14,7 @@ import com.gachifarm.domain.ProductImage;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
-@SessionAttributes("account")
+@SessionAttributes("userSession")
 public class ViewMainController {
 	private GachiFarmFacade gachifarm;
 
@@ -24,10 +22,11 @@ public class ViewMainController {
 	public void setGachiFarm(GachiFarmFacade gachifarm) {
 		this.gachifarm = gachifarm;
 	}
+	
+	@RequestMapping(value="/") public String index() { return "redirect:/main"; }
 
 	@RequestMapping("main")
-	public ModelAndView viewCart(HttpSession userSession) throws Exception {
-		//String userId = ((Account) userSession.getAttribute("account")).getUserId();
+	public ModelAndView viewCart() throws Exception {
 		ModelAndView mav = new ModelAndView("Main");
 		String randomImagePath = gachifarm.getRandomImagePath();
 		

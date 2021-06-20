@@ -11,52 +11,90 @@
     </script>
 </head>
 <body>
-<div th:fragment="headFragment" style="margin:auto;width:100%;">
+
+<div th:fragment="headFragment" style="margin-bottom:50px;width:100%;">
+	<table style="width: 20%;text-align: center;margin-left:1250px;font-size: 13px;">
+		<tr style="height: 10px;">
+          <td colspan="5">
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center;border-right: 0.5px solid #DDDDDD;">
+            <a th:href="@{/signup}" style="color:black">회원가입</a>
+          </td>
+          <td style="text-align: center;border-right: 0.5px solid #DDDDDD;">
+            <a th:href="@{/loginForm}" style="color:black">로그인</a>
+          </td>
+           <td style="text-align: center;border-right: 0.5px solid #DDDDDD;">
+            <a th:href="@{/board/list/1}" style="color:black">QnA</a>
+          </td>
+          <td style="text-align: center;border: none">
+            <a th:href="@{/logout}" style="color:black">로그아웃</a>
+          </td>
+        </tr>
+        <tr style="border:none; height: 10px; width: 100%">
+          <td colspan="5">
+          </td>
+        </tr>
+	</table>
 	<div align="center" style="margin-top:50px;">
-		<img src="/images/logo_gachifarm.png" style="width:10%" />
+		<a th:href="@{/main}"><img src="/images/logo_gachifarm.png" style="width:10%" /></a>
 	</div>
-	<a href="#" style="color:gray;text-decoration: none;">
-		<i class="fa fa-user" style="font-size: 40px;margin-left:1350px;margin-bottom:20px;"></i>
+	<a th:href="@{/user/mypage}" style="color:gray;text-decoration: none;">
+		<i class="fa fa-user" style="font-size: 35px;margin-left:1270px;margin-bottom:20px;"></i>
 	</a>
-	<a href="#" style="color:gray;text-decoration: none;">
-		<i class="fa fa-shopping-cart" style="font-size: 40px;margin-left:30px;margin-bottom:20px;"></i>
+	<a th:href="@{/cart}" style="color:gray;text-decoration: none;">
+		<i class="fa fa-shopping-cart" style="font-size: 35px;margin-left:30px;margin-bottom:20px;"></i>
+	</a>
+	<a th:href="@{/user/store}" style="text-decoration: none;">
+		<img src="/images/main_mystore_btn.png" style="width:1.7%;height:1.7%;margin-left:30px;margin-bottom:20px;"/>
 	</a>
 	<div align="center">
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light" style="width:1300px;height:80px;">
   	<div class="container-fluid">
-	  <div class="collapse navbar-collapse" id="navbarColor03">
+	  <div class="collapse navbar-collapse" id="navbarColor03" style="justify-content: center;"> 
 	      <ul class="navbar-nav me-auto">
-	        <li class="nav-item" style="margin-left:50px;">
-	          <a class="nav-link active" th:href="@{/cart/37/add?quantity=30}">전체
+	        <li class="nav-item" style="margin-right:15px;">
+	          <a class="nav-link active" th:href="@{/product/list/all/1}">전체
 	          </a>
 	        </li>
-	        <li class="nav-item" style="margin-left:100px;">
-	          <a class="nav-link active" href="#">가치팜Only
+	        <li class="nav-item" style="margin-right:15px;">
+	          <a class="nav-link active" th:href="@{/product/list/all/1}">가치팜Only
 	          </a>
 	        </li>
-	        <li class="nav-item" style="margin-left:100px;">
-	          <a class="nav-link active" href="#">가치장터
+	        <li class="nav-item" style="margin-right:15px;">
+	          <a class="nav-link active" th:href="@{/group/product/list/1}">가치장터
 	          </a>
 	        </li>
-	        <li class="nav-item" style="margin-left:100px;">
-	          <a class="nav-link active" href="#">오픈마켓
+	        <li class="nav-item" style="margin-right:15px;">
+	          <a class="nav-link active" th:href="@{/store/list}">오픈마켓
 	          </a>
 	        </li>
 	      </ul>
-	      <form class="d-flex" style="margin-left:449px;">
-	        <input class="form-control me-sm-2" type="text" placeholder="Search">
-	        <a href="#">
-	      	<button type="submit" style="margin-left:5px;" class="btn btn-light"><i class="fa fa-search" style="text-align:center;font-size:20px;"></i></button>
-	      	</a>
+	      <form id="keywordForm" method="post" style="margin-left:150px;" class="d-flex">
+	        <input id="keyword" class="form-control me-sm-2" type="text" placeholder="Search">
+	      	<button style="margin-left:5px;" class="btn btn-light" onClick="search()"><i class="fa fa-search" style="text-align:center;font-size:20px;"></i></button>
 	      </form>
-	      <form class="d-flex" style="margin-left:5px;">
-	        <a href="#">
+	      <form th:action="@{/help}" method="post" class="d-flex" style="margin-left:5px;">
 	      	<button type="submit" class="btn btn-light"><i class="fa fa-question" style="text-align:center;font-size:22px;"></i></button>
-	      	</a>
 	      </form>
 	    </div>
     </div>
 </nav>
+<script>
+function search(){
+		var value = document.getElementById('keyword').value;
+		var formValue = document.getElementById('keywordForm');
+		if(value == ""){
+			formValue.action='/product/list/all/1';
+			alert('검색할 단어를 입력하세요');
+		}
+		else{
+			formValue.action='/search/product/list/' + value + '/1';
+		}
+		formValue.submit();
+	}
+</script>
 </div>
 </div>
 </body>

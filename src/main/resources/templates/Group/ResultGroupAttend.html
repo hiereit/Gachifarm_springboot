@@ -59,11 +59,12 @@ body, table, h3 {
 }
 </style>
 <body>
+<th:block th:insert="fragment/Top :: headFragment"></th:block>
 	<div align="center">
-		<h3 th:if="${result} eq true" th:text="#{sGroupProductOrder}"></h3>
-		<h3 th:if="${result} eq false" th:text="#{fGroupProductOrder}"></h3>
+		<h3 th:if="${resultAtt} eq true" th:text="#{sGroupProductOrder}"></h3>
+		<h3 th:if="${resultAtt} eq false" th:text="#{fGroupProductOrder}"></h3>
 		<hr id="hrstyle">
-		<table th:if="${result} eq true">
+		<table th:if="${resultAtt} eq true">
 			<tr>
 				<th id="thstyle">주문번호</th>
 				<td id="tdstyle" th:text="${groupBuyer.gOrderId}"></td>
@@ -73,6 +74,13 @@ body, table, h3 {
 				<td id="tdstyle" th:text="|${#numbers.formatInteger(groupBuyer.totalPrice, 3, 'COMMA')}원|"></td>
 			</tr>
 		</table>
+		<table th:if="${resultAtt} eq false">
+			<tr>
+				<th id="thstyle">현재 재고</th>
+				<td id="tdstyle" th:text="${qty}"></td>
+			</tr>
+		</table>
 	</div>
+<footer th:replace="fragment/Bottom :: footerFragment"></footer>  
 </body>
 </html>

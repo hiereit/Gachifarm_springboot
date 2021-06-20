@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Products</title>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet"
@@ -68,6 +69,7 @@ th {
 </style>
 </head>
 <body>
+<th:block th:insert="fragment/Top :: headFragment"></th:block>
 	<div align="center">
 		<div>
 			<table
@@ -123,5 +125,6 @@ th {
 			</ul>
 		</nav>
 	</div>
+	<footer th:replace="fragment/Bottom :: footerFragment"></footer>  
 </body>
 </html>

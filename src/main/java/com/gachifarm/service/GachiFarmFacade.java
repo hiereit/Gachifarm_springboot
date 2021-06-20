@@ -58,7 +58,7 @@ public interface GachiFarmFacade {
 	Page<Product> getsProductbyUserId(Pageable pageable, String userId, int pageNo);
 
 	// Group
-	void insertGroupProduct(GroupProduct groupProduct, Product product);
+	void insertGroupProduct(GroupProduct groupProduct);
 	void insertGroupBuyer(GroupBuyer groupBuyer);
 	void updateGroupProduct(GroupProduct groupProduct);
 	GroupProduct getGroupProduct(int gProductId);
@@ -144,4 +144,5 @@ public interface GachiFarmFacade {
 	List<Integer> getBestProductIds();
 	List<Integer> getNewProductIds();
 
+	void updateCompleteGroup(Date date, int gProductId);
 }

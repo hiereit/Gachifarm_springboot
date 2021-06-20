@@ -187,10 +187,32 @@ input:disabled {
 	width: 300px !important;
 }
 </style>
-
+<script>
+$(document).ready(function() {
+	var recvDate = "[[${#dates.format(groupProduct.recvDate, 'yyyy-MM-dd HH mm')}]]";
+	if (recvDate != "") {
+		var s = recvDate.split(" ");
+		document.getElementById('recv-datepicker-input').value = s[0];
+		var zero = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09'];
+		if (zero.indexOf(s[1]) > -1) {
+			document.getElementById('recvHour').value = s[1][1];
+		}
+		else {
+			document.getElementById('recvHour').value = s[1];
+		}
+		if (zero.indexOf(s[2]) > -1) {
+			document.getElementById('recvMinute').value = s[2][1];
+		}
+		else {
+			document.getElementById('recvMinute').value = s[2];
+		}
+	}
+});
+</script>
 </head>
 
 <body>
+<th:block th:insert="fragment/Top :: headFragment"></th:block>
 	<div>
 		<div class="container">
 			<div>
@@ -200,7 +222,7 @@ input:disabled {
 				<hr>
 				<div class="prdtInfo" style="height: 180px; width: 100%">
 					<div class="prdtImg">
-						<img>
+						<img th:src="${groupProduct.filePath}">
 					</div>
 					<div class="prdtName" th:object="${groupProduct.product}">
 						<b>상품명</b> <span th:text="*{prdtName}"></span><br> <b>남은
@@ -256,7 +278,7 @@ input:disabled {
 			</div>
 		</div>
 	</div>
-
+<footer th:replace="fragment/Bottom :: footerFragment"></footer>  
 	<!-- date, time picker -->
 	<script
 		src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>

@@ -37,7 +37,7 @@
         $('input:checkbox').prop('checked',false);
     }
 </script>
-<title>상품 주문</title>
+<title>가치팜</title>
 </head>
 <style>
 body		{ font-family: 'NanumSquare', sans-serif; }
@@ -74,9 +74,6 @@ h5 {
 	padding-top: 100px;
 	padding-bottom: 100px;
 }
-#cards {
-	border: 0px;
-}
 #orderForm {
 	margin-left: 300px;
 	margin-right: 300px;
@@ -95,6 +92,27 @@ h5 {
     	text-align: center;
     	padding: 5px;
     }
+select {
+	font-size: 15px;
+	width: 120px;
+	text-align:center;
+	color: #333;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #CED4DA;
+	border-radius: 0.4rem;
+	outline: none;
+	height: 38px;
+	background:
+		url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+)
+		no-repeat 3px;
+	background-position: right 5px top;
+	-moz-appearance: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+	padding: 0px 20px;
+}
 </style>
 <body>
 <th:block th:replace="fragment/Top :: headFragment"></th:block> 
@@ -208,17 +226,17 @@ h5 {
 			<tr>
 				<th id="thstyle">카드 선택</th>
 				<td id="tdstyle"><select id="cards" th:field="*{cardType}">
-						<option value="kb">국민</option>
-						<option value="bc">비씨</option>
-						<option value="sh">신한</option>
-						<option value="hd">현대</option>
-						<option value="ss">삼성</option>
-						<option value="lt">롯데</option>
-						<option value="nh">NH</option>
-						<option value="hn">하나</option>
-						<option value="wr">우리</option>
-						<option value="ct">씨티</option>
-						<option value="kk">카카오뱅크</option>
+						<option value="국민">국민</option>
+						<option value="비씨">비씨</option>
+						<option value="신한">신한</option>
+						<option value="현대">현대</option>
+						<option value="삼성">삼성</option>
+						<option value="롯데">롯데</option>
+						<option value="NH">NH</option>
+						<option value="하나">하나</option>
+						<option value="우리">우리</option>
+						<option value="씨티">씨티</option>
+						<option value="카카오뱅크">카카오뱅크</option>
 				</select></td>
 			</tr>
 			<tr>
@@ -231,7 +249,7 @@ h5 {
 				<input type="text" style="width:80px;display:inline-block;text-align:center;" id="num2" class="form-control" onKeyUp="moveFocus(4,this,this.form.num3);" placeholder="****"  maxlength="4">
 				&nbsp;&nbsp;
 				<input type="text" style="width:80px;display:inline-block;text-align:center;" id="num3" class="form-control" placeholder="****" maxlength="4">
-				&nbsp;&nbsp;<span style="font-size:15px;color:#ff724A;" th:if="${#fields.hasErrors('creditNum')}" th:errors="*{creditNum}"></span>
+				<br><span style="font-size:15px;color:#ff724A;" th:if="${#fields.hasErrors('creditNum')}" th:errors="*{creditNum}"></span>
 				</td>
 			</tr>
 			<tr>
@@ -240,7 +258,7 @@ h5 {
 				<input id="month" style="width:60px;display:inline-block;text-align:center;" type="text" class="form-control" onKeyUp="moveFocus(2,this,this.form.year);" placeholder="MM" maxlength="2">
 				&nbsp;&nbsp;/&nbsp;&nbsp;
 				<input id="year" style="width:60px;display:inline-block;text-align:center;" type="text" class="form-control" placeholder="YY" maxlength="2">
-				&nbsp;&nbsp;<span style="font-size:15px;color:#ff724A;" th:if="${#fields.hasErrors('expireDate')}" th:errors="*{expireDate}"></span>
+				<br><span style="font-size:15px;color:#ff724A;" th:if="${#fields.hasErrors('expireDate')}" th:errors="*{expireDate}"></span>
 				</td>
 			</tr>
 		</table>

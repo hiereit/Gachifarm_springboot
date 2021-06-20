@@ -24,7 +24,7 @@ hr {
 }
 
 .container {
-	max-width: 40%;
+	max-width: 50%;
 	min-width: 700px;
 	margin: 0px auto;
 }
@@ -94,7 +94,6 @@ button {
     function clickQtyBtn(type) {
       var qty = parseInt($('#qty').val());
       if (type == "add") {
-        // th 추가하고 여기에 최대수량 안 넘기는지 체크
         qty++;
       }
       else {
@@ -139,12 +138,13 @@ button {
 </head>
 
 <body>
+<th:block th:insert="fragment/Top :: headFragment"></th:block>
 	<div>
 		<div class="container">
 		<form th:action="@{/group/product/attendForm}" th:method="post">
 			<div id="prdtInfo" style="height: 180px; width: 100%">
 				<div id="gPrdtInfoLeft">
-					<img>
+					<img th:src="${gProduct.filePath}">
 				</div>
 				<div id="gPrdtInfoMid" style="width: 50px;"></div>
 				
@@ -185,6 +185,7 @@ button {
 			</form>
 		</div>
 	</div>
+	<footer th:replace="fragment/Bottom :: footerFragment"></footer>  
 </body>
 
 </html>
