@@ -169,9 +169,9 @@ public class GachiFarmImpl implements GachiFarmFacade {
 		return productRepository.findByUserId(userId, pageable);
 	}
 	// GroupProduct
-	public void insertGroupProduct(GroupProduct groupProduct, Product product) {
-		productDao.updateProduct(product);
-		groupProductRepository.save(groupProduct);
+	public void insertGroupProduct(GroupProduct groupProduct) {
+		productRepository.save(groupProduct.getProduct());
+		groupProductRepository.saveAndFlush(groupProduct);
 	}
 	public void updateGroupProduct(GroupProduct groupProduct) {
 		groupProductRepository.save(groupProduct);

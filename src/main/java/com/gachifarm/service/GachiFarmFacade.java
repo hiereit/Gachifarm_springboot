@@ -58,7 +58,7 @@ public interface GachiFarmFacade {
 	Page<Product> getsProductbyUserId(Pageable pageable, String userId, int pageNo);
 
 	// Group
-	void insertGroupProduct(GroupProduct groupProduct, Product product);
+	void insertGroupProduct(GroupProduct groupProduct);
 	void insertGroupBuyer(GroupBuyer groupBuyer);
 	void updateGroupProduct(GroupProduct groupProduct);
 	GroupProduct getGroupProduct(int gProductId);

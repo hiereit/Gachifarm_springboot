@@ -14,6 +14,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 @SuppressWarnings("serial")
 @Entity
@@ -34,7 +35,7 @@ public class GroupBuyer implements Serializable {
 	private Date orderDate;
 	private String creditNum;
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@DateTimeFormat(pattern="MM/yy")
 	private Date expireDate;
 	private String cardType;
 	@Column(name="gProduct_id")
@@ -42,8 +43,8 @@ public class GroupBuyer implements Serializable {
 	@Column(name="user_id")
 	private String userId;
 	
-	@Min(1)
 	private int qty;
+	@CreationTimestamp
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date attendDate;

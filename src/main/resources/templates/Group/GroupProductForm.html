@@ -19,7 +19,7 @@ body {
 	font-family: 'NanumSquare', sans-serif;
 }
 
-button {
+input[type="button"] {
 	font-family: 'NanumSquare', sans-serif !important;
 }
 
@@ -183,7 +183,35 @@ select {
 #recvPlace {
 	width: 300px !important;
 }
+
+.err {
+	color: #FF724A;
+	font-size: 12px;
+	margin-top: 3px;
+}
 </style>
+<script>
+$(document).ready(function() {
+	var recvDate = "[[${#dates.format(groupProduct.recvDate, 'yyyy-MM-dd HH mm')}]]";
+	if (recvDate != "") {
+		var s = recvDate.split(" ");
+		document.getElementById('recv-datepicker-input').value = s[0];
+		var zero = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09'];
+		if (zero.indexOf(s[1]) > -1) {
+			document.getElementById('recvHour').value = s[1][1];
+		}
+		else {
+			document.getElementById('recvHour').value = s[1];
+		}
+		if (zero.indexOf(s[2]) > -1) {
+			document.getElementById('recvMinute').value = s[2][1];
+		}
+		else {
+			document.getElementById('recvMinute').value = s[2];
+		}
+	}
+});
+</script>
 
 </head>
 
@@ -197,7 +225,7 @@ select {
 				<hr>
 				<div class="prdtInfo" style="height: 180px; width: 100%">
 					<div class="prdtImg">
-						<img>
+						<img th:src="${groupProduct.filePath}">
 					</div>
 					<div class="prdtName" th:object="${groupProduct.product}">
 						<b>상품명</b> <span th:text="*{prdtName}"></span><br> <b>남은
@@ -206,6 +234,7 @@ select {
 				</div>
 				<hr>
 				<form method="post" th:action="@{/group/product/register}" style="text-align: center;" th:object="${groupProduct}">
+					<input type="hidden" th:field="*{productId}">
 					<table id="form_table">
 						<tr class="border_bottom">
 							<th>마감일</th>
@@ -214,6 +243,8 @@ select {
 									class="form-control tui-datepicker-input tui-datetime-input tui-has-focus enddatepicker">
 									<input id="end-datepicker-input" type="text" aria-label="Date" th:field="*{period}"
 										readonly> <span class="tui-ico-date" ></span>
+										<span class="err" th:if="${#fields.hasErrors('period')}"
+								th:errors="*{period}"></span>
 									<div id="wrapper1"></div>
 								</div>
 							</td>
@@ -224,36 +255,39 @@ select {
 								<div
 									class="form-control tui-datepicker-input tui-datetime-input tui-has-focus recvdatepicker">
 									<input id="recv-datepicker-input" type="text" aria-label="Date"
-										onchange="changeDate();" readonly> <span class="tui-ico-date"></span>
+										 readonly> <span class="tui-ico-date"></span>
 									<div id="wrapper2"></div>
 								</div> <span style="font-size: 15px">&emsp;시간&nbsp;</span>
 								<select onchange="changeDate()" id="recvHour">
 									<option th:each="i : ${#numbers.sequence(0, 23)}"
-										th:value="${i}" th:text="${i}" th:selected="${i==1}"></option>
+										th:value="${i}" th:text="${i}" th:selected="${i==0}"></option>
 							</select> <span style="font-size: 15px"> : </span>
 							<select onchange="changeDate()" id="recvMinute">
 									<option th:each="i : ${#numbers.sequence(0, 59, 5)}"
 										th:value="${i}" th:text="${i}" th:selected="${i==0}"></option>
-							</select>
+							</select><br>
 							<input id="recvDate" type="hidden" th:field="*{recvDate}">
+							<span class="err" th:if="${#fields.hasErrors('recvDate')}"
+								th:errors="*{recvDate}"></span>
 							<div th:object=${groupProduct.product}>
 							<input id="productId" type="hidden" th:field="*{productId}" th:value="*{productId}"></div>
 							</td>
 						</tr>
 						<tr>
 							<th>수령장소</th>
-							<td><input type="text" class="form-control" th:field="*{recvPlace}" onchange="changePlace()"
+							<td><input type="text" class="form-control" th:field="*{recvPlace}"
 								id="recvPlace" placeholder="주소" style="width: 200px;">
-								<input type="button" class="btn btn-outline-danger"
-								id="form_button" onclick="recvPlace()"
-								value="주소 검색"><br>
+								<input type="button" class="btn btn-outline-danger placeBtn" id="form_button" value="주소 검색" ><br>
+								<span class="err" th:if="${#fields.hasErrors('recvPlace')}"
+								th:errors="*{recvPlace}"></span>
 							</td>
 						</tr>
 					</table>
-					<button type="submit" class="btn btn-danger" id="submit_button">등록하기</button>
-
+					<hr style="margin-bottom: 10px;">
+					<span style="font-size: 12px;">*등록 후 먼저 공동구매 신청 완료하여야 공동구매 신청 페이지가 오픈됩니다.<br>
+					오픈 전 신청 페이지는 마이페이지에서 확인 가능합니다.</span><br>
+					<input value="등록하기" type="submit" class="btn btn-danger" id="submit_button">
 				</form>
-
 			</div>
 		</div>
 	</div>
@@ -304,6 +338,23 @@ select {
 			document.getElementById('recvDate').value = recvDate;
 		}
 		
+		endDatepicker.on('change', function() {
+			var recvMin = new Date($('#end-datepicker-input').val());
+			recvMin.setDate(recvMin.getDate() + 1);
+			var recvMax = new Date($('#end-datepicker-input').val());
+			recvMax.setDate(recvMax.getDate() + 7);
+			var recvDatepicker = new tui.DatePicker('#wrapper2', {
+				language : 'ko',
+				date : recvMin,
+				input : {
+					element : '#recv-datepicker-input'
+				},
+				selectableRanges: [
+			        [recvMin, recvMax]
+			    ]
+			});
+		});
+		
 		recvDatepicker.on('change', function() {
 			var date = $('#recv-datepicker-input').val();
 			var hour = $('#recvHour').val();
@@ -313,25 +364,24 @@ select {
 			var recvDate = date + " " + hour + ":" + minute;
 			document.getElementById('recvDate').value = recvDate;
 		});
+		
+		
 	</script>
 
 	<!-- 주소 검색 -->
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
-		function recvPlace() {
-			var qq = new daum.Postcode({
+		$('.placeBtn').click(function(){
+			new daum.Postcode({
 				oncomplete : function(data) {
 					var addr = data.address; // 최종 주소 변수
-
 					// 주소 정보를 해당 필드에 넣는다.
 					document.getElementById("recvPlace").value = addr;
-				
 				}
 			}).open({
-				popupName: 'postcodePopup',
 			    autoClose: true //기본값 true
 			});
-		}
+		});
 	</script>
 </body>
 

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gachifarm.dao.ProductDao;
+import com.gachifarm.domain.GroupProduct;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
@@ -23,6 +24,8 @@ public class ViewGroupProductController {
 	@RequestMapping("/group/product/{gProductId}")
 	public ModelAndView viewGroupProduct(
 			@PathVariable("gProductId") int gProductId) throws Exception {
-		return new ModelAndView("Group/GroupProductDetail", "gProduct", gachiFarm.getGroupProduct(gProductId));
+		GroupProduct gProduct = gachiFarm.getGroupProduct(gProductId);
+		gProduct.setFilePath(gachiFarm.getProductImageByPid(gProduct.getProductId()).getImgPath());
+		return new ModelAndView("Group/GroupProductDetail", "gProduct", gProduct);
 	}
 }
