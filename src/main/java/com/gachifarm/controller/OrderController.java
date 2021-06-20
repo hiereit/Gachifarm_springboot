@@ -189,7 +189,8 @@ public class OrderController {
 		String email = user.getEmail();
 		List<LineProduct> orderProducts = gachifarm.findLineProducts(orderId);
 		List<Cart> lineProducts = new ArrayList<Cart>();
-		HashMap<Integer, Boolean> IsReview = new HashMap<>();
+		HashMap<Integer, Integer> reviewMap1 = new HashMap<>();
+		HashMap<Integer, Integer> reviewMap2 = new HashMap<>();
 		for (LineProduct line : orderProducts) {
 			Product product = gachifarm.getProduct(line.getProductId());
 			int productId = product.getProductId();
@@ -201,14 +202,18 @@ public class OrderController {
 			Cart cart = new Cart(path, productId, productName, price, quantity, totalPrice);
 			lineProducts.add(cart);
 			Review review = gachifarm.findReview(line.getLineProductId());
-			if (review != null) {
-				IsReview.put(productId, true);
+			if (review == null) {
+				reviewMap1.put(productId, line.getLineProductId());
+			}
+			else {
+				reviewMap2.put(productId, review.getReviewId());
 			}
 		}
 		mav.addObject("order", order);
 		mav.addObject("email", email);
 		mav.addObject("lineProducts", lineProducts);
-		mav.addObject("review", IsReview);
+		mav.addObject("review1", reviewMap1);
+		mav.addObject("review2", reviewMap2);
 		mav.addObject("productTotal", (order.getTotalPrice() - 3000));
 		return mav;
 	}
