@@ -51,7 +51,7 @@ table {
 
 			<tbody th:unless="${#lists.isEmpty(orders)}">
 				<th:block th:each="i : ${#numbers.sequence(0, orders.size()-1)}">
-					<tr>
+					<tr th:onClick="|location.href='/order/${orders[i].orderId}/detail'|">
 						<td><!-- <font th:text="${#dates.format(orders[i].orderDate, 'MMdd')}"></font> --><font th:text="${orders[i].orderId}"></font></td>
 						<th th:text="${#dates.format(orders[i].orderDate, 'yyyy-MM-dd')}">OrderDate</th>
 						<td><font th:text="${productNamesArray[i]}">ProductName</font>
