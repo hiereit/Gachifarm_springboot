@@ -14,6 +14,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -50,6 +51,10 @@ public class Review implements Serializable {
 	private int orderId;
 	@Column(name="lineProduct_id")
 	private int lineProductId;
+	
+	@Transient
+	@NotEmpty(message="사진은 필수로 선택해야 합니다.")
+	private String fileName;
 	
 	public int getReviewId() {
 		return reviewId;
@@ -104,6 +109,12 @@ public class Review implements Serializable {
 	}
 	public void setLineProductId(int lineProductId) {
 		this.lineProductId = lineProductId;
+	}
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 	
 }
