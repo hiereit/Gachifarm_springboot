@@ -34,7 +34,6 @@ public class GroupBuyer implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date orderDate;
-	@CreditCardNumber
 	@NotEmpty(message="카드 번호는 필수로 입력해야 합니다.")
 	private String creditNum;
 	@Temporal(TemporalType.DATE)
