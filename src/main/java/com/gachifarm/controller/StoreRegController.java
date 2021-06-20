@@ -20,7 +20,6 @@ import com.gachifarm.domain.Store;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
-@SessionAttributes("account")
 public class StoreRegController {
 
 	private GachiFarmFacade gachifarm;
@@ -34,7 +33,7 @@ public class StoreRegController {
 	@RequestMapping("store/registerForm")
 	public String showStoreForm(Model model, HttpSession session) {
 
-		Account sessionAccount = (Account) session.getAttribute("account");
+		Account sessionAccount = ((UserSession) session.getAttribute("userSession")).getAccount();
 		if (gachifarm.getStore(sessionAccount.getUserId()) != null) {
 			if (gachifarm.getStore(sessionAccount.getUserId()).getStoreName() != null) {
 				return "Main";
@@ -60,7 +59,7 @@ public class StoreRegController {
 	public String handleStoreForm(@Valid @ModelAttribute("storeCommand") StoreRegRequest regReq, BindingResult result,
 			HttpSession session, Model model) throws NoResultException {
 		// session에서 유저정보 가져오기
-		Account sessionAccount = (Account) session.getAttribute("account");
+		Account sessionAccount = ((UserSession) session.getAttribute("userSession")).getAccount();
 
 		// 스토어를 처음 만든다면..! >> 이미 있는 사람은 get에서 처리
 		boolean isExistName = false;
@@ -95,7 +94,7 @@ public class StoreRegController {
 	@RequestMapping("store/updateForm/{storeName}")
 	public String showStoreUpdateForm(@Valid @ModelAttribute("storeCommand") StoreRegRequest regReq,
 			BindingResult result, Model model, HttpSession session, @PathVariable("storeName") String storeName) {
-		Account sessionAccount = (Account) session.getAttribute("account");
+		Account sessionAccount = ((UserSession) session.getAttribute("userSession")).getAccount();
 
 		Store store = gachifarm.getStore(sessionAccount.getUserId());
 		boolean isUpdate = true;

@@ -143,7 +143,7 @@ public class ListStoreController {
 	@RequestMapping("/store/product/order/status/{pageNo}")
 	public String getStoreOrderList( @PageableDefault Pageable pageable,
 			@PathVariable("pageNo")int pageNo, Model model, HttpSession session) {
-		Account sessionAccount = (Account) session.getAttribute("account");
+		Account sessionAccount = ((UserSession) session.getAttribute("userSession")).getAccount();
 		
 		//스토어정보
 		Store store = gachifarm.getStore(sessionAccount.getUserId());
