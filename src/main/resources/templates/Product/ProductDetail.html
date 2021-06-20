@@ -16,43 +16,27 @@ body, h3 {
 	font-family: 'NanumSquare', sans-serif;
 	color: black;
 }
+
 hr {
 	height: 1px;
 	background-color: #707070;
 	margin: 0px;
 }
+
 .container {
 	max-width: 60%;
 	min-width: 700px;
-	margin: 0px auto;
+	/*margin: 0px auto;*/
 }
+
 legend {
 	color: black;
 	font-size: 20px;
 	font-family: 'NanumSquare', sans-serif !important;
 	font-weight: 700;
 }
+
 #prdtType_gachi {
-	border-color: #FFD75E !important;
-	border-width: medium !important;
-	width: 70px !important;
-	height: 30px !important;
-	font-size: 12px !important;
-	font-weight: bold;
-	padding: 0px !important;
-	pointer-events: none;
-}
-#prdtType_group {
-	border-color: #0AC175 !important;
-	border-width: medium !important;
-	width: 70px !important;
-	height: 30px !important;
-	font-size: 12px !important;
-	font-weight: bold;
-	padding: 0px !important;
-	pointer-events: none;
-}
-#prdtType_store {
 	border-color: #FF724A !important;
 	border-width: medium !important;
 	width: 70px !important;
@@ -62,7 +46,8 @@ legend {
 	padding: 0px !important;
 	pointer-events: none;
 }
-#prdtType_gachi {
+
+#prdtType_group {
 	border-color: #FFD75E !important;
 	border-width: medium !important;
 	width: 70px !important;
@@ -72,20 +57,35 @@ legend {
 	padding: 0px !important;
 	pointer-events: none;
 }
+
+#prdtType_store {
+	border-color: #0AC175 !important;
+	border-width: medium !important;
+	width: 70px !important;
+	height: 30px !important;
+	font-size: 12px !important;
+	font-weight: bold;
+	padding: 0px !important;
+	pointer-events: none;
+}
+
 #gPrdtInfoLeft img {
 	height: 400px !important;
 	width: 400px;
 }
+
 #gPrdtInfoLeft, #gPrdtInfoMid, #gPrdtInfoRight {
 	display: inline-block;
 	vertical-align: middle;
 	color: black;
 }
+
 #gPrdtInfo {
 	list-style: none;
 	padding-left: 0px;
 	margin-top: 20px;
 }
+
 #qty {
 	width: 43px;
 	height: 43px;
@@ -94,14 +94,17 @@ legend {
 	border-style: solid;
 	text-align: center;
 }
+
 #qtySub, #qty, #qtyAdd, #totalPrice {
 	display: inline-block;
 	vertical-align: middle;
 }
+
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 	-webkit-appearance: none;
 	margin: 0;
 }
+
 button {
 	font-family: 'NanumSquare', sans-serif !important;
 	font-weight: bold !important;
@@ -110,127 +113,351 @@ button {
 }
 </style>
 <script>
-	function addCart(){
-		 var value = document.getElementById('qty').value;
-		 var prdtId = document.getElementById('productIdData').value;
-		 
-		//$.post('/cart/{product_id}(product_id=${product.productId})/add?quantity=' + value)
-		var formValue = document.getElementById('infoForm');
-		
-		formValue.action='/cart/' + prdtId +'/add?quantity=' + value;
-		formValue.submit();
-		
-	}
-	
-	function order(){
+	function addCart() {
 		var value = document.getElementById('qty').value;
 		var prdtId = document.getElementById('productIdData').value;
-		 
+
 		//$.post('/cart/{product_id}(product_id=${product.productId})/add?quantity=' + value)
 		var formValue = document.getElementById('infoForm');
-		
-		formValue.action='/order/onePrdt/form?productId=' + prdtId +'&quantity=' + value;
+
+		formValue.action = '/cart/' + prdtId + '/add?quantity=' + value;
+		formValue.submit();
+
+	}
+
+	function order() {
+		var value = document.getElementById('qty').value;
+		var prdtId = document.getElementById('productIdData').value;
+
+		//$.post('/cart/{product_id}(product_id=${product.productId})/add?quantity=' + value)
+		var formValue = document.getElementById('infoForm');
+
+		formValue.action = '/order/onePrdt/form?productId=' + prdtId
+				+ '&quantity=' + value;
 		formValue.submit();
 	}
-    function clickQtyBtn(type) {
-      var qty = parseInt($('#qty').val());
-      if (type == "add") {
-        // th 추가하고 여기에 최대수량 안 넘기는지 체크
-        qty++;
-      }
-      else {
-        qty--;
-        if (qty == 0) {
-          qty = 1;
-        }
-      }
-      document.getElementById('qty').value = qty;
-      calcPrice();
-    }
-    function changeQty() {
-      var qty = parseInt($('#qty').val());
-      if (qty < 1 || isNaN(qty) ) {
-          qty = 1;
-          alert("1개 이상부터 구매할 수 있습니다.");
-        }
-      document.getElementById('qty').value = qty;
-      calcPrice();
-      }
-      function calcPrice() {
-        var qty = parseInt($('#qty').val());
-        var price = $('#price').text().replace(",", "");
-        price = parseInt(price);
-        var totalPrice = qty * price;
-        $('#totalPriceText').html(totalPrice.format());
-      }
-      $(document).ready(function() {
-        calcPrice();
-      });
-      Number.prototype.format = function(){
-    	    if(this==0) return 0;
-    	
-    	    var reg = /(^[+-]?\d+)(\d{3})/;
-    	    var n = (this + '');
-    	
-    	    while (reg.test(n)) n = n.replace(reg, '$1' + ',' + '$2');
-    	
-    	    return n;
-    	};
-    	
-  </script>
+	function clickQtyBtn(type) {
+		var qty = parseInt($('#qty').val());
+		if (type == "add") {
+			// th 추가하고 여기에 최대수량 안 넘기는지 체크
+			qty++;
+		} else {
+			qty--;
+			if (qty == 0) {
+				qty = 1;
+			}
+		}
+		document.getElementById('qty').value = qty;
+		calcPrice();
+	}
+	function changeQty() {
+		var qty = parseInt($('#qty').val());
+		if (qty < 1 || isNaN(qty)) {
+			qty = 1;
+			alert("1개 이상부터 구매할 수 있습니다.");
+		}
+		document.getElementById('qty').value = qty;
+		calcPrice();
+	}
+	function calcPrice() {
+		var qty = parseInt($('#qty').val());
+		var price = $('#price').text().replace(",", "");
+		price = parseInt(price);
+		var totalPrice = qty * price;
+		$('#totalPriceText').html(totalPrice.format());
+	}
+	$(document).ready(function() {
+		calcPrice();
+	});
+	Number.prototype.format = function() {
+		if (this == 0)
+			return 0;
+
+		var reg = /(^[+-]?\d+)(\d{3})/;
+		var n = (this + '');
+
+		while (reg.test(n))
+			n = n.replace(reg, '$1' + ',' + '$2');
+
+		return n;
+	};
+	function regBoard() {
+		//alert('regBoart입ㄹ니달ㄴ')
+		var value = document.getElementById('regBoardBtn').value;
+		var formValue = document.getElementById('regForm');
+
+		formValue.action = '/board/registerForm?productId=' + value;
+		formValue.submit();
+	}
+</script>
+<script>
+	var isAdmin = '[[${isAdmin}]]';
+	var modal = document.getElementById('modal');
+	var pwError = document.getElementById('pwError');
+	var boardPw;
+	var boardId;
+	function checkPW(pw, id) {
+		if (isAdmin == "false" && pw != "null") {
+			modal.style.display = "flex";
+			boardPw = pw.replaceAll("\"", "");
+			boardId = id;
+			return;
+		}
+		location.href = '/board/' + id;
+	}
+
+	function comparePW() {
+		var inputPw = document.getElementById('password').value;
+		if (boardPw == inputPw) {
+			modal.style.display = "none";
+			pwError.style.display = "none";
+			location.href = '/board/' + boardId;
+		} else {
+			document.getElementById('password').value = "";
+			pwError.style.display = "flex";
+		}
+	}
+
+	//When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+		if (event.target == modal) {
+			modal.style.display = "none";
+			pwError.style.display = "none";
+		}
+	}
+</script>
 </head>
 <body>
-	<input type="hidden" id="productIdData" th:value="${product.productId}"/>
-	<div>
-		<div class="container">
-			<div id="prdtInfo" style="height: 180px; width: 100%">
+	<th:block th:insert="fragment/Top :: headFragment"></th:block>
+	<input type="hidden" id="productIdData" th:value="${product.productId}" />
+	<div class="bodyContainer">
+		<div class="container-2" style="text-align: center;">
+			<div id="prdtInfo" style="height: 180px; width: 100%;">
 				<div id="gPrdtInfoLeft">
-					<img style="width:300px;height:250px; object-fit: contain;"th:src="${link}">
+					<img style="width: 300px; height: 250px; object-fit: contain;"
+						th:src="${link}">
 				</div>
 				<div id="gPrdtInfoMid" style="width: 50px;"></div>
 				<div id="gPrdtInfoRight">
-					<button th:if="${pSaleType.equals('GACHI')}" type="button" class="btn btn-outline-warning disabled"
-						id="prdtType_gachi">가치장터</button>
-					<button th:if="${pSaleType.equals('STORE')}" type="button" class="btn btn-outline-danger disabled"
-						id="prdtType_store">오픈마켓</button>
-					<button th:if="${pSaleType.equals('GROUP')}" type="button" class="btn btn-outline-success disabled"
-						id="prdtType_group">공동구매</button>
+					<button th:if="${pSaleType.equals('GACHI')}" type="button"
+						class="btn btn-outline-danger disabled" id="prdtType_gachi">가치only</button>
+					<button th:if="${pSaleType.equals('STORE')}" type="button"
+						class="btn btn-outline-success disabled" id="prdtType_store">오픈마켓</button>
+					<button th:if="${pSaleType.equals('GROUP')}" type="button"
+						class="btn btn-outline-warning disabled" id="prdtType_group">공동구매</button>
 					<br>
 					<h3 style="margin-top: 9px" th:text="${product.prdtName}"></h3>
-					<span id="price" style="font-size: 30px; font-weight: bold;" th:text="${#numbers.formatInteger(T(Math).ceil(product.price), 3,'COMMA')}"></span><span
+					<span id="price" style="font-size: 30px; font-weight: bold;"
+						th:text="${#numbers.formatInteger(T(Math).ceil(product.price), 3,'COMMA')}"></span><span
 						style="font-size: 30px">원</span><br>
 					<ul id="gPrdtInfo">
-						<li style="font-size: 15px;"><b>판매자</b> &nbsp;&nbsp;&nbsp;<span th:text="${product.supplier}">김동덕</span></li>
-						<li style="font-size: 15px;"><b>상품분류</b> &nbsp;<span th:text="${product.category}">카테고리</span></li>
-						
-						<li style="font-size: 15px;"><br><b>판매자의 한마디</b><br>
-						 <span th:text="${product.description}">설명</span></li>
+						<li style="font-size: 15px;"><b>판매자</b>&nbsp;<span
+							th:text="${product.supplier}">김동덕</span></li>
+						<li style="font-size: 15px;"><b>상품분류</b>&nbsp;<span
+							th:text="${product.category}">카테고리</span></li>
 					</ul>
-					 <!--  th:action="@{/cart/{product_id}(product_id=${product.productId})/add?quantity=${}}"-->
+					<!--  th:action="@{/cart/{product_id}(product_id=${product.productId})/add?quantity=${}}"-->
 					<div>
 						<form id="infoForm" method="post">
-						<i id="qtySub" class="fas fa-solid fa-minus-square fa-3x"
-							style="color: #DDDDDD;" onclick="clickQtyBtn('sub')"></i> <input
-							id="qty" type="number" value="1" style="font-size: 18px"
-							onchange="changeQty()"> <a id="qtyAdd"
-							class="fas fa-solid fa-plus-square fa-3x" style="color: #DDDDDD;"
-							onclick="clickQtyBtn('add')"></a>
-						<div id="totalPrice">
-							<span style="font-size: 20px; margin-left: 10px;">총</span> 
-							<span style="font-size: 20px; font-weight: bold;" id="totalPriceText" th:text="${product.price}"></span>
-								<span style="font-size: 20px">원</span><br>
-						</div>	
-						<br><br>				
-						<input type="button" class="btn btn-danger" id="submit_button" onclick="addCart()" value="장바구니에 담기">
-						<input type="button" class="btn btn-danger" value="바로 주문하기" onclick="order()">
-						&nbsp;<a th:if="${product.saleType} eq 'GACHI'" th:href="@{/group/product/registerForm/{productId}(productId=${product.productId})}"><i class="fas fa-solid fa-users fa-2x" style="color:#707070;"></i></a>
-						<!-- cart/{product_id}/add?quantity=3 <a th:href="@{order/form?productId=${product.productId}&quantity=${}}">-->
+							<i id="qtySub" class="fas fa-solid fa-minus-square fa-3x"
+								style="color: #DDDDDD;" onclick="clickQtyBtn('sub')"></i> <input
+								id="qty" type="number" value="1" style="font-size: 18px"
+								onchange="changeQty()"> <a id="qtyAdd"
+								class="fas fa-solid fa-plus-square fa-3x"
+								style="color: #DDDDDD;" onclick="clickQtyBtn('add')"></a>
+							<div id="totalPrice">
+								<span style="font-size: 20px; margin-left: 10px;">총</span> <span
+									style="font-size: 20px; font-weight: bold;" id="totalPriceText"
+									th:text="${product.price}"></span> <span
+									style="font-size: 20px">원</span><br>
+							</div>
+							<br> <br> <input type="button" class="btn btn-danger"
+								id="submit_button" onclick="addCart()" value="장바구니에 담기">
+							<input type="button" class="btn btn-danger" value="바로 주문하기"
+								onclick="order()"> &nbsp;<a
+								th:if="${product.saleType} eq 'GACHI'"
+								th:href="@{/group/product/registerForm/{productId}(productId=${product.productId})}"><i
+								class="fas fa-solid fa-users fa-2x" style="color: #707070;"></i></a>
+							<!-- cart/{product_id}/add?quantity=3 <a th:href="@{order/form?productId=${product.productId}&quantity=${}}">-->
+
+
+							<!-- cart/{product_id}/add?quantity=3 <a th:href="@{order/form?productId=${product.productId}&quantity=${}}">-->
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	
+		<!-- 판매자의 한마디 -->
+		<div style="margin-top: 300px;">
+			<div class="container">
+				<legend>
+					<b>상품설명</b>
+				</legend>
+				<hr>
+				<span th:text="${product.description}">설명</span>
+			</div>
+
+			<form id="regForm" method="post">
+				<input type="hidden" id="regBoardBtn" th:value=${productId}>
+			</form>
+
+			<!-- Q&A -->
+			<div class="container" style="margin-top: 50px;">
+				<legend>
+					<b>Q&A</b> <input class="btn btn-primary"
+						style="float: right; font-weight: bold; height: 30px;"
+						type="button" value="등록" onclick="regBoard()" />
+				</legend>
+				<hr>
+				<div th:unless="${boardPage.isEmpty}" align="center">
+					<table style="width: 600px;">
+						<tr style="height: 10px;">
+							<td colspan="5"></td>
+						</tr>
+						<tr>
+							<th>번호</th>
+							<th>제목</th>
+							<th>아이디</th>
+							<th style="border: none">날짜</th>
+						</tr>
+						<tr
+							style="border-bottom: 0.5px solid #DDDDDD; height: 10px; width: 100%">
+							<td colspan="5"></td>
+						</tr>
+						<tr
+							style="border-bottom: 0.5px solid #DDDDDD; height: 10px; width: 100%"
+							class="content" th:each="board: ${boardList}"
+							th:onClick="checkPW('[[${board.boardPW}]]', '[[${board.boardId}]]')">
+							<td th:text="${board.boardId}"></td>
+							<td th:inline="text"><i th:if="${board.boardPW}"
+								class="fas fa-solid fa-lock"></i> [[${board.title}]] <span
+								th:if="${board.answer}" class="badge badge-light">답변완료</span></td>
+							<td th:text="${board.userId}"></td>
+							<td th:text="${board.boardDate}"></td>
+						</tr>
+					</table>
+				</div>
+				<div th:if="${boardPage.isEmpty}">
+					<br>
+					<h5 style="text-align: center;">아직 등록된 게시글이 없습니다</h5>
+				</div>
+			</div>
+
+			<!-- 페이징바 -->
+			<div align="center" style="margin: 30px;">
+				<nav style="display: inline-block; text-align: center;"
+					th:unless="${boardList.size() == 0}">
+					<ul th:class="pagination"
+						th:with="start=${T(Math).floor(boardPage.number/count)*count + 1},
+                    last=(${start + (count - 1) < boardPage.totalPages ? start + (count - 1) : boardPage.totalPages})">
+						<li class="page-item"><a th:id="tail" th:class="page-link"
+							th:href="@{/board/list/1}" aria-label="First"> <span
+								aria-hidden="true">First</span>
+						</a></li>
+						<li th:class="${boardPage.first} ? 'disabled'"><a
+							th:class="page-link"
+							th:href="${boardPage.first} ? '#' :@{/board/list/{pageNo}(pageNo=${boardPage.number})}"
+							aria-label="Previous"> <span aria-hidden="true">&lt;</span>
+						</a></li>
+						<li th:each="page: ${#numbers.sequence(start, last)}"
+							th:class="${page == boardPage.number + 1} ? 'active'"><a
+							th:class="page-link" th:text="${page}"
+							th:href="@{/board/list/{pageNo}(pageNo=${page})}"></a></li>
+						<li th:class="${boardPage.last} ? 'disabled'"><a
+							th:class="page-link"
+							th:href="${boardPage.last} ? '#' : @{/board/list/{pageNo}(pageNo=${boardPage.number + 2})}"
+							aria-label="Next"> <span aria-hidden="true">&gt;</span>
+						</a></li>
+						<li th:class="page-item"><a th:id="tail" th:class="page-link"
+							th:href="@{/board/list/{pageNo}(pageNo=${boardPage.totalPages})}"
+							aria-label="Last"> <span aria-hidden="true">Last</span>
+						</a></li>
+					</ul>
+				</nav>
+			</div>
+
+			<div class="container">
+				<legend>
+					<b>구매후기</b>
+				</legend>
+				<hr>
+				<div>
+					<table th:unless="${reviewPage.isEmpty}" align="center"
+						style="width: 600px;">
+						<tr style="height: 10px;">
+							<td colspan="5"></td>
+						</tr>
+						<tr>
+							<th>번호</th>
+							<th>제목</th>
+							<th>아이디</th>
+							<th>날짜</th>
+							<th style="border: none">별점</th>
+						</tr>
+						<tr
+							style="border-bottom: 0.5px solid #DDDDDD; height: 10px; width: 100%">
+							<td colspan="5"></td>
+						</tr>
+						<!--|location.href='/review/${review.reviewId}'| -->
+						<tr
+							style="border-bottom: 0.5px solid #DDDDDD; height:10px; width:100%"
+							class="content" th:each="review: ${reviewList}"
+							th:onClick="|location.href='/review/${review.reviewId}'|">
+							<td th:text="${review.reviewId}"></td>
+							<td th:text="${review.title}"></td>
+							<td th:text="${review.userId}"></td>
+							<td th:text="${review.reviewDate}"></td>
+							<td><span th:if="${review.score != 0}"
+								th:each="num : ${#numbers.sequence(1, review.score)}"> <i
+									class="fas fa-star"></i></span> <span th:if="${review.score != 5}"
+								th:each="num : ${#numbers.sequence(1, 5-review.score)}">
+									<i class="far fa-star"></i>
+							</span></td>
+						</tr>
+					</table>
+				</div>
+				<div th:if="${reviewPage.isEmpty}">
+					<br>
+					<h5 style="text-align: center;">아직 등록된 리뷰가 없습니다</h5>
+				</div>
+
+				<div align="center" style="margin: 30px;">
+					<nav style="display: inline-block; text-align: center;"
+						th:unless="${reviewList.size() == 0}">
+						<ul th:class="pagination"
+							th:with="start=${T(Math).floor(reviewPage.number/count)*count + 1},
+                    last=(${start + (count - 1) < reviewPage.totalPages ? start + (count - 1) : reviewPage.totalPages})">
+							<li class="page-item"><a th:id="tail" th:class="page-link"
+								th:href="@{/product/{productId}/review/list/1(productId=${productId})}"
+								aria-label="First"> <span aria-hidden="true">First</span>
+							</a></li>
+							<li th:class="${reviewPage.first} ? 'disabled'"><a
+								th:class="page-link"
+								th:href="${reviewPage.first} ? '#' :@{/product/{productId}/review/list/{pageNo}(productId=${productId}, pageNo=${reviewPage.number})}"
+								aria-label="Previous"> <span aria-hidden="true">&lt;</span>
+							</a></li>
+							<li th:each="page: ${#numbers.sequence(start, last)}"
+								th:class="${page == reviewPage.number + 1} ? 'active'"><a
+								th:class="page-link" th:text="${page}"
+								th:href="@{/product/{productId}/review/list/{pageNo}(productId=${productId}, pageNo=${page})}"></a></li>
+							<li th:class="${reviewPage.last} ? 'disabled'"><a
+								th:class="page-link"
+								th:href="${reviewPage.last} ? '#' : @{/product/{productId}/review/list/{pageNo}(productId=${productId}, pageNo=${reviewPage.number + 2})}"
+								aria-label="Next"> <span aria-hidden="true">&gt;</span>
+							</a></li>
+							<li th:class="page-item"><a th:id="tail"
+								th:class="page-link"
+								th:href="@{/product/{productId}/review/list/{pageNo}(productId=${productId}, pageNo=${reviewPage.totalPages})}"
+								aria-label="Last"> <span aria-hidden="true">Last</span>
+							</a></li>
+						</ul>
+					</nav>
+				</div>
+
+
+			</div>
+			<div></div>
+			<footer th:replace="fragment/Bottom :: footerFragment"></footer>
 </body>
+</html>
 </html>
