@@ -69,6 +69,7 @@ th {
 </style>
 </head>
 <body>
+<th:block th:insert="fragment/Top :: headFragment"></th:block>
 	<div align="center">
 		<div>
 			<table
@@ -124,5 +125,6 @@ th {
 			</ul>
 		</nav>
 	</div>
+	<footer th:replace="fragment/Bottom :: footerFragment"></footer>  
 </body>
 </html>

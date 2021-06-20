@@ -89,11 +89,7 @@
       display: inline-block;
       vertical-align: middle;
     }
-    .err {
-	color: red;
-	font-size: 12px;
-	margin-top: 3px;
-}
+   
 
 .byte {
 	float: right;
@@ -115,6 +111,11 @@ position: absolute;
     overflow: hidden;
     margin: 10px;
     position: relative;
+}
+.err {
+	color: #FF724A;
+	font-size: 12px;
+	margin-top: 3px;
 }
   </style>
   <script>
@@ -145,6 +146,7 @@ position: absolute;
 </head>
 
 <body>
+<th:block th:insert="fragment/Top :: headFragment"></th:block>
     <div class="container">
       <div>
         <legend><b>구매후기</b></legend>
@@ -172,6 +174,8 @@ position: absolute;
            
       </div>
     </div>
+    
+<footer th:replace="fragment/Bottom :: footerFragment"></footer>  
 </body>
 
 </html>
