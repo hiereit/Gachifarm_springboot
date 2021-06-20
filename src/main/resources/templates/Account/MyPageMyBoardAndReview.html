@@ -78,7 +78,7 @@ table {
 			<tbody th:unless="${#lists.isEmpty(reviewList)}">
 				<th:block th:each="i : ${#numbers.sequence(0, reviewList.size()-1)}">
 					<tr
-						th:onClick="|location.href='/review/${reviewList[i].reviewId}}'|">
+						th:onClick="|location.href='/review/${reviewList[i].reviewId}'|">
 						<th
 							th:text="${#dates.format(reviewList[i].reviewDate, 'yyyy-MM-dd')}"></th>
 						<td th:text="${lineProduct[i].productName}"></td>
