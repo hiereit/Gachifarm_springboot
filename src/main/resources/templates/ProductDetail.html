@@ -11,7 +11,6 @@
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
 <script src="https://kit.fontawesome.com/4c3ed7e582.js"></script>
-
 <style>
 body, h3 {
 	font-family: 'NanumSquare', sans-serif;
@@ -223,7 +222,8 @@ button {
 						</div>	
 						<br><br>				
 						<input type="button" class="btn btn-danger" id="submit_button" onclick="addCart()" value="장바구니에 담기">
-						<input type="button" class="btn btn-danger" value="바로 주문하기" onclick="order()"></a>
+						<input type="button" class="btn btn-danger" value="바로 주문하기" onclick="order()">
+						&nbsp;<a th:href="@{/group/product/registerForm/{productId}(productId=${product.productId})}"><i class="fas fa-solid fa-users fa-2x" style="color:#707070;"></i></a>
 						<!-- cart/{product_id}/add?quantity=3 <a th:href="@{order/form?productId=${product.productId}&quantity=${}}">-->
 						</form>
 					</div>
