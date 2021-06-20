@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -43,8 +45,13 @@ public class GroupAttendFormController {
 		model.addAttribute("order", gBuyer);
 		return "Group/GroupAttendForm";
 	}
+	
+	@GetMapping("/group/product/attend")
+	public String attendCom() {
+		return "redirect:/main";
+	}
 
-	@RequestMapping("/group/product/attend")
+	@PostMapping("/group/product/attend")
 	public String attend(@ModelAttribute("order") @Valid GroupBuyer gBuyer, BindingResult result, HttpSession session, HttpServletRequest request,
 			Model model) throws ParseException {
 		boolean resultAtt = true;
