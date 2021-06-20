@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -11,6 +10,18 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+	
+<script src="https://code.jquery.com/jquery-3.2.1.min.js">
+</script>	
+
+<script>
+	function change(){
+		document.getElementById("changeBtn").value = "yes";
+	}
+	
+</script>	
+	
+	
 <style>
 table {
 	width: 50% !important;
@@ -28,7 +39,7 @@ table {
 		<h3 style="color: #707070">내가 참여한 공구</h3>
 		<hr style="width: 50%; height: 3px; border: none; background-color: #ECECEC;">
 	</div>
-
+<form method="POST" th:action="@{orders/cancel}">
 	<div align="center">
 		<table class="table table-hover">
 			<thead style="text-align: center">
@@ -44,7 +55,7 @@ table {
 			<tbody th:unless="${#lists.isEmpty(groupBuyers)}">
 				<th:block
 					th:each="i : ${#numbers.sequence(0, groupProducts.size()-1)}">
-					<tr>
+					<tr th:if="${groupBuyers[i].qty} != 0">
 						<td style="width: 100px; vertical-align: middle;">
 							<font th:text="${groupBuyers[i].attendDate}">attendDate</font>
 							<br><font th:text="${groupProducts[i].period}"></font> </td>
@@ -59,12 +70,14 @@ table {
 							th:text="${groupProducts[i].status}">status</td>
 						<td style="width: 110px; vertical-align: middle;">
 							<th:block th:if="${groupProducts[i].period.after(#dates.createNow())}">
-								<button type="button" class="btn btn-light" data-toggle="modal" data-target="#exampleModal">수량변경</button>
+								<button type="button" class="btn btn-light" data-toggle="modal" data-target="#exampleModal">공구취소</button>
+								<input id="gpId" name="gpId" th:value="${groupBuyers[i].groupProductId}" type="hidden">
+								<input id="nowQty" name="nowQty" th:value="${groupBuyers[i].qty}" type="hidden">
 							</th:block></td>
 					</tr>
 				</th:block>
 			</tbody>
-
+		
 			<tbody th:if="${#lists.isEmpty(groupBuyers)}">
 				<tr>
 					<th colspan="4" style="text-align: center">참여한 공구가 없습니다</th>
@@ -72,27 +85,28 @@ table {
 			</tbody>
 		</table>
 	</div>
-
+	<input type="hidden" name="check" value="no">
 	<!-- Modal -->
+
 	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">변경하실 수량을 입력해주세요</h5>
+	        <h5 class="modal-title" id="exampleModalLabel">신청하신 공구를 취소하시겠습니까?</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
 	      </div>
-	      <div class="modal-body">
- 			 <input class="form-control form-control-sm" type="text" placeholder="변경하실 수량을 입력해주세요" id="inputSmall">
+<!-- 	      <div class="modal-body">
+ 			 <input class="form-control form-control-sm" type="text" name="chQty" placeholder="변경하실 수량을 입력해주세요" id="inputSmall">
 	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary">Save changes</button>
+ -->	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">아니요</button>
+	        <button type="submit" class="btn btn-primary" id="changeBtn" name="yes" value="yes" th:onClick="change();">네</button>
 	      </div>
 	    </div>
 	  </div>
 	</div>
-	
+	</form>
 </body>
 </html>
