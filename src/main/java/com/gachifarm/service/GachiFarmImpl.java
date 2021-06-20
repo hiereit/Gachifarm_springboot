@@ -35,6 +35,7 @@ import com.gachifarm.repository.GroupBuyersRepository;
 import com.gachifarm.repository.GroupProductRepository;
 import com.gachifarm.repository.LineProductRepository;
 import com.gachifarm.repository.OrdersRepository;
+import com.gachifarm.repository.ProductImageRepository;
 import com.gachifarm.repository.ProductRepository;
 import com.gachifarm.repository.ReviewImageRepository;
 import com.gachifarm.repository.ReviewRepository;
@@ -366,6 +367,18 @@ public class GachiFarmImpl implements GachiFarmFacade {
 			}
 		};
 		scheduler.schedule(deliverComplete, deliverCompleteDate);
-
+	}
+	
+	//main
+	@Autowired
+	private ProductImageRepository productImageRepository;
+	public String getRandomImagePath() {
+		return productImageRepository.getRandomImagPath();
+	}
+	public List<Integer> getBestProductIds() {
+		return productRepository.getBestProductIds();
+	}
+	public List<Integer> getNewProductIds() {
+		return productRepository.getNewProductIds();
 	}
 }

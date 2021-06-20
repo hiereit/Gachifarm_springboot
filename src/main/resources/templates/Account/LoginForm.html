@@ -56,22 +56,20 @@ input {
 <body>
 	<!-- 	<div th:replace="thyme/Top :: header"></div> -->
 
-	<div align="center">
-		<h3>로그인</h3>
-	</div>
-
-	<form action="#" th:action="@{login}" th:object="${login}"
-		method="post">
-		<div align="center">
-			<span th:text="${str}" style="margin: 10px;">mismatch<br>
-			<br></span><br>
-			<input type="text" class="form-control" th:field="*{userId}"
-				placeholder="아이디를 입력해주세요">
-
-			<input type="password" class="form-control"
-				id="exampleInputPassword1" th:field="*{password}"
-				placeholder="비밀번호를 입력해주세요">
-		</div>
+	 <div align="center">
+      <h3>로그인</h3>
+    </div>
+    
+	<form th:action="@{login}" th:object="${loginCommand}" method="post">
+	 <input type="hidden" name="loginForwardAction" th:value="${loginForwardAction}"/>
+	 <div align="center">
+	 <span th:text="${str}" style="margin: 10px;">mismatch<br><br></span><br>
+      <!-- <input type="text" th:field="*{userId}" placeholder="아이디를 입력해주세요"><br> -->
+      <input type="text" class="form-control" th:field="*{userId}" placeholder="아이디를 입력해주세요">
+      
+      <!-- <input type="password" th:field="*{password}" placeholder="비밀번호를 입력해주세요"> -->
+      <input type="password" class="form-control" id="exampleInputPassword1" th:field="*{password}" placeholder="비밀번호를 입력해주세요">
+    </div>
 
 		<br>
 		<div align="center">
