@@ -14,7 +14,7 @@ import com.gachifarm.service.GachiFarmFacade;
 @Controller
 @RequestMapping("/deleted")
 @SessionAttributes("account")
-public class DeleteAccount {
+public class DeleteAccountController {
 	GachiFarmFacade gachiFarm;
 	@Autowired
 	public void setGachiFarm(GachiFarmFacade gachiFarm) {

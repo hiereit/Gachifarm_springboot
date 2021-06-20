@@ -3,6 +3,7 @@ package com.gachifarm.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -193,17 +194,18 @@ public class MypageController {
 	}
 	
 	@GetMapping("/mygroup/orders")
-	public String myparticipategroups(HttpSession session, Model model) {
+	public String myparticipategroups(HttpSession session, Model model, HttpServletRequest request) {
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!GETMAPPING!!!!!!!!!!!!!!!!!");
 		Account account = (Account) session.getAttribute("account");
 		List<GroupBuyer> gbList = gachiFarm.findGroupBuyersByUserId(account.getUserId());
 		int [] gPrdtId = new int[gbList.size()];
-		System.out.println("=============================List<GroupBuyer>==========================================");
+
 		System.out.println(gbList);
 		List<GroupProduct> gpList = new ArrayList<GroupProduct>();
 		if(gbList != null) {
 			for(int i = 0; i < gbList.size(); i++) {
-				gPrdtId[i] = gbList.get(i).getGroupProudctId();
-				System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!gPrdtId[" + i + "]: " + gPrdtId[i]);
+				gPrdtId[i] = gbList.get(i).getGroupProductId();
+				System.out.println("gPrdtId[" + i + "]: " + gPrdtId[i]);
 				System.out.println(gachiFarm.findGroupProductBygProductId(gPrdtId[i]));
 				gpList.add(i, gachiFarm.findGroupProductBygProductId(gPrdtId[i]));
 			}

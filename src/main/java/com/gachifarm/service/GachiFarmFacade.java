@@ -102,4 +102,10 @@ public interface GachiFarmFacade {
 	boolean isAdmin(String userId); 
 	
 	Page<Review> getReviewListbyPageAndProductId(Pageable pageable, int pageNo, int count, int productId);
+	
+	
+	//추가!!
+	void save(GroupProduct groupProduct);
+	GroupBuyer findGroupBuyersByUserIdAndGroupProductId(String userId, int groupProductId);
+	void delete(GroupBuyer groupBuyer);
 }
