@@ -28,7 +28,6 @@ import com.gachifarm.domain.CartProduct;
 import com.gachifarm.domain.LineProduct;
 import com.gachifarm.domain.Orders;
 import com.gachifarm.domain.Product;
-import com.gachifarm.domain.ProductImage;
 import com.gachifarm.domain.Review;
 import com.gachifarm.service.GachiFarmFacade;
 
@@ -46,16 +45,6 @@ public class OrderController {
 	String productTotal;
 	String total;
 	Account user;
-	
-	public String getImgPath(int productId) {
-		ProductImage img = gachifarm.getProductImageByPid(productId);
-		if (img == null) {
-			return "/images/noImage.png";
-		}
-		else {
-			return img.getImgPath();
-		}
-	}
 	
 	@RequestMapping("/order/form")
 	public ModelAndView addOrder(HttpServletRequest req, HttpSession userSession) throws Exception {
@@ -75,7 +64,7 @@ public class OrderController {
 		for (CartProduct cartProduct : cartProducts) {
 			Product product = gachifarm.getProduct(cartProduct.getCartId().getProductId());
 			int productId = product.getProductId();
-			String path = getImgPath(productId);
+			String path = gachifarm.getImgPath(productId);
 			String productName = product.getPrdtName();
 			int price = product.getPrice();
 			int quantity = cartProduct.getQuantity();
@@ -100,7 +89,7 @@ public class OrderController {
 		cart = new ArrayList<Cart>();
 		ModelAndView mav = new ModelAndView("OrderAndCart/NewOrderForm");
 		Product product = gachifarm.getProduct(productId);
-		String path = getImgPath(productId);
+		String path = gachifarm.getImgPath(productId);
 		String productName = product.getPrdtName();
 		int price = product.getPrice();
 		int totalPrice = quantity * price;
@@ -155,8 +144,13 @@ public class OrderController {
 				return mav;
 			}
 		}
+		try {
+			gachifarm.insertOrder(orders);
+		}catch(Exception e){
+			e.printStackTrace();
+			return new ModelAndView("redirect:/main");
+		}
 		
-		gachifarm.insertOrder(orders);
 		gachifarm.changeOrderStatus(orders, orderDate);
 		int orderId = orders.getOrderId();
 		
@@ -208,7 +202,7 @@ public class OrderController {
 		for (LineProduct line : orderProducts) {
 			Product product = gachifarm.getProduct(line.getProductId());
 			int productId = product.getProductId();
-			String path = getImgPath(product.getProductId());
+			String path = gachifarm.getImgPath(product.getProductId());
 			String productName = product.getPrdtName();
 			int price = product.getPrice();
 			int quantity = line.getQuantity();
