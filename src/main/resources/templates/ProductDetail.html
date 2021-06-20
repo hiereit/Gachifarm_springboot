@@ -130,7 +130,7 @@ button {
 		//$.post('/cart/{product_id}(product_id=${product.productId})/add?quantity=' + value)
 		var formValue = document.getElementById('infoForm');
 		
-		formValue.action='/order/form?productId=' + prdtId +'&quantity=' + value;
+		formValue.action='/order/onePrdt/form?productId=' + prdtId +'&quantity=' + value;
 		formValue.submit();
 	}
     function clickQtyBtn(type) {
