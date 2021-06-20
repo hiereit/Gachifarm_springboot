@@ -1,10 +1,11 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>가치팜</title>
 <script src="https://code.jquery.com/jquery-latest.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css">
 <script
@@ -29,6 +30,7 @@ table {
 </head>
 
 <body>
+	<th:block th:insert="fragment/Top :: headFragment"></th:block> 
 	<div th:replace="Account/rpMypageButtons :: body"></div>
 
 	<div align="center">
@@ -75,5 +77,6 @@ table {
 			</tbody>
 		</table>
 	</div>
+	<footer th:replace="fragment/Bottom :: footerFragment"></footer>
 </body>
 </html>
