@@ -11,19 +11,16 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
-	
-<script src="https://code.jquery.com/jquery-3.2.1.min.js">
-</script>	
-
-<script>
-	function change(){
-		document.getElementById("changeBtn").value = "yes";
-	}
-	
-</script>	
-	
-	
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+		
 <style>
+body {
+	font-family: 'NanumSquare', sans-serif;
+}
+h3{
+	font-family: 'NanumSquare', sans-serif;
+}
 table {
 	width: 50% !important;
 	text-align: center !important;
@@ -103,7 +100,7 @@ table {
 	      </div>
  -->	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">아니요</button>
-	        <button type="submit" class="btn btn-primary" id="changeBtn" name="yes" value="yes" th:onClick="change();">네</button>
+	        <button type="submit" class="btn btn-primary" id="changeBtn">네</button>
 	      </div>
 	    </div>
 	  </div>

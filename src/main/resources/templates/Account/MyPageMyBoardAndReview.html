@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -11,8 +10,16 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
 
 <style>
+body {
+	font-family: 'NanumSquare', sans-serif;
+}
+h3{
+	font-family: 'NanumSquare', sans-serif;
+}
 table {
 	width: 50% !important;
 	text-align: center !important;
@@ -27,7 +34,8 @@ table {
 
 	<div align="center">
 		<h3 style="color: #707070">내가 작성한 글</h3>
-		<hr style="width: 50%; height: 3px; border: none; background-color: #ECECEC;">
+		<hr
+			style="width: 50%; height: 3px; border: none; background-color: #ECECEC;">
 	</div>
 
 	<div align="center">
@@ -42,10 +50,12 @@ table {
 
 			<tbody th:unless="${#lists.isEmpty(boardList)}">
 				<th:block th:each="i : ${#numbers.sequence(0, boardList.size()-1)}">
-					<tr>
-						<th th:text="${#dates.format(boardList[i].boardDate, 'yyyy-MM-dd')}"></th>
+					<tr th:onClick="|location.href='/board/${boardList[i].boardId}'|">
+						<th
+							th:text="${#dates.format(boardList[i].boardDate, 'yyyy-MM-dd')}"></th>
 						<th th:text="${boardList[i].title}"></th>
 						<td th:text="${answerStatus[i]}">status</td>
+					</tr>
 				</th:block>
 			</tbody>
 			<tbody th:if="${#lists.isEmpty(boardList)}">
@@ -55,8 +65,7 @@ table {
 			</tbody>
 		</table>
 
-		<br>
-		<br>
+		<br> <br>
 
 		<table class="table table-hover">
 			<thead>
@@ -67,7 +76,8 @@ table {
 			</thead>
 			<tbody th:unless="${#lists.isEmpty(reviewList)}">
 				<th:block th:each="i : ${#numbers.sequence(0, reviewList.size()-1)}">
-					<tr>
+					<tr
+						th:onClick="|location.href='/review/${reviewList[i].reviewId}}'|">
 						<th
 							th:text="${#dates.format(reviewList[i].reviewDate, 'yyyy-MM-dd')}"></th>
 						<td th:text="${lineProduct[i].productName}"></td>
