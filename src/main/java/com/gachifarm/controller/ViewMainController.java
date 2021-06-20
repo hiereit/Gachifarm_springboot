@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import com.gachifarm.domain.Product;
-import com.gachifarm.domain.ProductImage;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
@@ -35,13 +34,7 @@ public class ViewMainController {
 		HashMap<Integer, String> bestImgPaths = new HashMap<>();
 		for (Integer id : bestProductIds) {
 			Product product = gachifarm.getProduct(id);
-			ProductImage productImage = gachifarm.getProductImageByPid(id);
-			if(productImage == null) {
-				bestImgPaths.put(id, "/images/noImage.png");
-			}
-			else {
-				bestImgPaths.put(id, productImage.getImgPath());
-			}
+			bestImgPaths.put(id, gachifarm.getImgPath(id));
 			bestProducts.add(product);
 		}
 		
@@ -50,13 +43,7 @@ public class ViewMainController {
 		HashMap<Integer, String> newImgPaths = new HashMap<>();
 		for (Integer id : newProductIds) {
 			Product product = gachifarm.getProduct(id);
-			ProductImage productImage = gachifarm.getProductImageByPid(id);
-			if(productImage == null) {
-				newImgPaths.put(id, "/images/noImage.png");
-			}
-			else {
-				newImgPaths.put(id, productImage.getImgPath());
-			}
+			newImgPaths.put(id, gachifarm.getImgPath(id));
 			newProducts.add(product);
 		}
 		mav.addObject("random", randomImagePath);

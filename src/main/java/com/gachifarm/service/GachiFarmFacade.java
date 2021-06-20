@@ -138,6 +138,7 @@ public interface GachiFarmFacade {
 	Orders findOrder(int orderId);
 	List<LineProduct> findLineProducts(int orderId);
 	Review findReview(int lineProductId);
+	String getImgPath(int productId);
 
 	//main 관련 메소드
 	String getRandomImagePath();
