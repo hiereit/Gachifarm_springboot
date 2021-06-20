@@ -77,9 +77,9 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	@Autowired
 	@Qualifier("jpaStoreOrderDao")
 	private StoreOrderDao storeOrderDao;
-
+	@Autowired
 	private ReviewImageRepository reviewImgRepository;
-
+	@Autowired
 	private CartRepository cartRepository;
 
 	// Account
