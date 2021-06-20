@@ -1,5 +1,7 @@
 package com.gachifarm.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.gachifarm.domain.LineProduct;
@@ -12,5 +14,7 @@ public interface LineProductRepository  extends JpaRepository<LineProduct, LineP
 	LineProduct findTop1ProductNameByOrderId(int orderId);
 	
 	LineProduct findByLineProductId(int lineProductId);
+
+	List<LineProduct> findAllByOrderId(int orderId);
 
 }

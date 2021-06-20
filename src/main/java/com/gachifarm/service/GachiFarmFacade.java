@@ -92,7 +92,7 @@ public interface GachiFarmFacade {
 	void insertProductImage(ProductImage product);		
 	void updateProductImage(ProductImage product);	
 	void deleteProductImage(ProductImage product);
-	
+
 	//StoreOrderDao 
 	List<LineProduct> getLineProduct(int productId);
 	List<Orders> getStoreOrderProduct(int prdtId);
@@ -113,11 +113,11 @@ public interface GachiFarmFacade {
 
 	void saveReview(Review review);
 	void saveReviewImage(ReviewImage reviewImg);
-	
+
 	Review getReviewById(int reviewId);
-	
+
 	ReviewImage getReviewImageById(int reviewId);
-	
+
 	//추가!!
 	void save(GroupProduct groupProduct);
 	GroupBuyer findGroupBuyersByUserIdAndGroupProductId(String userId, int groupProductId);
@@ -135,7 +135,10 @@ public interface GachiFarmFacade {
 	void insertLineProduct(LineProduct lineProduct);
 	void changeProductQty(Product product);
 	void changeOrderStatus(Orders orders, Date orderDate);
-	
+	Orders findOrder(int orderId);
+	List<LineProduct> findLineProducts(int orderId);
+	Review findReview(int lineProductId);
+
 	//main 관련 메소드
 	String getRandomImagePath();
 	List<Integer> getBestProductIds();

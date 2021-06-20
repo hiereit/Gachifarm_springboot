@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,10 +31,11 @@ import com.gachifarm.domain.LineProduct;
 import com.gachifarm.domain.Orders;
 import com.gachifarm.domain.Product;
 import com.gachifarm.domain.ProductImage;
+import com.gachifarm.domain.Review;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
-@SessionAttributes("account")
+@SessionAttributes("userSession")
 public class OrderController {
 	private GachiFarmFacade gachifarm;
 
@@ -58,7 +61,7 @@ public class OrderController {
 	
 	@PostMapping("/order/form")
 	public ModelAndView addOrder(HttpServletRequest req, HttpSession userSession) throws Exception {
-		String userId = ((Account) userSession.getAttribute("account")).getUserId();
+		String userId = ((UserSession) userSession.getAttribute("userSession")).getAccount().getUserId();
 		cart = new ArrayList<Cart>();
 		String[] checkedArray = req.getParameter("checkedIdList").split(",");
 		productTotal = req.getParameter("productTotal");
@@ -95,7 +98,7 @@ public class OrderController {
 	
 	@GetMapping("/order/form")
 	public ModelAndView addOneOrder(@RequestParam("productId") int productId, @RequestParam("quantity") int quantity, HttpSession userSession) throws Exception {
-		String userId = ((Account) userSession.getAttribute("account")).getUserId();
+		String userId = ((UserSession) userSession.getAttribute("userSession")).getAccount().getUserId();
 		cart = new ArrayList<Cart>();
 		ModelAndView mav = new ModelAndView("OrderAndCart/NewOrderForm");
 		Product product = gachifarm.getProduct(productId);
@@ -118,14 +121,9 @@ public class OrderController {
 		return mav;
 	}
 	
-	@RequestMapping("/main")
-	public ModelAndView confirmForm() throws Exception {
-		return new ModelAndView("Main");
-	}
-	
 	@RequestMapping("/order/confirm")
 	public ModelAndView confirmOrder(HttpServletRequest req, @Valid @ModelAttribute("order") OrdersCommand order, BindingResult result, HttpSession userSession) throws Exception {
-		String userId = ((Account) userSession.getAttribute("account")).getUserId();
+		String userId = ((UserSession) userSession.getAttribute("userSession")).getAccount().getUserId();
 		if (result.hasErrors()) {
 			ModelAndView mav = new ModelAndView("OrderAndCart/NewOrderForm");
 			mav.addObject("chk", req.getParameter("frmCheck"));
@@ -180,6 +178,38 @@ public class OrderController {
 		}
 		mav.addObject("orderId", orderId);
 		mav.addObject("total", total);
+		return mav;
+	}
+	
+	@RequestMapping("/order/{order_id}/detail")
+	public ModelAndView detailOrder(@PathVariable("order_id") int orderId, HttpSession userSession) throws Exception {
+		ModelAndView mav = new ModelAndView("OrderAndCart/OrderDetail");
+		Orders order = gachifarm.findOrder(orderId);
+		Account user = gachifarm.findByUserId(order.getUserId());
+		String email = user.getEmail();
+		List<LineProduct> orderProducts = gachifarm.findLineProducts(orderId);
+		List<Cart> lineProducts = new ArrayList<Cart>();
+		HashMap<Integer, Boolean> IsReview = new HashMap<>();
+		for (LineProduct line : orderProducts) {
+			Product product = gachifarm.getProduct(line.getProductId());
+			int productId = product.getProductId();
+			String path = getImgPath(product.getProductId());
+			String productName = product.getPrdtName();
+			int price = product.getPrice();
+			int quantity = line.getQuantity();
+			int totalPrice = line.getTotalPrice();
+			Cart cart = new Cart(path, productId, productName, price, quantity, totalPrice);
+			lineProducts.add(cart);
+			Review review = gachifarm.findReview(line.getLineProductId());
+			if (review != null) {
+				IsReview.put(productId, true);
+			}
+		}
+		mav.addObject("order", order);
+		mav.addObject("email", email);
+		mav.addObject("lineProducts", lineProducts);
+		mav.addObject("review", IsReview);
+		mav.addObject("productTotal", (order.getTotalPrice() - 3000));
 		return mav;
 	}
 }
