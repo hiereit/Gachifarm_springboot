@@ -14,7 +14,7 @@ import com.gachifarm.domain.Product;
 public interface ProductRepository extends JpaRepository<Product, Integer>{
 	Page<Product> findAll(Pageable pageable);
 	//Page<Product> getProductListbyPage(Pageable pageable, int pageNo);
-	Page<Product> findByPrdtNameLike(String prdtName,Pageable pageable);
+	Page<Product> findByPrdtNameContaining(String prdtName,Pageable pageable);
 	
 	Page<Product> findByUserId(String userId, Pageable pageable);
 	

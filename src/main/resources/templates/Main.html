@@ -28,7 +28,7 @@
 		        <ul style=" list-style:none;">
 			    	<li><img style="width: 200px; height:200px;" th:src="${bestImages.get(best.productId)}"></img></li>
 			        <li><a ><span th:text="${best.saleType}"></span></a></li>
-			        <li><a th:href="@{/product/{productId}(productId=${best.productId})}"><span style="font-size:20px;" th:text="${best.prdtName}"></span></a></li>
+			        <li><a th:href="@{|/product/${best.productId}/1|}"><span style="font-size:20px;" th:text="${best.prdtName}"></span></a></li>
 			 		<li><a><span th:text="|${#numbers.formatInteger(T(Math).ceil(best.price), 3,'COMMA')}원|"></span></a></li>
 		        </ul>
 	        </td>
@@ -43,7 +43,7 @@
 		        <ul style=" list-style:none;">
 			    	<li><img style="width: 200px; height:200px;" th:src="${nImages.get(n.productId)}"></img></li>
 			        <li><a ><span th:text="${n.saleType}"></span></a></li>
-			        <li><a th:href="@{/product/{productId}(productId=${n.productId})}"><span style="font-size:20px;" th:text="${n.prdtName}"></span></a></li>
+			        <li><a th:href="@{|/product/${n.productId}/1|}"><span style="font-size:20px;" th:text="${n.prdtName}"></span></a></li>
 			 		<li><a><span th:text="|${#numbers.formatInteger(T(Math).ceil(n.price), 3,'COMMA')}원|"></span></a></li>
 		        </ul>
 	        </td>

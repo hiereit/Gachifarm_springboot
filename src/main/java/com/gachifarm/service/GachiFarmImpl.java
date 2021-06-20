@@ -164,7 +164,7 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	}
 	public Page<Product> getProductListbyPrdtName(Pageable pageable, String prdtName, int pageNo) {
 		pageable = PageRequest.of(pageNo - 1, 12);
-		return productRepository.findByPrdtNameLike(prdtName, pageable);
+		return productRepository.findByPrdtNameContaining(prdtName, pageable);
 	}
 	public Page<Product> getsProductbyUserId(Pageable pageable, String userId, int pageNo) {
 		pageable = PageRequest.of(pageNo - 1, 8);

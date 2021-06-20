@@ -40,7 +40,7 @@ span {
       <h3>로그인</h3>
     </div>
     
-	<form th:action="@{login}" th:object="${loginCommand}" method="post">
+	<form th:action="@{/login}" th:object="${loginCommand}" method="post">
 	 <input type="hidden" name="loginForwardAction" th:value="${loginForwardAction}"/>
 	 <div align="center">
 	 <span th:text="${str}" style="margin: 10px;">mismatch<br><br></span><br>
