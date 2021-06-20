@@ -43,6 +43,7 @@ public class ReviewFormController {
 		
 		if (result.hasErrors()) {
 			model.addAttribute("product", gachiFarm.getProduct(review.getProductId()));
+			review.setFileName(null);
 			return "Review/ReviewForm";
 		}
 		

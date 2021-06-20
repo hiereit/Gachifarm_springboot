@@ -295,6 +295,7 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	
 	public ReviewImage getReviewImageById(int reviewId) {
 		return reviewImgRepository.findByReviewId(reviewId);
+	}
 
 	//추가!!
 	public void save(GroupProduct groupProduct) {

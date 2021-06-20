@@ -146,8 +146,8 @@
   }
   
   function fileUpload(){
-		var fileInput = document.getElementById("img");
-
+		var fileInput = document.getElementById("img").value;
+		document.getElementById('fileInput').value = fileInput;
 	}
   </script>
 </head>
@@ -204,6 +204,8 @@
               <th>사진첨부</th>
               <td>
                 <input type="file" id="img" name="imgFile" onchange="fileUpload()">
+                <input id="fileInput" type="hidden" th:field="*{fileName}" >
+                <span class="err" th:if="${#fields.hasErrors('fileName')}" th:errors="*{fileName}"></span>
               </td>
             </tr>
           </table>
