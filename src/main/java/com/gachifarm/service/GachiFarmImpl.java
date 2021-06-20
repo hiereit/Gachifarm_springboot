@@ -287,7 +287,7 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	}
 	public void delete(GroupBuyer groupBuyer) {
 		groupBuyersRepository.delete(groupBuyer);
-
+	}
 
 	//Cart & Orders
 	public void insertCart(CartProduct cartProduct) {
