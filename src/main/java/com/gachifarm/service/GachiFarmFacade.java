@@ -106,6 +106,14 @@ public interface GachiFarmFacade {
 
 	Page<Review> getReviewListbyPageAndProductId(Pageable pageable, int pageNo, int count, int productId);
 
+	
+	
+	//추가!!
+	void save(GroupProduct groupProduct);
+	GroupBuyer findGroupBuyersByUserIdAndGroupProductId(String userId, int groupProductId);
+	void delete(GroupBuyer groupBuyer);
+
+
 	//Cart, Order 관련 메소드
 	void insertCart(CartProduct cartProduct);
 	CartProduct findCart(CartPK cartId);
@@ -117,4 +125,5 @@ public interface GachiFarmFacade {
 	void insertLineProduct(LineProduct lineProduct);
 	void changeProductQty(Product product);
 	void changeOrderStatus(Orders orders, Date orderDate);
+
 }

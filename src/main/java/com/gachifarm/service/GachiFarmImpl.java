@@ -190,7 +190,7 @@ public class GachiFarmImpl implements GachiFarmFacade {
 		groupBuyersRepository.saveAndFlush(groupBuyer);
 	}
 	public List<GroupBuyer> getGroupBuyersByGroupProductId(int groupProductId) {
-		return groupBuyersRepository.findByGroupProudctId(groupProductId);
+		return groupBuyersRepository.findByGroupProductId(groupProductId);
 	}
 	public List<GroupBuyer> findGroupBuyersByUserId(String userId){
 		return groupBuyersRepository.findGroupBuyersByUserId(userId);
@@ -277,6 +277,18 @@ public class GachiFarmImpl implements GachiFarmFacade {
 		return reviewRepository.findAllByProductId(pageable, productId);
 	}
 
+	
+	//추가!!
+	public void save(GroupProduct groupProduct) {
+		groupProductRepository.save(groupProduct);
+	}
+	public GroupBuyer findGroupBuyersByUserIdAndGroupProductId(String userId, int groupProductId) {
+		return groupBuyersRepository.findGroupBuyersByUserIdAndGroupProductId(userId, groupProductId);
+	}
+	public void delete(GroupBuyer groupBuyer) {
+		groupBuyersRepository.delete(groupBuyer);
+
+
 	//Cart & Orders
 	public void insertCart(CartProduct cartProduct) {
 		cartRepository.saveAndFlush(cartProduct);
@@ -335,5 +347,6 @@ public class GachiFarmImpl implements GachiFarmFacade {
 			}
 		};
 		scheduler.schedule(deliverComplete, deliverCompleteDate);
+
 	}
 }
