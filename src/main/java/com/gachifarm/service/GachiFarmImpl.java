@@ -415,7 +415,8 @@ public class GachiFarmImpl implements GachiFarmFacade {
 		} else {
 			return "/images/noImage.png";
 		}
-	
+	}
+		
 	public void updateCompleteGroup(Date date, int gProductId) {
 		groupBuyersRepository.updateCompleteGroup(date, gProductId);
 	}
