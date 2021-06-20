@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.util.WebUtils;
 
 import com.gachifarm.domain.Account;
 import com.gachifarm.domain.GroupBuyer;
@@ -18,7 +19,7 @@ import com.gachifarm.service.GachiFarmFacade;
 import org.springframework.ui.Model;
 
 @Controller
-@SessionAttributes({"account", "myorders"})
+@SessionAttributes({"userSession", "myorders"})
 public class DeleteGroupBuyerController {
 
 	UserSession userSession;
@@ -35,7 +36,10 @@ public class DeleteGroupBuyerController {
 	@PostMapping(value = "/user/mypage/mygroup/orders")
 	public String updateQty(HttpSession session, Model model, HttpServletRequest request) {
 		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!POSTMAPPING!!!!!!!!!!!!!!!!!");
-		Account account = (Account) session.getAttribute("account");
+		UserSession userSession = 
+				(UserSession) WebUtils.getSessionAttribute(request, "userSession");
+//		Account account = (Account) session.getAttribute("account");
+		Account account = userSession.getAccount();
 		
 			//GroupProduct테이블 curr수정
 			int gpId = Integer.parseInt(request.getParameter("gpId"));

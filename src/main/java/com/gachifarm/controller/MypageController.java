@@ -1,5 +1,6 @@
 package com.gachifarm.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.util.WebUtils;
 
 import com.gachifarm.domain.Account;
 import com.gachifarm.service.GachiFarmFacade;
@@ -36,9 +38,12 @@ public class MypageController {
 	}
 
 	@GetMapping
-	public String mypage(HttpSession session, Model model) {
-
-		Account sessionAccount = (Account) session.getAttribute("account");
+	public String mypage(HttpSession session, Model model, HttpServletRequest request) {
+		UserSession userSession = 
+				(UserSession) WebUtils.getSessionAttribute(request, "userSession");
+		Account sessionAccount = userSession.getAccount();
+		
+//		Account sessionAccount = (Account) session.getAttribute("account");
 		SignupCommand signupCommand = new SignupCommand(
 				sessionAccount.getUserId(), sessionAccount.getPassword(), 
 				sessionAccount.getUserName(), sessionAccount.getPhone(),
