@@ -1,5 +1,7 @@
 package com.gachifarm.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +29,6 @@ import com.gachifarm.repository.OrdersRepository;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
-@SessionAttributes("account")
 public class ListStoreController {
 	private GachiFarmFacade gachifarm;
 	
@@ -41,10 +42,30 @@ public class ListStoreController {
 	@Autowired
 	private OrdersRepository ordersRepository;
 	
-	@RequestMapping("store/list")
-    public String getAllStoreName(Model model, HttpSession session){
+	@RequestMapping("user/store")
+    public String getMyStore(Model model, HttpSession userSession) throws UnsupportedEncodingException{
 		//Product products = this.gachifarm.getProduct(1);
-		Account sessionAccount = (Account) session.getAttribute("account");
+		String userId = ((UserSession) userSession.getAttribute("userSession")).getAccount().getUserId();
+		if(userSession.getAttribute("userSession") == null)
+			return "Account/LoginForm";
+		else {
+				System.out.println(userId);
+				Store store = this.gachifarm.getStore(userId);
+				if(store == null) {
+					System.out.println("==여기서 걸렸다.==========");
+					return "redirect:/store/registerForm";
+				}
+				else {
+					System.out.println(store.getStoreName()+"============================");
+					String encodedParam = URLEncoder.encode(store.getStoreName(), "UTF-8");
+					return "redirect:/store/" + encodedParam + "/1";
+				}
+		}
+    }
+	
+	@RequestMapping("store/list")
+    public String getAllStoreName(Model model, HttpSession userSession){
+		//Product products = this.gachifarm.getProduct(1);
 		List<Store> stores = this.gachifarm.getAllStore();
         
 		//model.addAttribute("data", "product/list");
@@ -52,15 +73,25 @@ public class ListStoreController {
         model.addAttribute("data2", "HI GACHI STORE LIST");
         
        
-        return "StoreList";
+        return "Store/StoreList";
     }
 	@RequestMapping("store/{storeName}/{pageNo}")
-    public String getStore(@PageableDefault Pageable pageable, HttpSession session,
+    public String getStore(@PageableDefault Pageable pageable, HttpSession userSession,
     		@PathVariable("pageNo") int pageNo, @PathVariable("storeName") String storeName, Model model){
 		//Product products = this.gachifarm.getProduct(1);
 		//Store stores = this.gachifarm.getStore("DONGDUK01");
 		//세션에 저장된 account 가져오기
-		Account sessionAccount = (Account) session.getAttribute("account");
+		String userId = ((UserSession) userSession.getAttribute("userSession")).getAccount().getUserId();
+		if(userSession.getAttribute("userSession") == null)
+			return "Account/LoginForm";
+		else {
+				System.out.println(userId);
+				Store store = this.gachifarm.getStore(userId);
+				if(store == null) {
+					System.out.println("==여기서 걸렸다.==========");
+					//return "redirect:/store/registerForm";
+				}
+		}
 		
 		//storeName으로 해당 스토어 객체 가져오기
 		Store store = this.gachifarm.getStoreName(storeName);
@@ -87,10 +118,10 @@ public class ListStoreController {
         model.addAttribute("data2", product);
         model.addAttribute("sInfo", store.getStoreInfo());
         model.addAttribute("sUserId", store.getUserId());  			//store의 주인장이 누구냐
-        model.addAttribute("myUserId", sessionAccount.getUserId()); //store의 방문자가 누구냐
+        model.addAttribute("myUserId", userId); //store의 방문자가 누구냐
         model.addAttribute("storename", storeName);
         System.out.println(storeName);
-        return "Store";
+        return "Store/Store";
     }
 	@RequestMapping("/store/order/product/list/{storeName}")
 	public String getStoreOrderList( 
@@ -107,7 +138,7 @@ public class ListStoreController {
 		//List<Orders> storeOrders = 
 		model.addAttribute("store", store);
 		//model.addAttribute("products", products);
-		return "StoreOrderList";
+		return "Store/StoreOrderList";
 	}
 	@RequestMapping("/store/product/order/status/{pageNo}")
 	public String getStoreOrderList( @PageableDefault Pageable pageable,
@@ -177,7 +208,7 @@ public class ListStoreController {
 
 		
 		
-		return "StoreSaleStatus";
+		return "Store/StoreSaleStatus";
 	}
 	
 	

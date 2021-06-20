@@ -66,6 +66,7 @@
   </style>
 </head>
 <body>
+	<th:block th:insert="fragment/Top :: headFragment"></th:block> 
 	<!-- 안내 메시지 HOME -->
 	<div align="center">
 	      <h3> 스토어 List</h3>
@@ -93,6 +94,6 @@
 	     	</tbody>
 	     </table>
      </div>
-     
+     <footer th:replace="fragment/Bottom :: footerFragment"></footer>
 </body>
 </html>

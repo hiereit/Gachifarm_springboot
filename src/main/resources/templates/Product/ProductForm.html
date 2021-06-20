@@ -191,6 +191,7 @@
   </style>
 </head>
 <body>
+	<th:block th:insert="fragment/Top :: headFragment"></th:block> 
 	<div align="center" style="margin-top: 100px;">
       <h3><b> 상품등록</b> </h3>
       <hr style="height:1px; background-color:#707070;">
@@ -340,5 +341,6 @@
         </table>
       </form>
     </div>
+    <footer th:replace="fragment/Bottom :: footerFragment"></footer>
 </body>
 </html>
