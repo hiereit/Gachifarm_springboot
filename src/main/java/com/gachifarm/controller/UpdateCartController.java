@@ -9,15 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-
-import com.gachifarm.domain.Account;
 import com.gachifarm.domain.Cart;
 import com.gachifarm.domain.CartPK;
 import com.gachifarm.domain.CartProduct;
 import com.gachifarm.domain.Product;
 import com.gachifarm.service.GachiFarmFacade;
 @Controller
-@SessionAttributes("account")
+@SessionAttributes("userSession")
 public class UpdateCartController {
 	private GachiFarmFacade gachifarm;
 
@@ -29,7 +27,7 @@ public class UpdateCartController {
 	@RequestMapping("/cart/{product_id}/update")
 	@ResponseBody
 	public Cart updateCartProduct(@PathVariable("product_id") int productId, @RequestParam("type") String type, HttpSession userSession) throws Exception {
-		String userId = ((Account) userSession.getAttribute("account")).getUserId();
+		String userId = ((UserSession) userSession.getAttribute("userSession")).getAccount().getUserId();
 		CartPK cartId = new CartPK(userId, productId);
 		CartProduct cartProduct = gachifarm.findCart(cartId);
 		Product product = gachifarm.getProduct(productId);
