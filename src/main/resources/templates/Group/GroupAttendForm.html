@@ -91,6 +91,11 @@ h5 {
     	text-align: center;
     	padding: 5px;
     }
+     .err {
+	color: #FF724A;
+	font-size: 12px;
+	margin-top: 3px;
+}
 </style>
 <body>
 <th:block th:replace="fragment/Top :: headFragment"></th:block>
@@ -108,18 +113,18 @@ h5 {
 			<tbody id="productTable">
 				<tr>
 			        <td id="prdtName">
-			        	<img style="width:30px; height:30px;" /> <span th:text="${groupProduct.product.prdtName}"></span>
+			        	<img style="width:30px; height:30px;" th:src="${groupProduct.filePath}"/> <span th:text="${groupProduct.product.prdtName}"></span>
 			        </td>
 			        <td id="quantity">
-						<span th:text="${qty}" th:value="${qty}"></span>&nbsp;
+						<span th:field="${order.qty}" th:text="${order.qty}"></span>&nbsp;
 					</td>
-					<td th:text="${#numbers.formatInteger(qty * price, 3,'COMMA')}" style="text-align: center;"></td>
+					<td th:field="${order.totalPrice}" th:text="${#numbers.formatInteger(order.totalPrice, 3,'COMMA')}" style="text-align: center;"></td>
     			</tr>
 			</tbody>
 		</table>
 		<hr id="hrstyle">
 		<div align="right" style="padding-right: 20px;margin-top:5px;">
-			<h5>최종 결제 금액&nbsp;&nbsp;&nbsp;<span style="font-size: 30px;" th:text="${#numbers.formatInteger(qty * price, 3,'COMMA')}"></span>원</h5>
+			<h5>최종 결제 금액&nbsp;&nbsp;&nbsp;<span style="font-size: 30px;" th:text="${#numbers.formatInteger(order.totalPrice, 3,'COMMA')}"></span>원</h5>
 		</div>
 		<h4>주문자 정보</h4>
 		<hr id="hrstyle">
@@ -168,6 +173,7 @@ h5 {
 				<input type="text" style="width:80px;display:inline-block;" id="num2" class="form-control" onKeyUp="moveFocus(4,this,this.form.num3);" placeholder="****" maxlength="4">
 				&nbsp;&nbsp;
 				<input type="text" style="width:80px;display:inline-block;" id="num3" class="form-control" placeholder="****" maxlength="4">
+				<br><span class="err" th:if="${#fields.hasErrors('creditNum')}" th:errors="*{creditNum}"></span>
 				</td>
 			</tr>
 			<tr>
@@ -179,10 +185,11 @@ h5 {
 				</td>
 			</tr>
 		</table>
+		<input type="hidden" th:value="${groupProduct.gProductId}" name="gProductId">
 		<input type="hidden" id="frmCreditNum" value="" th:field="*{creditNum}">
+		<input type="hidden" id="frmCreditNum" value="" th:field="*{qty}">
 		<input type="hidden" id="frmExpireDate" value="" th:field="*{expireDate}">
-		<input type="hidden" id="totalPrice" name="totalPrice" th:value="${qty * price}">
-		<input type="hidden" id="qty" name="qty" th:value="${qty}">
+		<input type="hidden" id="totalPrice" name="totalPrice" th:field="*{totalPrice}">
 		<div align="center" id="btndiv">
 			<input id="btnstyle" type="button" value="참여하기" onClick="confirm()"/>
 		</div>

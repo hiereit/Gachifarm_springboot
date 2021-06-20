@@ -216,6 +216,7 @@ $(document).ready(function() {
 </head>
 
 <body>
+<th:block th:insert="fragment/Top :: headFragment"></th:block>
 	<div>
 		<div class="container">
 			<div>
@@ -291,7 +292,7 @@ $(document).ready(function() {
 			</div>
 		</div>
 	</div>
-
+<footer th:replace="fragment/Bottom :: footerFragment"></footer>  
 	<!-- date, time picker -->
 	<script
 		src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>

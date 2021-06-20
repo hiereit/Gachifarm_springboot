@@ -28,10 +28,6 @@ import com.gachifarm.service.GachiFarmFacade;
 public class BoardFormController {
 	@Autowired
 	private GachiFarmFacade gachiFarm;
-
-	public void setGachiFarm(GachiFarmFacade gachiFarm) {
-		this.gachiFarm = gachiFarm;
-	}
 	
 	@Autowired
 	ProductDao productDao;
@@ -40,12 +36,7 @@ public class BoardFormController {
 	public String newBoardForm(
 			@RequestParam(name="productId", required=false, defaultValue= "0") int productId,
 			Model model) {
-		//UserSession userSession = (UserSession) WebUtils.getSessionAttribute(request, "userSession");
-		/*
-		if (userSession == null) {
-			return 
-		}*/
-		productId = 1;
+		
 		Board board = new Board();
 		if (productId != 0) {
 			board.setProduct(productDao.getProduct(productId));

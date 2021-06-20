@@ -404,4 +404,8 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public List<Integer> getNewProductIds() {
 		return productRepository.getNewProductIds();
 	}
+	
+	public void updateCompleteGroup(Date date, int gProductId) {
+		groupBuyersRepository.updateCompleteGroup(date, gProductId);
+	}
 }

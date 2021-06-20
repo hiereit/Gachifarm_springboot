@@ -65,7 +65,8 @@ input[type=password] {
 
 </head>
 
-<body >
+<body>
+<th:block th:insert="fragment/Top :: headFragment"></th:block>
   <div>
     <div class="container">
       <legend ><b>구매후기</b></legend>
@@ -141,6 +142,7 @@ input[type=password] {
  
     </div>
 	</div>
+<footer th:replace="fragment/Bottom :: footerFragment"></footer>  
 </body>
 
 </html>
