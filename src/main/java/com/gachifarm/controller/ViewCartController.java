@@ -29,6 +29,8 @@ public class ViewCartController {
 	@RequestMapping("cart")
 	public ModelAndView viewCart(HttpSession userSession) throws Exception {
 		String userId = ((UserSession) userSession.getAttribute("userSession")).getAccount().getUserId();
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!userId: " + userId);
+		
 		List<CartProduct> cartPrdt = gachifarm.findCartListByUserId(userId);
 		List<Cart> cart = new ArrayList<Cart>();
 		for (int i = 0; i < cartPrdt.size(); i++) {
