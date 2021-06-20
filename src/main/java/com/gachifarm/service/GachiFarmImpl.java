@@ -2,6 +2,8 @@ package com.gachifarm.service;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -404,6 +406,15 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public List<Integer> getNewProductIds() {
 		return productRepository.getNewProductIds();
 	}
+  
+	@Override
+	public String getImgPath(int productId) {
+		Optional<ProductImage> optional = productImageRepository.findByProductId(productId);
+		if(optional.isPresent()) {
+			return optional.get().getImgPath();
+		} else {
+			return "/images/noImage.png";
+		}
 	
 	public void updateCompleteGroup(Date date, int gProductId) {
 		groupBuyersRepository.updateCompleteGroup(date, gProductId);

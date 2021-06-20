@@ -44,7 +44,7 @@ public class ProductRegController {
 	@RequestMapping("product/registerForm")
 	public String showForm(Model model) {
 		model.addAttribute("productCommand", new ProductRegRequest());
-		return "ProductForm";
+		return "Product/ProductForm";
 	}
 
 	@GetMapping("product/regist")
@@ -69,7 +69,7 @@ public class ProductRegController {
 			model.addAttribute("productCommand", regReq);
 			System.out.println("----------2"+ regReq.toString()+"2---------");
 			System.out.println("----------result.hasErrors()---------");
-			return "ProductForm";
+			return "Product/ProductForm";
 		}
 
 		Product product;
@@ -148,7 +148,7 @@ public class ProductRegController {
 		String message = file.getOriginalFilename() + "is saved in server db";
 		model.addAttribute("message", message);
 
-		return "ProductForm";
+		return "Product/ProductForm";
 
 		// return new ModelAndView("main");
 	}
@@ -191,13 +191,13 @@ public class ProductRegController {
 		model.addAttribute("upPrdtId", productId);
 		model.addAttribute("link", link);
 
-		return "ProductUpdateForm";
+		return "Product/ProductUpdateForm";
 	}
 
 	@GetMapping("product/update")
 	public String returnUpdateForm() {
 		///
-		return "Main";
+		return "Product/ProductUpdateForm";
 	}
 
 	@PostMapping("product/update")
@@ -218,7 +218,7 @@ public class ProductRegController {
 			model.addAttribute("productCommand", regReq);
 			System.out.println("----------2"+ regReq.toString()+"2---------");
 			System.out.println("----------result.hasErrors()---------");
-			return "ProductUpdateForm";
+			return "Product/ProductUpdateForm";
 		}
 		// 여기 원본 코드
 		int pid = Integer.parseInt(rq.getParameter("up_prdtId"));
