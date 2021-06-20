@@ -102,6 +102,12 @@ public class Board implements Serializable {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
+	@Override
+	public String toString() {
+		return "Board [boardId=" + boardId + ", productId=" + productId + ", userId=" + userId + ", question="
+				+ question + ", title=" + title + ", boardPW=" + boardPW + ", boardDate=" + boardDate + ", answer="
+				+ answer + ", product=" + product + "]";
+	}
 	
 	
 }

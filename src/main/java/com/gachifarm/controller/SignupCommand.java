@@ -12,7 +12,7 @@ import javax.validation.constraints.Pattern;
 @SuppressWarnings("serial")
 public class SignupCommand implements Serializable {
 
-	@NotEmpty
+	@NotEmpty @Pattern(regexp = "^[A-Za-z0-9+]*$", message = "영문과 숫자만 입력가능합니다")
 	private String userId;
 	
 	@NotEmpty
@@ -20,7 +20,7 @@ public class SignupCommand implements Serializable {
 	
 	private String passwordConfirm;
 	
-	@NotEmpty
+	@NotEmpty @Pattern(regexp = "^[a-zA-Zㄱ-ㅎ가-힣]*$", message = "이름엔 숫자나 특수기호가 들어갈 수 없습니다.")
 	private String userName;
 	
 	@Pattern(regexp = "[0-9]{10,11}", message = "10~11자리의 숫자만 입력가능합니다")
