@@ -5,10 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,57 +27,48 @@ public class GroupProductFormController {
 	
 	@Autowired
 	private GachiFarmFacade gachiFarm;
-	public void setGachiFarm(GachiFarmFacade gachiFarm) {
-		this.gachiFarm = gachiFarm;
-	}
 	
-	@Autowired
-	ProductDao productDao;
-
 	@RequestMapping("/group/product/registerForm/{productId}")
 	public ModelAndView newGroupProductForm(
 			@PathVariable("productId") int productId) {
-		//UserSession userSession = (UserSession) WebUtils.getSessionAttribute(request, "userSession");
-		/*
-		if (userSession == null) {
-			return "로그인페이지";
-		}*/
-		// 상품 정보 가져오는 거 Facade에 추가
 		GroupProduct groupProduct = new GroupProduct();
-		groupProduct.setProduct(productDao.getProduct(productId));
+		groupProduct.setProduct(gachiFarm.getProduct(productId));
+		groupProduct.setProductId(productId);
+		groupProduct.setFilePath(gachiFarm.getProductImageByPid(productId).getImgPath());
 		return new ModelAndView("Group/GroupProductForm", "groupProduct", groupProduct);
 	}
 	
 	@RequestMapping("/group/product/register")
-	public String submit(@ModelAttribute("groupProduct") GroupProduct groupProduct, HttpSession session) {
-		// user session 이용
-		Product product = productDao.getProduct(groupProduct.getProduct().getProductId());
+	public String submit(@ModelAttribute("groupProduct") @Valid GroupProduct groupProduct, BindingResult result, HttpSession session) {
+		if (result.hasErrors()) {
+			groupProduct.setProduct(gachiFarm.getProduct(groupProduct.getProductId()));
+			groupProduct.setFilePath(gachiFarm.getProductImageByPid(groupProduct.getProductId()).getImgPath());
+			return "Group/GroupProductForm";
+		}
+		Product product = gachiFarm.getProduct(groupProduct.getProductId());
 		int prdtQty = product.getQuantity();
 		int minQty = (int) (prdtQty * 0.05);
 		int limitQty = (int) (prdtQty * 0.15);
 		product.setQuantity(prdtQty - limitQty);
-		String loginId = "DONGDUK01";
+		//String loginId = ((UserSession) session.getAttribute("userSession")).getAccount().getUserId();
+		String loginId = "popo";
 		groupProduct.setUserId(loginId);
-		groupProduct.setProductId(product.getProductId());
 		groupProduct.setMinQty(minQty);
 		groupProduct.setLimitQty(limitQty);
 		String[] recvPlace = groupProduct.getRecvPlace().split(" ");
 		String location = recvPlace[0] + " " + recvPlace[1];
 		groupProduct.setLocation(location);
-		gachiFarm.insertGroupProduct(groupProduct, product);
-		return "redirect:/group/product/list/1";
+		groupProduct.setProduct(product);
+		gachiFarm.insertGroupProduct(groupProduct);
+		return "redirect:/group/product/" + groupProduct.getgProductId();
 	}
 	
 	@RequestMapping("/group/product/updateForm/{gProductId}")
 	public ModelAndView updateGroupProductForm(
 			@PathVariable("gProductId") int gProductId, Model model) {
-		//UserSession userSession = (UserSession) WebUtils.getSessionAttribute(request, "userSession");
-		/*
-		if (userSession == null) {
-			return "로그인페이지";
-		}*/
-		// 상품 정보 가져오는 거 Facade에 추가
-		return new ModelAndView("Group/GroupProductUpdateForm", "groupProduct", gachiFarm.getGroupProduct(gProductId));
+		GroupProduct groupProduct = gachiFarm.getGroupProduct(gProductId);
+		groupProduct.setFilePath(gachiFarm.getProductImageByPid(groupProduct.getProductId()).getImgPath());
+		return new ModelAndView("Group/GroupProductUpdateForm", "groupProduct", groupProduct);
 	}
 	
 	@RequestMapping("/group/product/update")
