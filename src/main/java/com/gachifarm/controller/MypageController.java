@@ -1,8 +1,5 @@
 package com.gachifarm.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -17,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.gachifarm.domain.Account;
-import com.gachifarm.domain.GroupBuyer;
-import com.gachifarm.domain.GroupProduct;
-import com.gachifarm.domain.Orders;
 import com.gachifarm.service.GachiFarmFacade;
+
 @Controller
 @RequestMapping("/user/mypage")
 @SessionAttributes({"account", "myorders"})
@@ -35,10 +30,10 @@ public class MypageController {
 		this.gachiFarm = gachiFarm;
 	}
 
-//	@ModelAttribute(name="signupCommand")
-//	public SignupCommand formBacking() {
-//		return new SignupCommand();
-//	}
+	@ModelAttribute(name="signupCommand")
+	public SignupCommand formBacking() {
+		return new SignupCommand();
+	}
 
 	@GetMapping
 	public String mypage(HttpSession session, Model model) {
@@ -51,12 +46,12 @@ public class MypageController {
 				sessionAccount.getAddr1(), sessionAccount.getAddr2()
 				);
 		
-				/* model.addAttribute("account", sessionAccount); */
+		model.addAttribute("account", sessionAccount);
 		model.addAttribute("signupCommand", signupCommand);
 		
 		System.out.println("MypageController - " + sessionAccount.getUserId());
-		return "Account/MypageLayout";
 
+		return "Account/MypageUpdateSignupForm";
 	}
 
 	
@@ -74,9 +69,11 @@ public class MypageController {
 				System.out.println("!불일치!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 				String str = "비밀번호 불일치";
 				model.addAttribute("str", str);
-				return "Account/MypageLayout";
+
+				return "Account/MypageUpdateSignupForm";
 			}
-			return "Account/MypageLayout";
+
+			return "Account/MypageUpdateSignupForm";
 		}
 		
 		String phone = signupCommand.getPhone();
@@ -105,74 +102,8 @@ public class MypageController {
 		System.out.println("수정완료!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		String str = "수정이 완료되었습니다";
 		model.addAttribute("str2", str);
-		return "Account/MypageLayout";
-	}
-	
-	@GetMapping("/myorders")
-	public String myorders(HttpSession session, Model model) {
-		Account account = (Account) session.getAttribute("account");
-		List<Orders> orderList = gachiFarm.findOrdersByUserId(account.getUserId());
-		System.out.println("myorders()-orderList: " + orderList);
-		String[] productNameByOrderId = new String[orderList.size()];
-		long[] countByOrderId = new long[orderList.size()];
-		System.out.println("배열길이(orderId수):" + countByOrderId.length);
 
-		if(orderList != null) {
-			for(int i = 0; i < orderList.size(); i++) {
-				int orderId = orderList.get(i).getOrderId();
-				countByOrderId[i] = gachiFarm.countByOrderId(orderId);
-				
-				System.out.println(gachiFarm.findTop1ProductNameByOrderId(orderId));
-				if(gachiFarm.findTop1ProductNameByOrderId(orderId) != null) {
-					productNameByOrderId[i] = gachiFarm.findTop1ProductNameByOrderId(orderId).getProductName();
-					System.out.println(productNameByOrderId[i]);
-				}
-			}
-
-			model.addAttribute("productNamesArray", productNameByOrderId);
-			model.addAttribute("countsArray", countByOrderId);
-			model.addAttribute("orders", orderList);
-		}
-		
-		return "Account/MypageLayout";
+		return "Account/MypageUpdateSignupForm";
 	}
 	
-	@GetMapping("/myborders")
-	public String myborders(HttpSession session, Model model) {
-	
-		
-		return "Account/MypageLayout";
-	}
-	
-	@GetMapping("/mygroup/open")
-	public String myopengroups(HttpSession session, Model model) {
-		Account account = (Account) session.getAttribute("account");
-		List<GroupProduct> gpList = gachiFarm.findGroupProductByUserId(account.getUserId());
-//		System.out.println(gpList);
-		if(gpList != null) {
-			model.addAttribute("groupProducts", gpList);
-		}
-		return "Account/MypageLayout";
-	}
-	
-	@GetMapping("/mygroup/orders")
-	public String myparticipategroups(HttpSession session, Model model) {
-		Account account = (Account) session.getAttribute("account");
-		List<GroupBuyer> gbList = gachiFarm.findGroupBuyersByUserId(account.getUserId());
-		int [] gPrdtId = new int[gbList.size()];
-		System.out.println("=============================List<GroupBuyer>==========================================");
-		System.out.println(gbList);
-		List<GroupProduct> gpList = new ArrayList<GroupProduct>();
-		if(gbList != null) {
-			for(int i = 0; i < gbList.size(); i++) {
-				gPrdtId[i] = gbList.get(i).getGroupProudctId();
-				System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!gPrdtId[" + i + "]: " + gPrdtId[i]);
-				System.out.println(gachiFarm.findGroupProductBygProductId(gPrdtId[i]));
-				gpList.add(i, gachiFarm.findGroupProductBygProductId(gPrdtId[i]));
-			}
-			model.addAttribute("groupProducts", gpList);
-			model.addAttribute("groupBuyers", gbList);
-		}
-		return "Account/MypageLayout";
-	}
 }

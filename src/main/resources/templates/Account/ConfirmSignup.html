@@ -3,70 +3,86 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입 완료</title>
-   <style>
-      h3{
-        margin: 0px;
-      }
-      #guideMention{
-        font-size: 5px;
-      }
-      table{
-        width: 50%;
-        padding-left: 90px;
-      }
-      th {
-        text-align: left;
-        color: #707070;
-      }
-      td{
-        padding: 10px;
-        color: #707070;
-      }
-      .chkBtn{
-        background-color: #0AC175;
-        color: white;
-        border: none;
-        margin-left: 2px;
-        margin-right: 2px;
-      }
-      .moveBtn{
-        background-color: #0AC175;
-        color: white;
-        border: none;
-        width: 200px;
-        height: 40px;
-        font-weight: bolder;
-      }
-    </style>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+
+<style>
+body {
+	font-family: 'NanumSquare', sans-serif;
+}
+
+h3 {
+	font-family: 'NanumSquare', sans-serif;
+	margin: 0px;
+}
+
+#guideMention {
+	font-size: 5px;
+}
+
+table {
+	width: 50%;
+	padding-left: 90px;
+}
+
+th {
+	text-align: left;
+	color: #707070;
+}
+
+td {
+	padding: 10px;
+	color: #707070;
+}
+
+.chkBtn {
+	background-color: #0AC175;
+	color: white;
+	border: none;
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+.moveBtn {
+	background-color: #0AC175;
+	color: white;
+	border: none;
+	width: 200px;
+	height: 40px;
+	font-weight: bolder;
+}
+</style>
 </head>
 <body>
-<!-- 	<div th:replace="thyme/Top :: header"></div> -->
-    <div align="center">
-      <h3>회원가입 완료</h3>
-      <hr style="width:50%; height:3px; border:none; background-color:#707070;">
-    </div>
+	<!-- 	<div th:replace="thyme/Top :: header"></div> -->
+	<div align="center">
+		<h3>회원가입 완료</h3>
+		<hr
+			style="width: 50%; height: 3px; border: none; background-color: #707070;">
+	</div>
 
-    <table align="center">
-      <tr>
-        <th><label>아이디</label></th>
-        <td th:text="${account.userId}">userId</td>
-      </tr>
+	<table align="center">
+		<tr>
+			<th><label>아이디</label></th>
+			<td th:text="${account.userId}">userId</td>
+		</tr>
 
-      <tr>
-        <th><label>이름</label></th>
-         <td th:text="${account.userName}">userName</td>
-      </tr>
+		<tr>
+			<th><label>이름</label></th>
+			<td th:text="${account.userName}">userName</td>
+		</tr>
 
-      <tr>
-        <th><label>이메일</label></th>
-         <td th:text="${account.email}">email</td>
-      </tr>
-    </table>
+		<tr>
+			<th><label>이메일</label></th>
+			<td th:text="${account.email}">email</td>
+		</tr>
+	</table>
 
-    <br>
-    <div align="center">
-      <a href="#" th:href="@{/login}"><input type="button" class="moveBtn" value="로그인 하러가기"></a>
-    </div>
-<!-- 	<div th:replace="thyme/Bottom :: footer"></div> -->
+	<br>
+	<div align="center">
+		<a href="#" th:href="@{/login}"><input type="button"
+			class="moveBtn" value="로그인 하러가기"></a>
+	</div>
+	<!-- 	<div th:replace="thyme/Bottom :: footer"></div> -->
 </body>
 </html>

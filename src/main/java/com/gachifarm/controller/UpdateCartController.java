@@ -1,5 +1,7 @@
 package com.gachifarm.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -7,30 +9,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-
-import com.gachifarm.dao.ProductDao;
 import com.gachifarm.domain.Cart;
 import com.gachifarm.domain.CartPK;
 import com.gachifarm.domain.CartProduct;
 import com.gachifarm.domain.Product;
-import com.gachifarm.repository.CartRepository;
+import com.gachifarm.service.GachiFarmFacade;
 @Controller
 @SessionAttributes("userSession")
 public class UpdateCartController {
-	@Autowired
-	private CartRepository cartRepository;
-	@Autowired
-	private ProductDao productDao;
+	private GachiFarmFacade gachifarm;
 
+	@Autowired
+	public void setGachiFarm(GachiFarmFacade gachifarm) {
+		this.gachifarm = gachifarm;
+	}
+	
 	@RequestMapping("/cart/{product_id}/update")
 	@ResponseBody
-	public Cart updateCartProduct(@PathVariable("product_id") int productId, @RequestParam("type") String type) throws Exception {
-		//인터셉터에 넣을 것 & 유저세션 param 추가
-		//String userId = userSession.getAccount().getUserId();
-		String userId = "DONGDUK01";
+	public Cart updateCartProduct(@PathVariable("product_id") int productId, @RequestParam("type") String type, HttpSession userSession) throws Exception {
+		String userId = ((UserSession) userSession.getAttribute("userSession")).getAccount().getUserId();
 		CartPK cartId = new CartPK(userId, productId);
-		CartProduct cartProduct = cartRepository.findCartProductByCartId(cartId);//해당 상품을 찾아옴s
-		Product product = productDao.getProduct(productId);//그 상품의 정해진 양 가져옴
+		CartProduct cartProduct = gachifarm.findCart(cartId);
+		Product product = gachifarm.getProduct(productId);
 		int price = product.getPrice();
 		int cartQuantity = cartProduct.getQuantity();
 		if (type.equals("add")) {
@@ -42,16 +42,10 @@ public class UpdateCartController {
 			}
 			cartQuantity--;
 		}
-		cartProduct.calcInStock(product, cartQuantity);//수량 계산
 		
-		if (cartProduct.isInStock()) {
-			cartProduct.setQuantity(cartQuantity);
-			cartRepository.saveAndFlush(cartProduct);
-			Cart cart = new Cart(productId, price, cartQuantity, cartQuantity * price);
-			return cart;
-		}
-		else {
-			return null;
-		}
+		cartProduct.setQuantity(cartQuantity);
+		gachifarm.updateCart(cartProduct);
+		Cart cart = new Cart(productId, price, cartQuantity, cartQuantity * price);
+		return cart;
 	}
 }

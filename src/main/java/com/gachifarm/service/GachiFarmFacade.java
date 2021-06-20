@@ -1,9 +1,12 @@
 package com.gachifarm.service;
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import com.gachifarm.domain.Account;
 import com.gachifarm.domain.Board;
+import com.gachifarm.domain.CartPK;
+import com.gachifarm.domain.CartProduct;
 import com.gachifarm.domain.GroupBuyer;
 import com.gachifarm.domain.GroupProduct;
 import com.gachifarm.domain.LineProduct;
@@ -11,6 +14,7 @@ import com.gachifarm.domain.Orders;
 import com.gachifarm.domain.Product;
 import com.gachifarm.domain.ProductImage;
 import com.gachifarm.domain.Review;
+import com.gachifarm.domain.ReviewImage;
 import com.gachifarm.domain.Store;
 public interface GachiFarmFacade {
 	// Account
@@ -20,18 +24,18 @@ public interface GachiFarmFacade {
 	long countByUserId(String userId);
 	void save(Account account);
 	long deleteByUserId(String userId);
-	
-	
+
+
 	// Order
 	List<Orders> findOrdersByUserId(String userId);
 	long countByOrderId(int orderId);
-	
-	
+
+
 	// LineProduct
 	LineProduct findTop1ProductNameByOrderId(int orderId);
 	List<GroupProduct> findGroupProductByUserId(String userId);
 	LineProduct findByLineProductId(int lineProductId);
-	
+
 	// Product 관련 메소드
 	void insertProduct(Product product);
 	// 물품수정
@@ -44,7 +48,7 @@ public interface GachiFarmFacade {
 	List<Product> getAllProduct();
 	List<Product> getAllProductByType(String saleType);
 	List<Product> getAllProductByStore(String userId);
-	
+
 	// List<Product> searchAllProdcutListByCategory(String category);
 	List<Product> getAllProductByStoreName(String storeName);
 	List<Product> searchAllProdcutList(String keyword);
@@ -52,7 +56,7 @@ public interface GachiFarmFacade {
 	Page<Product> getProductListbyPage(Pageable pageable, int pageNo);
 	Page<Product> getProductListbyPrdtName(Pageable pageable, String prdtName, int pageNo);
 	Page<Product> getsProductbyUserId(Pageable pageable, String userId, int pageNo);
-	
+
 	// Group
 	void insertGroupProduct(GroupProduct groupProduct, Product product);
 	void insertGroupBuyer(GroupBuyer groupBuyer);
@@ -63,26 +67,28 @@ public interface GachiFarmFacade {
 	Page<GroupProduct> getGroupProductListbyPage(Pageable pageable, int pageNo);
 	List<GroupBuyer> findGroupBuyersByUserId(String userId);
 	GroupProduct findGroupProductBygProductId(int groupProudctId);
-	
+
 	// Board
-	void insertQuestion(Board board);
+	void saveBoard(Board board);
+
 	List<Board> findBoardByUserId(String userId);
-	
+
+
 	//Review
 	List<Review> findReviewByUserId(String userId);
-	
+
 	// Store 관련 메소드	
 	void insertStore(Store store);
 	void updateStore(Store store);
 	void deleteStore(Store store);
 	Store getStore(String userId);
 	Store getStoreName(String storename);
-		
+
 	List<Store> getAllStore();
 	// ProductImage 관련 메소드
-		
+
 	ProductImage getProductImageByPid(int pid);
-	
+
 	void insertProductImage(ProductImage product);		
 	void updateProductImage(ProductImage product);	
 	void deleteProductImage(ProductImage product);
@@ -90,4 +96,49 @@ public interface GachiFarmFacade {
 	//StoreOrderDao 
 	List<LineProduct> getLineProduct(int productId);
 	List<Orders> getStoreOrderProduct(int prdtId);
+
+	// 추가
+
+	Board getBoardByBoardId(int boardId);
+
+	Page<Board> getBoardListbyPage(Pageable pageable, int pageNo, int count);
+
+	Page<Board> getBoardListbyPageAndProductId(Pageable pageable, int pageNo, int count, int productId);
+
+	void deleteBoard(int boardId);
+
+	boolean isAdmin(String userId); 
+
+	Page<Review> getReviewListbyPageAndProductId(Pageable pageable, int pageNo, int count, int productId);
+
+	void saveReview(Review review);
+	void saveReviewImage(ReviewImage reviewImg);
+	
+	Review getReviewById(int reviewId);
+	
+	ReviewImage getReviewImageById(int reviewId);
+	
+	//추가!!
+	void save(GroupProduct groupProduct);
+	GroupBuyer findGroupBuyersByUserIdAndGroupProductId(String userId, int groupProductId);
+	void delete(GroupBuyer groupBuyer);
+
+
+	//Cart, Order 관련 메소드
+	void insertCart(CartProduct cartProduct);
+	CartProduct findCart(CartPK cartId);
+	void updateCart(CartProduct cartProduct);
+	void deleteCart(List<CartPK> cartIdList);
+	List<CartProduct> findCartListByUserId(String userId);
+	List<CartProduct> findCartListByCartId(List<CartPK> cartIdList);
+	void insertOrder(Orders orders);
+	void insertLineProduct(LineProduct lineProduct);
+	void changeProductQty(Product product);
+	void changeOrderStatus(Orders orders, Date orderDate);
+	
+	//main 관련 메소드
+	String getRandomImagePath();
+	List<Integer> getBestProductIds();
+	List<Integer> getNewProductIds();
+
 }

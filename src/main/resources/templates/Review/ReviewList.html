@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>가치팜</title>
+  <script src="https://code.jquery.com/jquery-latest.js"></script>
+  <link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+ 	<script src="https://kit.fontawesome.com/4c3ed7e582.js"></script>
+  <style>
+    body		{ font-family: 'NanumSquare', sans-serif; }
+    hr {
+      height: 1px;
+      background-color: #707070;
+      margin: 0px;
+    }
+    .container {
+      max-width: 40%;
+      min-width: 700px;
+      margin: 0px auto;
+    }
+    legend {
+      color: black;
+      font-size: 20px;
+      font-family: 'NanumSquare', sans-serif !important;
+      font-weight: 700;
+    }
+    table {
+      width: 100%;
+      color: black;
+      font-size: 15px;
+    }
+    th {
+      text-align: center;
+      border-right: 0.5px solid #DDDDDD;
+    }
+    .content td {
+    	text-align: center;
+    	padding: 5px;
+    }
+    .page-link {
+	color: black;
+	background-color: white;
+	border: white;
+}
+
+.page-link:hover {
+	color: black;
+	background-color: white;
+	border: white;
+}
+
+#tail {
+	background-color: #fff;
+	color: black;
+}
+input[type=password] {
+	font: small-caption;
+  font-size: 16px;
+}
+ 
+  </style>
+
+</head>
+
+<body >
+  <div>
+    <div class="container">
+      <legend ><b>구매후기</b></legend>
+      <hr>
+      <table>
+        <tr style="height: 10px;">
+          <td colspan="5">
+          </td>
+        </tr>
+        <tr>
+          <th>
+            번호
+          </th>
+          <th>
+            제목
+          </th>
+          <th>
+            아이디
+          </th>
+          <th>
+            날짜
+          </th>
+          <th style="border: none">
+            별점
+          </th>
+        </tr>
+        <tr style="border-bottom: 0.5px solid #DDDDDD; height: 10px; width: 100%">
+          <td colspan="5">
+          </td>
+        </tr> <!--|location.href='/review/${review.reviewId}'| -->
+        <tr style="border-bottom: 0.5px solid #DDDDDD; height: 10px; width: 100%" class="content" th:each="review: ${reviewList}" th:onClick="|location.href='/review/${review.reviewId}'|">
+        	<td th:text="${review.reviewId}"></td>
+        	<td th:text="${review.title}"></td>
+        	<td th:text="${review.userId}"></td>
+        	<td th:text="${review.reviewDate}"></td>
+        	<td>
+        		<span th:if="${review.score != 0}" th:each="num : ${#numbers.sequence(1, review.score)}"> <i class="fas fa-star"></i></span>
+        		<span th:if="${review.score != 5}" th:each="num : ${#numbers.sequence(1, 5-review.score)}"> <i class="far fa-star"></i></span>
+        	</td>
+        </tr>
+      </table>
+      
+      <div align="center" style="margin:30px;">
+      <nav style="display: inline-block; text-align: center;">
+			<ul th:class="pagination"
+				th:with="start=${T(Math).floor(reviewPage.number/count)*count + 1},
+                    last=(${start + (count - 1) < reviewPage.totalPages ? start + (count - 1) : reviewPage.totalPages})">
+				<li class="page-item"><a th:id="tail" th:class="page-link"
+					th:href="@{/product/{productId}/review/list/1(productId=${productId})}" aria-label="First"> <span
+						aria-hidden="true">First</span>
+				</a></li>
+				<li th:class="${reviewPage.first} ? 'disabled'"><a
+					th:class="page-link"
+					th:href="${reviewPage.first} ? '#' :@{/product/{productId}/review/list/{pageNo}(productId=${productId}, pageNo=${reviewPage.number})}"
+					aria-label="Previous"> <span aria-hidden="true">&lt;</span>
+				</a></li>
+				<li th:each="page: ${#numbers.sequence(start, last)}"
+					th:class="${page == reviewPage.number + 1} ? 'active'"><a
+					th:class="page-link" th:text="${page}"
+					th:href="@{/product/{productId}/review/list/{pageNo}(productId=${productId}, pageNo=${page})}"></a></li>
+				<li th:class="${reviewPage.last} ? 'disabled'"><a
+					th:class="page-link"
+					th:href="${reviewPage.last} ? '#' : @{/product/{productId}/review/list/{pageNo}(productId=${productId}, pageNo=${reviewPage.number + 2})}"
+					aria-label="Next"> <span aria-hidden="true">&gt;</span>
+				</a></li>
+				<li th:class="page-item"><a th:id="tail" th:class="page-link"
+					th:href="@{/product/{productId}/review/list/{pageNo}(productId=${productId}, pageNo=${reviewPage.totalPages})}"
+					aria-label="Last"> <span aria-hidden="true">Last</span>
+				</a></li>
+			</ul>
+		</nav>
+      </div>
+ 
+    </div>
+	</div>
+</body>
+
+</html>

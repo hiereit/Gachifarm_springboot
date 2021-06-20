@@ -5,21 +5,45 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @SuppressWarnings("serial")
 @Entity
 public class Review implements Serializable {
-	@Id
-	@Column(name="review_id")
-	private int review_id;
 	
+	@Id
+	@SequenceGenerator(name = "REVIEW_SEQ_GENERATOR", sequenceName = "REVIEW_SEQUENCE", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "REVIEW_SEQ_GENERATOR")
+	@Column(name="review_id")
+	private int reviewId;
+	@Size(max=50, message="50Byte까지만 입력 가능합니다.")
+	@NotEmpty(message="제목은 필수로 입력해야 합니다.")
 	private String title;
 	@Column(name="user_id")
 	private String userId;
+	@CreationTimestamp
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@Column(name="review_date")
 	private Date reviewDate;
+	
 	private float score;
+	@Size(max=2000, message="2000Byte까지만 입력 가능합니다.")
+	@NotEmpty(message="내용은 필수로 입력해야 합니다.")
 	private String content;
 	@Column(name="product_id")
 	private int productId;
@@ -27,11 +51,16 @@ public class Review implements Serializable {
 	private int orderId;
 	@Column(name="lineProduct_id")
 	private int lineProductId;
-	public int getReview_id() {
-		return review_id;
+	
+	@Transient
+	@NotEmpty(message="사진은 필수로 선택해야 합니다.")
+	private String fileName;
+	
+	public int getReviewId() {
+		return reviewId;
 	}
-	public void setReview_id(int review_id) {
-		this.review_id = review_id;
+	public void setReviewId(int reviewId) {
+		this.reviewId = reviewId;
 	}
 	public String getTitle() {
 		return title;
@@ -81,6 +110,11 @@ public class Review implements Serializable {
 	public void setLineProductId(int lineProductId) {
 		this.lineProductId = lineProductId;
 	}
-	
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
 	
 }

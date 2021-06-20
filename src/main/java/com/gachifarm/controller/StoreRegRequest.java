@@ -1,17 +1,9 @@
 package com.gachifarm.controller;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Length;
-
 public class StoreRegRequest {
+
 	@NotEmpty
 	private String storeName;
-	
-	@Length(max=250)
-	@NotEmpty
 	private String storeInfo;
 	
 	public String getStoreName() {

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<br><br>
+	
+	<div align="center">
+	<a th:href="@{/user/mypage}"><button id="1" type="button" class="btn btn-outline-success" style="font-family: 'NanumSquare', sans-serif;">개인정보</button></a>
+	<a th:href="@{/user/mypage/myorders}"><button id="2" type="button" class="btn btn-outline-success" style="font-family: 'NanumSquare', sans-serif;">주문목록</button></a>
+	<a th:href="@{/user/mypage/myposts}"><button id="3" type="button" class="btn btn-outline-success" style="font-family: 'NanumSquare', sans-serif;">게시글관리</button></a>
+	<a th:href="@{/user/mypage/mygroup/open}"><button id="4" type="button" class="btn btn-outline-success" style="font-family: 'NanumSquare', sans-serif;">내가 연 공구</button></a>
+	<a th:href="@{/user/mypage/mygroup/orders}"><button id="5" type="button" class="btn btn-outline-success" style="font-family: 'NanumSquare', sans-serif;">내가 참여한 공구</button></a>
+	</div>
+
+	<br><br>
+</body>
+</html>

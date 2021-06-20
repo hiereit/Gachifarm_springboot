@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+		
+<style>
+body {
+	font-family: 'NanumSquare', sans-serif;
+}
+h3{
+	font-family: 'NanumSquare', sans-serif;
+}
+table {
+	width: 50% !important;
+	text-align: center !important;
+}
+</style>
+
+</head>
+
+
+<body>
+	<div th:replace="Account/rpMypageButtons :: body"></div>
+
+	<div align="center">
+		<h3 style="color: #707070">내가 참여한 공구</h3>
+		<hr style="width: 50%; height: 3px; border: none; background-color: #ECECEC;">
+	</div>
+<form method="POST">
+	<div align="center">
+		<table class="table table-hover">
+			<thead style="text-align: center">
+				<tr>
+					<th scope="col">  참여일<br>/마감일</th>
+					<th scope="col">상품명</th>
+					<th scope="col">공구 진행자</th>
+					<th scope="col">수량</th>
+					<th scope="col">상태</th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+			<tbody th:unless="${#lists.isEmpty(groupBuyers)}">
+				<th:block
+					th:each="i : ${#numbers.sequence(0, groupProducts.size()-1)}">
+					<tr th:if="${groupBuyers[i].qty} != 0">
+						<td style="width: 100px; vertical-align: middle;">
+							<font th:text="${groupBuyers[i].attendDate}">attendDate</font>
+							<br><font th:text="${groupProducts[i].period}"></font> </td>
+						<td style="width: 300px; vertical-align: middle;"><font
+							style="size: 3px" th:text="${groupProducts[i].product.prdtName}">ProductId</font><br>
+							(<font th:text="${groupProducts[i].product.description}">description</font>)</td>
+						<td style="width: 130px; vertical-align: middle;"
+							th:text="${groupProducts[i].userId}">공구진행자 아이디</td>
+						<td style="width: 60px; vertical-align: middle;"
+							th:text="${groupBuyers[i].qty}">수량</td>
+						<td style="width: 100px; vertical-align: middle;"
+							th:text="${groupProducts[i].status}">status</td>
+						<td style="width: 110px; vertical-align: middle;">
+							<th:block th:if="${groupProducts[i].period.after(#dates.createNow())}">
+								<button type="button" class="btn btn-light" data-toggle="modal" data-target="#exampleModal">공구취소</button>
+								<input id="gpId" name="gpId" th:value="${groupBuyers[i].groupProductId}" type="hidden">
+								<input id="nowQty" name="nowQty" th:value="${groupBuyers[i].qty}" type="hidden">
+							</th:block></td>
+					</tr>
+				</th:block>
+			</tbody>
+		
+			<tbody th:if="${#lists.isEmpty(groupBuyers)}">
+				<tr>
+					<th colspan="4" style="text-align: center">참여한 공구가 없습니다</th>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<input type="hidden" name="check" value="no">
+	<!-- Modal -->
+
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">신청하신 공구를 취소하시겠습니까?</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+<!-- 	      <div class="modal-body">
+ 			 <input class="form-control form-control-sm" type="text" name="chQty" placeholder="변경하실 수량을 입력해주세요" id="inputSmall">
+	      </div>
+ -->	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">아니요</button>
+	        <button type="submit" class="btn btn-primary" id="changeBtn">네</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	</form>
+</body>
+</html>
