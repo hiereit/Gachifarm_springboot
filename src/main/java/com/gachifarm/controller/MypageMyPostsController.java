@@ -32,7 +32,7 @@ public class MypageMyPostsController {
 		this.gachiFarm = gachiFarm;
 	}
 	
-	@GetMapping("/user/mypage/myposts")
+	@GetMapping("user/mypage/myposts")
 	public String myposts(HttpSession session, Model model, HttpServletRequest request) {
 		UserSession userSession = 
 				(UserSession) WebUtils.getSessionAttribute(request, "userSession");

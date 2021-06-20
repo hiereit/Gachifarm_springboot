@@ -28,14 +28,21 @@ public class LoginController {
 	@RequestMapping("login")
 	public String handleRequest(@ModelAttribute("loginCommand") LoginCommand loginCommand, Model model,
 			@RequestParam(value="loginForwardAction", required=false) String forwardAction) throws Exception {
+		System.out.println("loginController에 왔니????????????????????????????????????");
 		Account account = this.gachiFarm.findAccount(loginCommand.getUserId(), loginCommand.getPassword());
 		if(account != null) {
+			System.out.println("Account null 아니지???????????????????????????????????????????");
 			UserSession userSession = new UserSession(account);
 			model.addAttribute("userSession", userSession);
-			if (forwardAction != null) 
+			if (forwardAction != null) { 
+				System.out.println("forwardAction null 아니니?????????????????????????????????????");
+				System.out.println("forwardAction은 " + forwardAction + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 				return "redirect:" + forwardAction;
-			else 
+			}
+			else {
+				System.out.println("forwardAction null이래!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 				return "redirect:/main";
+			}
 		}
 		String str = "아이디 또는 비밀번호가 일치하지 않습니다";
 		model.addAttribute("str", str);
