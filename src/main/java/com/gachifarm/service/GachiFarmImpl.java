@@ -1,4 +1,6 @@
 package com.gachifarm.service;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +9,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 import com.gachifarm.dao.ProductDao;
 import com.gachifarm.dao.StoreDao;
 import com.gachifarm.domain.Account;
 import com.gachifarm.domain.Board;
+import com.gachifarm.domain.CartPK;
+import com.gachifarm.domain.CartProduct;
 import com.gachifarm.domain.GroupBuyer;
 import com.gachifarm.domain.GroupProduct;
 import com.gachifarm.domain.LineProduct;
@@ -24,6 +29,7 @@ import com.gachifarm.domain.Store;
 import com.gachifarm.repository.AccountRepository;
 import com.gachifarm.repository.AdministratorRepository;
 import com.gachifarm.repository.BoardRepository;
+import com.gachifarm.repository.CartRepository;
 import com.gachifarm.repository.GroupBuyersRepository;
 import com.gachifarm.repository.GroupProductRepository;
 import com.gachifarm.repository.LineProductRepository;
@@ -55,15 +61,18 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	@Autowired
 	@Qualifier("jpaStoreDao")
 	private StoreDao storeDao;
-	
+
 	@Autowired
 	@Qualifier("jpaProductImageDao")
 	private ProductImageDao productImageDao;
-	
+
 	// 추가
 	@Autowired
 	private AdministratorRepository adminRepository;
-	 
+	
+	@Autowired
+	private CartRepository cartRepository;
+
 	// Account
 	public Account findByUserId(String userId) {
 		return accountRepository.findByUserId(userId);
@@ -94,7 +103,7 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public LineProduct findByLineProductId(int lineProductId) {
 		return lineProductRepository.findByLineProductId(lineProductId);
 	}
-	
+
 	// Product
 	public void insertProduct(Product product) {
 		productDao.insertProduct(product);
@@ -175,7 +184,7 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public GroupProduct findGroupProductBygProductId(int groupProudctId) {
 		return groupProductRepository.findGroupProductBygProductId(groupProudctId);
 	}
-	
+
 	// GroupBuyers
 	public void insertGroupBuyer(GroupBuyer groupBuyer) {
 		groupBuyersRepository.saveAndFlush(groupBuyer);
@@ -186,7 +195,7 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public List<GroupBuyer> findGroupBuyersByUserId(String userId){
 		return groupBuyersRepository.findGroupBuyersByUserId(userId);
 	}
-	
+
 	// Store
 	public void insertStore(Store store) {
 		storeDao.insertStore(store);
@@ -210,7 +219,7 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public List<Store> getAllStore() {
 		return storeDao.getAllStore();
 	}
-	
+
 	// ProductImage
 	@Override
 	public ProductImage getProductImageByPid(int pid) {
@@ -230,43 +239,44 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public void saveBoard(Board board) {
 		boardRepository.saveAndFlush(board);
 	}
-	
+
 	// 추가
 	public Board getBoardByBoardId(int boardId) {
 		return boardRepository.getById(boardId);
 	}
-	
+
 	public Page<Board> getBoardListbyPage(Pageable pageable, int pageNo, int count) {
 		pageable = PageRequest.of(pageNo - 1, count, Sort.by("boardId").descending());
 		return boardRepository.findAll(pageable);
 	}
-	
+
 	public Page<Board> getBoardListbyPageAndProductId(Pageable pageable, int pageNo, int count, int productId) {
 		pageable = PageRequest.of(pageNo - 1, count, Sort.by("boardId").descending());
 		return boardRepository.findAllByProductId(pageable, productId);
 	}
-	
+
 	public void deleteBoard(int boardId) {
 		boardRepository.deleteById(boardId);
 	}
-	
+
 	public boolean isAdmin(String userId) {
 		return adminRepository.existsByUserId(userId);
 	}
-	
+
 	public List<Board> findBoardByUserId(String userId){
 		return boardRepository.findBoardByUserId(userId);
 	}
-	
+
 	//Review
 	public List<Review> findReviewByUserId(String userId){
 		return reviewRepository.findReviewByUserId(userId);
 	}
-	
+
 	public Page<Review> getReviewListbyPageAndProductId(Pageable pageable, int pageNo, int count, int productId) {
 		pageable = PageRequest.of(pageNo - 1, count, Sort.by("reviewId").descending());
 		return reviewRepository.findAllByProductId(pageable, productId);
 	}
+
 	
 	//추가!!
 	public void save(GroupProduct groupProduct) {
@@ -277,5 +287,66 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	}
 	public void delete(GroupBuyer groupBuyer) {
 		groupBuyersRepository.delete(groupBuyer);
+
+
+	//Cart & Orders
+	public void insertCart(CartProduct cartProduct) {
+		cartRepository.saveAndFlush(cartProduct);
+	}
+	public CartProduct findCart(CartPK cartId) {
+		return cartRepository.findCartProductByCartId(cartId);
+	}
+	public void updateCart(CartProduct cartProduct) {
+		cartRepository.saveAndFlush(cartProduct);
+	}
+	public void deleteCart(List<CartPK> cartIdList) {
+		cartRepository.deleteAllById(cartIdList);
+	}
+	public List<CartProduct> findCartListByUserId(String userId) {
+		return cartRepository.findByCartIdUserId(userId);
+	}
+	public List<CartProduct> findCartListByCartId(List<CartPK> cartIdList) {
+		return cartRepository.findAllById(cartIdList);
+	}
+
+	public void insertOrder(Orders orders) {
+		ordersRepository.saveAndFlush(orders);
+	}
+	public void insertLineProduct(LineProduct lineProduct) {
+		lineProductRepository.saveAndFlush(lineProduct);
+	}
+
+	public void changeProductQty(Product product) {
+		productRepository.saveAndFlush(product);
+	}
+
+	@Autowired
+	private ThreadPoolTaskScheduler scheduler;
+	public void changeOrderStatus(Orders orders, Date orderDate) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(orderDate);
+
+		cal.add(Calendar.SECOND, 10);
+		Date deliverDate = cal.getTime();
+		Runnable deliver = new Runnable() {
+			@Override
+			public void run() {
+				orders.setStatus("배송 중");
+				ordersRepository.saveAndFlush(orders);
+			}
+		};
+		scheduler.schedule(deliver, deliverDate);
+
+		cal.add(Calendar.SECOND, 10);
+		Date deliverCompleteDate = cal.getTime();
+		Runnable deliverComplete = new Runnable() {
+			@Override
+			public void run() {
+				orders.setStatus("배송 완료");
+				ordersRepository.saveAndFlush(orders);
+			}
+		};
+		scheduler.schedule(deliverComplete, deliverCompleteDate);
+
 	}
 }
