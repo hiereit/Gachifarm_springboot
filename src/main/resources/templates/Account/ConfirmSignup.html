@@ -2,9 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>회원가입 완료</title>
+<title>가치팜</title>
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
 
 <style>
 body {
@@ -54,7 +62,8 @@ td {
 </style>
 </head>
 <body>
-	<!-- 	<div th:replace="thyme/Top :: header"></div> -->
+	<th:block th:insert="fragment/Top :: headFragment"></th:block> 
+	<br><br><br>
 	<div align="center">
 		<h3>회원가입 완료</h3>
 		<hr
@@ -80,9 +89,12 @@ td {
 
 	<br>
 	<div align="center">
-		<a href="#" th:href="@{/login}"><input type="button"
-			class="moveBtn" value="로그인 하러가기"></a>
+		<a href="#" th:href="@{/login}">
+			<!-- <input type="button" class="moveBtn" value="로그인 하러가기"> -->
+			<button type="button" class="btn btn-success"
+				style="width: 200px; background-color: #0AC175;">로그인 하러가기</button>
+		</a>
 	</div>
-	<!-- 	<div th:replace="thyme/Bottom :: footer"></div> -->
+	<footer th:replace="fragment/Bottom :: footerFragment"></footer>
 </body>
 </html>

@@ -1,9 +1,10 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>회원가입</title>
+<title>가치팜</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css">
@@ -38,25 +39,15 @@
       td{
         padding: 10px;
       }
-      .chkBtn{
-        background-color: #0AC175;
-        color: white;
-        border: none;
-        margin-left: 2px;
-        margin-right: 2px;
-      }
-      .submitBtn{
-        background-color: #0AC175;
-        color: white;
-        border: none;
-        width: 200px;
-        height: 40px;
-        font-weight: bolder;
-      }
+      .ic {
+	width: 300px !important;
+	height: 54px !important;
+}
     </style>
 </head>
 <body>
-<!-- 	<div th:replace="thyme/Top :: header"></div> -->
+	<th:block th:insert="fragment/Top :: headFragment"></th:block> 
+	<br><br><br>
 <form action="#" th:action="@{/signup}" th:object="${newAccount}" method="post">
     <div align="center">
       <h3>회원가입</h3>
@@ -120,7 +111,7 @@
       <tr>
         <th><label>주소*</label></th>
         <td>
-        	<input type="text" class="form-control" id="addr1" th:field="*{addr1}" placeholder="예: 서울특별시 성북구 월곡2동 화랑로13길 60">
+        	<input type="text" class="form-control" id="addr1" th:field="*{addr1}" placeholder="예: 서울특별시 성북구 월곡2동 화랑로13길 60" style="margin-bottom: 5px;">
         
         	<input type="text" class="form-control"  id="addr2" th:field="*{addr2}" placeholder="예: 인문관">
         </td>
@@ -129,9 +120,10 @@
     
     <br>
     <div align="center">
-      <input type="submit" class="submitBtn" value="가입하기">
+      <!-- <input type="submit" class="submitBtn" value="가입하기"> -->
+      <button type="submit" class="btn btn-success ic" style="width: 200px; height: 40px; background-color: #0AC175;">가입하기</button>
     </div>
 </form>
-<!-- 	<div th:replace="thyme/Bottom :: footer"></div> -->
+	<footer th:replace="fragment/Bottom :: footerFragment"></footer>
 </body>
 </html>

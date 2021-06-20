@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.util.WebUtils;
 
 import com.gachifarm.domain.Account;
 import com.gachifarm.domain.GroupBuyer;
@@ -18,7 +19,7 @@ import com.gachifarm.domain.GroupProduct;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
-@SessionAttributes({"account", "myorders"})
+@SessionAttributes({"userSession", "myorders"})
 public class MypageMyParticipateGroupsController {
 
 	UserSession userSession;
@@ -32,8 +33,11 @@ public class MypageMyParticipateGroupsController {
 	
 	@GetMapping("user/mypage/mygroup/orders")
 	public String myparticipategroups(HttpSession session, Model model, HttpServletRequest request) {
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!GETMAPPING!!!!!!!!!!!!!!!!!");
-		Account account = (Account) session.getAttribute("account");
+		System.out.println("!!!!!!!!!!GETMAPPING!!!!!!!!!!!");
+		UserSession userSession = 
+				(UserSession) WebUtils.getSessionAttribute(request, "userSession");
+//		Account account = (Account) session.getAttribute("account");
+		Account account = userSession.getAccount();
 		List<GroupBuyer> gbList = gachiFarm.findGroupBuyersByUserId(account.getUserId());
 		int [] gPrdtId = new int[gbList.size()];
 

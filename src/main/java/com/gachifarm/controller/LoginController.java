@@ -20,7 +20,8 @@ public class LoginController {
 	}
 
 	@RequestMapping("loginForm")
-	public String form() {
+	public String form(Model model) {
+		model.addAttribute("loginCommand", new LoginCommand());
 		return "Account/LoginForm";
 	}
 

@@ -1,10 +1,11 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>가치팜</title>
 <script src="https://code.jquery.com/jquery-latest.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css">
 <script
@@ -62,6 +63,7 @@ td {
 </head>
 
 <body>
+	<th:block th:insert="fragment/Top :: headFragment"></th:block> 
 	<div th:replace="Account/rpMypageButtons :: body"></div>
 	<div align="center">
 		<h3 style="color: #707070">내 정보 수정</h3>
@@ -160,12 +162,22 @@ td {
 
 		<br>
 		<div align="center">
-			<input type="submit" id="submitBtn" value="수정하기"><br> <br>
-			<a href="#" th:href="@{/user/deleted}"><input type="button"
+			<!-- <input type="submit" id="submitBtn" value="수정하기"> -->
+			<button type="submit" class="btn btn-success" style="width: 200px; height: 40px; background-color: #0AC175;">수정하기</button>
+			<br> <br>
+			<a href="#" th:href="@{/user/deleted}">
+			
+			<!-- <input type="button"
 				id="withdrawalBtn" value="탈퇴하기"
-				th:onclick="'alert(\'정말 탈퇴하시겠습니까?\');'"></a><br> <br>
+				th:onclick="'alert(\'정말 탈퇴하시겠습니까?\');'"> -->
+			<button type="button" class="btn btn-outline-success" th:onclick="'alert(\'정말 탈퇴하시겠습니까?\');'" style="width: 200px; height: 40px;">탈퇴하기</button>	
+				
+				</a>
+				
+				<br> <br>
 			<span th:text="${str2}">complete</span><br>
 		</div>
 	</form>
+	<footer th:replace="fragment/Bottom :: footerFragment"></footer>	
 </body>
 </html>

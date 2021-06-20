@@ -2,6 +2,7 @@ package com.gachifarm.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.util.WebUtils;
 
 import com.gachifarm.domain.Account;
 import com.gachifarm.domain.Orders;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
-@SessionAttributes({"account", "myorders"})
+@SessionAttributes({"userSession", "myorders"})
 public class MypageMyOrdersController {
 
 	UserSession userSession;
@@ -28,8 +30,11 @@ public class MypageMyOrdersController {
 	}
 	
 	@GetMapping("/user/mypage/myorders")
-	public String myorders(HttpSession session, Model model) {
-		Account account = (Account) session.getAttribute("account");
+	public String myorders(HttpSession session, Model model, HttpServletRequest request) {
+		UserSession userSession = 
+				(UserSession) WebUtils.getSessionAttribute(request, "userSession");
+//		Account account = (Account) session.getAttribute("account");
+		Account account = userSession.getAccount();
 		List<Orders> orderList = gachiFarm.findOrdersByUserId(account.getUserId());
 		System.out.println("myorders()-orderList: " + orderList);
 		String[] productNameByOrderId = new String[orderList.size()];
