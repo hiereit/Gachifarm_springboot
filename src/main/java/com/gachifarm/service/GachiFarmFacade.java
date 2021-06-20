@@ -92,6 +92,10 @@ public interface GachiFarmFacade {
 	void insertProductImage(ProductImage product);		
 	void updateProductImage(ProductImage product);	
 	void deleteProductImage(ProductImage product);
+	
+	//StoreOrderDao 
+	List<LineProduct> getLineProduct(int productId);
+	List<Orders> getStoreOrderProduct(int prdtId);
 
 	// 추가
 
@@ -136,4 +140,5 @@ public interface GachiFarmFacade {
 	String getRandomImagePath();
 	List<Integer> getBestProductIds();
 	List<Integer> getNewProductIds();
+
 }

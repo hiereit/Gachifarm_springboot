@@ -21,13 +21,13 @@
      font-family: 'Nanum Gothic', sans-serif;
     }
     body{
-      /*font-family: 'Nanum Gothic', sans-serif; */
+      font-family: 'Nanum Gothic', sans-serif;
       /* 폰트관련 주석! */
-      /* font-family: 'NanumSquare', sans-serif !important; */
+      font-family: 'NanumSquare', sans-serif !important;
     }
     .btn-primary {
       /* 폰트관련 주석! */
-      /* font-family: 'NanumSquare', sans-serif !important; */
+      font-family: 'NanumSquare', sans-serif !important;
 
       color: #fff;
       background-color: #0AC175;
@@ -42,39 +42,92 @@
     .form-control {
       color: #DDDDDD;
     }
+    h3 {
+    	font-family: 'NanumSquare', sans-serif !important;
+    }
   </style>
 </head>
   <body>
     <div align="center" style="margin-top: 100px;">
-      <h3> 스토어 등록 </h3>
+      <h3 th:if="${isUpdate}"> 스토어 정보수정 </h3>
+      <h3 th:unless="${isUpdate}"> 스토어 등록 </h3>
       <hr style="height:1px; background-color:#707070;">
-      <form th:action="@{/store/regist}" th:object="${storeCommand}" method="post">
-        <table align="center">
+      
+      <form th:unless="${isUpdate}" th:action="@{/store/regist}" th:object="${storeCommand}" method="post">
+       	<table align="center">
             <tr>
               <!-- <th><label>스토어명</label></th> -->
               <th><label for="storeName" th:text="#{storeName}" class="forForm">스토어명</label></th>
-              <td><input type="text" id="storeName" th:field="*{storeName}" class="form-control" aria-describedby="emailHelp" placeholder="Enter store name"></td>
+              <td><input type="text" id="storeName" th:field="*{storeName}" class="form-control" 
+              	th:readonly="${isUpdate}"aria-describedby="emailHelp" placeholder="Enter store name">
+              	 
+              </td>
               <td>&nbsp;<button class="btn btn-primary">중복확인</button></td>
-              <td></td>
             </tr>
+            <tr>
+            	<td></td>
+            	<td colspan="2">
+            	<small style="color:red;" th:if="${#fields.hasErrors('storeName')}" th:errors="*{storeName}"></small>
+            	<small th:if="${isExistName}" style="color:red;">중복된 스토어명입니다</small>
+            	<small th:unless="${isExistName}" style="color:#0AC175;">사용가능한 스토어 명입니다</small></td>
+            
+            </tr>            
             <tr>
               <th>
               	<label for="storeInfo" style="margin-top: 12px;margin-bottom: 0px;" th:text="#{storeInfo}">스토어 소개</label>
               	</th>
+              	<td></td>
+              	<td></td>
             </tr>
             <tr>
               <td colspan="3">
-              	<textarea class="form-control" id="storeInfo" th:field="*{storeInfo}" rows="10" placeholder="스토어소개글을 작성해주세요! ex)주소, 연락처.. "></textarea>
+              	<textarea class="form-control" id="storeInfo"th:value="${storeCommand.storeInfo}" th:field="*{storeInfo}" rows="10" placeholder="스토어소개글을 작성해주세요! ex)주소, 연락처.. "></textarea>
+      			<span th:if="${#fields.hasErrors('storeInfo')}" th:errors="*{storeInfo}"></span>
       		</td>
             </tr>
             <tr>
-              <td colspan="4" align="center"><button type="submit" style="width:120px;margin-top: 12px;"class="btn btn-primary">스토어 등록</button></td>
+              <td colspan="3" align="center"><button type="submit" style="width:120px;margin-top: 12px;"class="btn btn-primary">스토어 등록</button></td>
             </tr>
-            <tr></tr>
+        </table>
+      </form>
+      <!-- 업데이트 폼 -->
+      <form th:if="${isUpdate}" th:action="@{/store/update}" th:object="${storeCommand}" method="post"> 
+        <table align="center">
+            <tr>
+              <!-- <th><label>스토어명</label></th> -->
+              <th><label for="storeName" th:text="#{storeName}" class="forForm">스토어명</label></th>
+              <td><input type="text" id="storeName" th:field="*{storeName}" class="form-control" 
+              	th:readonly="${isUpdate}"aria-describedby="emailHelp" placeholder="Enter store name">
+              	 
+              </td>
+              <td>&nbsp;<button class="btn btn-primary">중복확인</button></td>
+            </tr>
+            <tr>
+            	<td></td>
+            	<td colspan="2">
+            	<small style="color:red;" th:if="${#fields.hasErrors('storeName')}" th:errors="*{storeName}"></small>
+            	<!-- <span th:if="${isExistName}" style="color:red;">중복된 스토어명입니다</span> -->
+            	<!-- <span th:unless="${isExistName}" style="color:#0AC175;">사용가능한 스토어 명입니다</span></td> -->
+
+            </tr>            
+            <tr>
+              <th>
+              	<label for="storeInfo" style="margin-top: 12px;margin-bottom: 0px;" th:text="#{storeInfo}">스토어 소개</label>
+              	</th>
+              	<td></td>
+              	<td></td>
+            </tr>
+            <tr>
+              <td colspan="3">
+              	<textarea class="form-control" id="storeInfo"th:value="${storeCommand.storeInfo}" th:field="*{storeInfo}" rows="10" placeholder="스토어소개글을 작성해주세요! ex)주소, 연락처.. "></textarea>
+      			<span th:if="${#fields.hasErrors('storeInfo')}" th:errors="*{storeInfo}"></span>
+      		</td>
+            </tr>
+            <tr>
+              <td colspan="3" align="center"><button type="submit" style="width:120px;margin-top: 12px;"class="btn btn-primary">스토어 등록</button></td>
+            </tr>
         </table>
       </form>
     </div>
-
-
   </body>
 </html>

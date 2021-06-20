@@ -1,16 +1,46 @@
 package com.gachifarm.controller;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
 public class ProductRegRequest {
 	private String productImg;
 	private String imgPath;
+
+	@NotEmpty
+	@Length(max=30)
 	private String prdtName;
+	
+	@Min(1)
+	@Digits(integer=6 ,fraction=0)
 	private int price;
+
+	@NotEmpty
+	@Length(max=25)
 	private String origin;
+
+	@NotEmpty
+	@Length(max=10)
 	private String supplier;
+
+	@NotEmpty
+	@Length(max=40)
 	private String unit;
+	
+	@Min(1)
+	@Digits(integer=4 ,fraction=0)
 	private int quantity;
 	
+	@NotEmpty
 	private String category;
+	
+	@NotEmpty
+	@Length(max=1000)
 	private String description;
 	
 	public String getProductImg() {
@@ -74,4 +104,13 @@ public class ProductRegRequest {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	@Override
+	public String toString() {
+		return "ProductRegRequest [productImg=" + productImg + ", imgPath=" + imgPath + ", prdtName=" + prdtName
+				+ ", price=" + price + ", origin=" + origin + ", supplier=" + supplier + ", unit=" + unit
+				+ ", quantity=" + quantity + ", category=" + category + ", description=" + description + "]";
+	}
+	
+	
 }

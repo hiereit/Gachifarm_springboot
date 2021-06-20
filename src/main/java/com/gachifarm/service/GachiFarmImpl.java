@@ -13,6 +13,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 import com.gachifarm.dao.ProductDao;
 import com.gachifarm.dao.StoreDao;
+import com.gachifarm.dao.StoreOrderDao;
 import com.gachifarm.domain.Account;
 import com.gachifarm.domain.Board;
 import com.gachifarm.domain.CartPK;
@@ -74,6 +75,9 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	private AdministratorRepository adminRepository;
 	
 	@Autowired
+	@Qualifier("jpaStoreOrderDao")
+	private StoreOrderDao storeOrderDao;
+	
 	private ReviewImageRepository reviewImgRepository;
 	 
 	private CartRepository cartRepository;
@@ -277,6 +281,16 @@ public class GachiFarmImpl implements GachiFarmFacade {
 		return reviewRepository.findReviewByUserId(userId);
 	}
 
+	//StoreOrder & LinItem
+	public List<LineProduct> getLineProduct(int productId) {
+		// TODO Auto-generated method stub
+		return storeOrderDao.getLineProduct(productId);
+	}
+	public List<Orders> getStoreOrderProduct(int prdtId) {
+		// TODO Auto-generated method stub
+		return storeOrderDao.getStoreOrderProduct(prdtId);
+
+
 	public Page<Review> getReviewListbyPageAndProductId(Pageable pageable, int pageNo, int count, int productId) {
 		pageable = PageRequest.of(pageNo - 1, count, Sort.by("reviewId").descending());
 		return reviewRepository.findAllByProductId(pageable, productId);
@@ -367,6 +381,7 @@ public class GachiFarmImpl implements GachiFarmFacade {
 			}
 		};
 		scheduler.schedule(deliverComplete, deliverCompleteDate);
+
 	}
 	
 	//main

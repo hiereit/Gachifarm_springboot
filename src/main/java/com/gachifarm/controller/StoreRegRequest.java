@@ -1,6 +1,8 @@
 package com.gachifarm.controller;
 
 public class StoreRegRequest {
+
+	@NotEmpty
 	private String storeName;
 	private String storeInfo;
 	
@@ -16,4 +18,9 @@ public class StoreRegRequest {
 	public void setStoreInfo(String storeInfo) {
 		this.storeInfo = storeInfo;
 	}
+	@Override
+	public String toString() {
+		return "StoreRegRequest [storeName=" + storeName + ", storeInfo=" + storeInfo + "]";
+	}
+	
 }
