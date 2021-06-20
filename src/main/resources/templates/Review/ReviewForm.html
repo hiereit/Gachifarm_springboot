@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>가치팜</title>
+  <script src="https://code.jquery.com/jquery-latest.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+  <style>
+    body {
+      font-family: 'NanumSquare', sans-serif;
+    }
+
+    button {
+      font-family: 'NanumSquare', sans-serif !important;
+    }
+    hr {
+      height: 1px;
+      background-color: #707070;
+      margin: 0px;
+    }
+    .container {
+      max-width: 40%;
+      min-width: 700px;
+      margin: 0px auto;
+    }
+    #form_table {
+      border-collapse: collapse;
+      width: 100%;
+      text-align: left;
+    }
+
+    #form_table tr.border_bottom {
+      border-bottom: 0.5px solid #DDDDDD;
+    }
+
+    #form_table th,
+    #form_table td {
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+
+    #form_table th {
+      font-size: 18px;
+      color: #707070;
+      width: 20%;
+      padding-left: 20px;
+    }
+
+    #form_table td {
+      color: black;
+      padding-right: 20px;
+    }
+
+
+    #submit_button {
+      background-color: #FF724A !important;
+      border-color: #FF724A !important;
+      width: 100px !important;
+      height: 35px !important;
+      font-size: 15px !important;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    textarea {
+      min-height: 270px !important;
+    }
+
+    .prdtImg img {
+      height: 120px !important;
+      width: 120px;
+    }
+
+    .prdtImg,
+    .prdtName,
+    .date {
+      display: inline-block;
+      vertical-align: middle;
+      color: black;
+    }
+
+    .prdtInfo {
+      padding: 30px 20px;
+      position: relative;
+    }
+
+    .date {
+      font-size: 12px;
+      position: absolute;
+      bottom: 30px;
+      right: 20px;
+    }
+
+    .prdtName {
+      font-size: 20px;
+      padding: 10px;
+    }
+
+    legend {
+      color: black;
+      font-size: 20px;
+      font-family: 'NanumSquare', sans-serif;
+      font-weight: 700;
+    }
+    .err {
+	color: red;
+	font-size: 12px;
+	margin-top: 3px;
+}
+
+.byte {
+	float: right;
+	font-size: 12px;
+}
+  </style>
+  <script>
+  function fnChkByte(obj, maxByte, id){
+	  var str = obj.value;
+	  var str_len = str.length;
+
+	  var rbyte = 0;
+	  var rlen = 0;
+	  var one_char = "";
+	  var str2 = "";
+
+	  for(var i=0; i<str_len; i++){
+	  one_char = str.charAt(i);
+	  if(escape(one_char).length > 4){
+	      rbyte += 2;                  
+	  }else{
+	      rbyte++;                              
+	  }
+
+	  if(rbyte <= maxByte){
+	      rlen = i+1; 
+	  }
+		document.getElementById(id).innerText = rbyte;
+	  }
+	 }
+  
+  function scoreSel() {
+	var score = document.getElementById('scoreSelect').value;
+  	document.getElementById('scoreInput').value = score;
+  }
+  
+  function fileUpload(){
+		var fileInput = document.getElementById("img");
+
+	}
+  </script>
+</head>
+
+<body>
+  <div>
+    <div class="container">
+      <div>
+        <legend><b>구매 후기 작성</b></legend>
+        <hr>
+        <div class="prdtInfo" style="height: 180px; width: 100%">
+          <div class="prdtImg">
+            <img>
+          </div>
+          <div class="prdtName">
+            <b th:text="${product.prdtName}"></b>
+          </div>
+        </div>
+        <hr>
+        <form style="text-align: center;" th:object="${review}" action="/review/register" method="post" enctype="multipart/form-data">
+          <table id="form_table">
+            <tr class="border_bottom">
+              <th>제목</th>
+              <td>
+                <input th:field="*{title}" type="text" class="form-control" id="reviewTitle" placeholder="제목을 입력하세요."
+								onKeyUp="javascript:fnChkByte(this,'500','tByteInfo')">
+								<div class="byte">
+									<span id="tByteInfo">0</span>/50Byte
+								</div> 
+				<span class="err" th:if="${#fields.hasErrors('title')}"
+								th:errors="*{title}"></span></td>
+            </tr>
+            <tr class="border_bottom">
+              <th>별점</th>
+              <td>
+            	<select id="scoreSelect" class="form-control" onchange="scoreSel()">
+					<option th:each="i : ${#numbers.sequence(1, 5)}"
+						th:value="${i}" th:text="${i}" th:selected="${i==review.score}"></option>
+				</select>
+				<input type="hidden" th:field="*{score}" th:value="*{score}" id="scoreInput">
+              </td>
+            </tr>
+            <tr class="border_bottom">
+              <th>구매후기</th>
+              <td><textarea th:field="*{content}" class="form-control"
+									id="exampleTextarea" rows="3" placeholder="구매후기를 입력하세요."
+									onKeyUp="javascript:fnChkByte(this,'2000','cByteInfo')"></textarea>
+								<div class="byte">
+									<span id="cByteInfo">0</span>/2000Byte
+								</div> <span class="err" th:if="${#fields.hasErrors('content')}"
+								th:errors="*{content}"></span></td>
+            </tr>
+            <tr >
+              <th>사진첨부</th>
+              <td>
+                <input type="file" id="img" name="imgFile" onchange="fileUpload()">
+              </td>
+            </tr>
+          </table>
+          <input type="hidden" th:value="*{productId}" th:field="*{productId}">
+          <input type="hidden" th:value="*{lineProductId}" th:field="*{lineProductId}">
+          <input type="submit" value="등록하기" class="btn btn-danger" id="submit_button" >
+        </form>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

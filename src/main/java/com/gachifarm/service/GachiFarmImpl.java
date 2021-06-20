@@ -24,6 +24,7 @@ import com.gachifarm.domain.Orders;
 import com.gachifarm.domain.Product;
 import com.gachifarm.domain.ProductImage;
 import com.gachifarm.domain.Review;
+import com.gachifarm.domain.ReviewImage;
 import com.gachifarm.dao.ProductImageDao;
 import com.gachifarm.domain.Store;
 import com.gachifarm.repository.AccountRepository;
@@ -35,6 +36,7 @@ import com.gachifarm.repository.GroupProductRepository;
 import com.gachifarm.repository.LineProductRepository;
 import com.gachifarm.repository.OrdersRepository;
 import com.gachifarm.repository.ProductRepository;
+import com.gachifarm.repository.ReviewImageRepository;
 import com.gachifarm.repository.ReviewRepository;
 @Service
 @Transactional
@@ -71,6 +73,8 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	private AdministratorRepository adminRepository;
 	
 	@Autowired
+	private ReviewImageRepository reviewImgRepository;
+	 
 	private CartRepository cartRepository;
 
 	// Account
@@ -277,7 +281,21 @@ public class GachiFarmImpl implements GachiFarmFacade {
 		return reviewRepository.findAllByProductId(pageable, productId);
 	}
 
+	public void saveReview(Review review) {
+		reviewRepository.saveAndFlush(review);
+	}
 	
+	public void saveReviewImage(ReviewImage reviewImg) {
+		reviewImgRepository.saveAndFlush(reviewImg);
+	}
+	
+	public Review getReviewById(int reviewId) {
+		return reviewRepository.getById(reviewId);
+	}
+	
+	public ReviewImage getReviewImageById(int reviewId) {
+		return reviewImgRepository.findByReviewId(reviewId);
+
 	//추가!!
 	public void save(GroupProduct groupProduct) {
 		groupProductRepository.save(groupProduct);

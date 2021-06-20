@@ -14,6 +14,7 @@ import com.gachifarm.domain.Orders;
 import com.gachifarm.domain.Product;
 import com.gachifarm.domain.ProductImage;
 import com.gachifarm.domain.Review;
+import com.gachifarm.domain.ReviewImage;
 import com.gachifarm.domain.Store;
 public interface GachiFarmFacade {
 	// Account
@@ -106,7 +107,12 @@ public interface GachiFarmFacade {
 
 	Page<Review> getReviewListbyPageAndProductId(Pageable pageable, int pageNo, int count, int productId);
 
+	void saveReview(Review review);
+	void saveReviewImage(ReviewImage reviewImg);
 	
+	Review getReviewById(int reviewId);
+	
+	ReviewImage getReviewImageById(int reviewId);
 	
 	//추가!!
 	void save(GroupProduct groupProduct);

@@ -60,14 +60,15 @@ input[type=password] {
 	font: small-caption;
   font-size: 16px;
 }
+ 
   </style>
 
 </head>
 
-<body>
+<body >
   <div>
     <div class="container">
-      <legend><b>Q&A</b></legend>
+      <legend ><b>구매후기</b></legend>
       <hr>
       <table>
         <tr style="height: 10px;">
@@ -84,47 +85,54 @@ input[type=password] {
           <th>
             아이디
           </th>
-          <th style="border: none">
+          <th>
             날짜
+          </th>
+          <th style="border: none">
+            별점
           </th>
         </tr>
         <tr style="border-bottom: 0.5px solid #DDDDDD; height: 10px; width: 100%">
           <td colspan="5">
           </td>
-        </tr> <!--|location.href='/board/${board.boardId}'| -->
-        <tr style="border-bottom: 0.5px solid #DDDDDD; height: 10px; width: 100%" class="content" th:each="board: ${boardList}" th:onClick="checkPW('[[${board.boardPW}]]', '[[${board.boardId}]]')">
-        	<td th:text="${board.boardId}"><input  type="checkbox" th:checked="${board.boardPW} != null" style="visibility: hidden;"></td>
-        	<td th:inline="text"><i th:if="${board.boardPW}" class="fas fa-solid fa-lock"></i> [[${board.title}]]</td>
-        	<td th:text="${board.userId}"></td>
-        	<td th:text="${board.boardDate}"></td>
+        </tr> <!--|location.href='/review/${review.reviewId}'| -->
+        <tr style="border-bottom: 0.5px solid #DDDDDD; height: 10px; width: 100%" class="content" th:each="review: ${reviewList}" th:onClick="|location.href='/review/${review.reviewId}'|">
+        	<td th:text="${review.reviewId}"></td>
+        	<td th:text="${review.title}"></td>
+        	<td th:text="${review.userId}"></td>
+        	<td th:text="${review.reviewDate}"></td>
+        	<td>
+        		<span th:if="${review.score != 0}" th:each="num : ${#numbers.sequence(1, review.score)}"> <i class="fas fa-star"></i></span>
+        		<span th:if="${review.score != 5}" th:each="num : ${#numbers.sequence(1, 5-review.score)}"> <i class="far fa-star"></i></span>
+        	</td>
         </tr>
       </table>
       
       <div align="center" style="margin:30px;">
       <nav style="display: inline-block; text-align: center;">
 			<ul th:class="pagination"
-				th:with="start=${T(Math).floor(boardPage.number/count)*count + 1},
-                    last=(${start + (count - 1) < boardPage.totalPages ? start + (count - 1) : boardPage.totalPages})">
+				th:with="start=${T(Math).floor(reviewPage.number/count)*count + 1},
+                    last=(${start + (count - 1) < reviewPage.totalPages ? start + (count - 1) : reviewPage.totalPages})">
 				<li class="page-item"><a th:id="tail" th:class="page-link"
-					th:href="@{/board/list/1}" aria-label="First"> <span
+					th:href="@{/product/{productId}/review/list/1(productId=${productId})}" aria-label="First"> <span
 						aria-hidden="true">First</span>
 				</a></li>
-				<li th:class="${boardPage.first} ? 'disabled'"><a
+				<li th:class="${reviewPage.first} ? 'disabled'"><a
 					th:class="page-link"
-					th:href="${boardPage.first} ? '#' :@{/board/list/{pageNo}(pageNo=${boardPage.number})}"
+					th:href="${reviewPage.first} ? '#' :@{/product/{productId}/review/list/{pageNo}(productId=${productId}, pageNo=${reviewPage.number})}"
 					aria-label="Previous"> <span aria-hidden="true">&lt;</span>
 				</a></li>
 				<li th:each="page: ${#numbers.sequence(start, last)}"
-					th:class="${page == boardPage.number + 1} ? 'active'"><a
+					th:class="${page == reviewPage.number + 1} ? 'active'"><a
 					th:class="page-link" th:text="${page}"
-					th:href="@{/board/list/{pageNo}(pageNo=${page})}"></a></li>
-				<li th:class="${boardPage.last} ? 'disabled'"><a
+					th:href="@{/product/{productId}/review/list/{pageNo}(productId=${productId}, pageNo=${page})}"></a></li>
+				<li th:class="${reviewPage.last} ? 'disabled'"><a
 					th:class="page-link"
-					th:href="${boardPage.last} ? '#' : @{/board/list/{pageNo}(pageNo=${boardPage.number + 2})}"
+					th:href="${reviewPage.last} ? '#' : @{/product/{productId}/review/list/{pageNo}(productId=${productId}, pageNo=${reviewPage.number + 2})}"
 					aria-label="Next"> <span aria-hidden="true">&gt;</span>
 				</a></li>
 				<li th:class="page-item"><a th:id="tail" th:class="page-link"
-					th:href="@{/board/list/{pageNo}(pageNo=${boardPage.totalPages})}"
+					th:href="@{/product/{productId}/review/list/{pageNo}(productId=${productId}, pageNo=${reviewPage.totalPages})}"
 					aria-label="Last"> <span aria-hidden="true">Last</span>
 				</a></li>
 			</ul>
