@@ -289,6 +289,7 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public List<Orders> getStoreOrderProduct(int prdtId) {
 		// TODO Auto-generated method stub
 		return storeOrderDao.getStoreOrderProduct(prdtId);
+	}
 
 
 	public Page<Review> getReviewListbyPageAndProductId(Pageable pageable, int pageNo, int count, int productId) {

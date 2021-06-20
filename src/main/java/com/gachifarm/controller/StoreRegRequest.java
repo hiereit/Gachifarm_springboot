@@ -1,5 +1,7 @@
 package com.gachifarm.controller;
 
+import javax.validation.constraints.NotEmpty;
+
 public class StoreRegRequest {
 
 	@NotEmpty
