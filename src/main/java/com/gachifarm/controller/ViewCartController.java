@@ -10,8 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.gachifarm.domain.Account;
 import com.gachifarm.domain.Cart;
 import com.gachifarm.domain.CartProduct;
 import com.gachifarm.domain.Product;
@@ -19,7 +17,7 @@ import com.gachifarm.domain.ProductImage;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
-@SessionAttributes("account")
+@SessionAttributes("userSession")
 public class ViewCartController {
 	private GachiFarmFacade gachifarm;
 
@@ -30,7 +28,7 @@ public class ViewCartController {
 
 	@RequestMapping("cart")
 	public ModelAndView viewCart(HttpSession userSession) throws Exception {
-		String userId = ((Account) userSession.getAttribute("account")).getUserId();
+		String userId = ((UserSession) userSession.getAttribute("userSession")).getAccount().getUserId();
 		List<CartProduct> cartPrdt = gachifarm.findCartListByUserId(userId);
 		List<Cart> cart = new ArrayList<Cart>();
 		for (int i = 0; i < cartPrdt.size(); i++) {

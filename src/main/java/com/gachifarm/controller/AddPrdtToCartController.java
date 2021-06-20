@@ -9,12 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.gachifarm.domain.Account;
 import com.gachifarm.domain.CartPK;
 import com.gachifarm.domain.CartProduct;
 import com.gachifarm.service.GachiFarmFacade;
 @Controller
-@SessionAttributes("account")
+@SessionAttributes("userSession")
 public class AddPrdtToCartController {
 	private GachiFarmFacade gachifarm;
 
@@ -25,7 +24,7 @@ public class AddPrdtToCartController {
 
 	@RequestMapping("/cart/{product_id}/add")
 	public String addCartProduct(@PathVariable("product_id") int productId, @RequestParam("quantity") int cartQuantity, HttpSession userSession) throws Exception {
-		String userId = ((Account) userSession.getAttribute("account")).getUserId();
+		String userId = ((UserSession) userSession.getAttribute("userSession")).getAccount().getUserId();
 		CartPK cartId = new CartPK(userId, productId);
 		CartProduct cartProduct = new CartProduct(cartId, cartQuantity);
 		gachifarm.insertCart(cartProduct);

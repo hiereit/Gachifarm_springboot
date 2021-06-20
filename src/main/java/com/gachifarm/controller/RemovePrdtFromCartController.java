@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.gachifarm.domain.Account;
 import com.gachifarm.domain.CartPK;
 import com.gachifarm.service.GachiFarmFacade;
 @Controller
-@SessionAttributes("account")
+@SessionAttributes("userSession")
 public class RemovePrdtFromCartController {
 	private GachiFarmFacade gachifarm;
 
@@ -30,7 +29,7 @@ public class RemovePrdtFromCartController {
 	@RequestMapping("/cart/delete")
 	@ResponseBody
 	public Object removeCartProduct(@RequestParam(value="delArray[]") List<String> delList, HttpSession userSession) throws Exception {
-		String userId = ((Account) userSession.getAttribute("account")).getUserId();
+		String userId = ((UserSession) userSession.getAttribute("userSession")).getAccount().getUserId();
 		List<CartPK> cartIdList = new ArrayList<CartPK>();
 		for (String del : delList) {
 			cartIdList.add(new CartPK(userId, Integer.parseInt(del)));

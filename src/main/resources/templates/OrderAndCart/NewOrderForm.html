@@ -122,7 +122,7 @@ h5 {
           </td>
         </tr>
         <tr style="border-bottom: 0.5px solid #DDDDDD; height: 10px; width: 100%" class="content" th:each="cart: ${cart}">
-        	<td style="text-align:left;padding-left:60px;">
+        	<td style="text-align:left;padding-left:200px;">
 			   <img style="width:50px;height:50px;" th:src="${cart.img}" />
 			   <span th:utext="'&nbsp;' + ${cart.productName}"></span>
 			</td>
@@ -133,14 +133,14 @@ h5 {
         </tr>
       </table>
       <div align="right" style="padding-right: 20px;margin-top:10px;">
-			<h5>상품금액&nbsp;&nbsp;&nbsp;<span th:text="${productTotal}"></span>원</h5>
+			<h5>상품금액&nbsp;&nbsp;&nbsp;<b><span th:text="${productTotal}"></span></b> 원</h5>
 		</div>
 		<div align="right" style="padding-right: 20px;">
-			<h5>+&nbsp;배송비&nbsp;&nbsp;&nbsp;3000원</h5>
+			<h5>+&nbsp;배송비&nbsp;&nbsp;&nbsp;<b>3000</b> 원</h5>
 		</div>
 		<hr id="hrstyle">
 		<div align="right" style="padding-right: 20px;padding-top: 10px;">
-			<h5>최종 결제 금액&nbsp;&nbsp;&nbsp;<span style="font-size: 30px;" th:text="${Total}"></span>원</h5>
+			<h5>최종 결제 금액&nbsp;&nbsp;&nbsp;<b><span style="font-size: 30px;" th:text="${Total}"></span></b> 원</h5>
 		</div>
 		<h4>주문자 정보</h4>
 		<hr id="hrstyle">
@@ -174,14 +174,14 @@ h5 {
 			</tr>
 			<tr>
 				<th id="thstyle">이름</th>
-				<td id="tdstyle"><input type="text" id="RecvUserName" name="RecvUserName" th:field="*{userName}" th:value="*{userName}" onClick="clicked()">
-				&nbsp;&nbsp;<span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></span>
+				<td id="tdstyle"><input type="text" id="RecvUserName" name="RecvUserName" th:field="*{userName}" th:value="*{userName}" onClick="clicked()" onChange="clicked()">
+				&nbsp;&nbsp;<span style="font-size:15px;color:#ff724A;" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></span>
 				</td>
 			</tr>
 			<tr>
 				<th id="thstyle">휴대폰</th>
-				<td id="tdstyle"><input type="text" id="RecvUserphone" name="RecvUserphone" th:field="*{phone}" th:value="*{phone}" onClick="clicked()" maxlength="11">
-				&nbsp;&nbsp;<span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
+				<td id="tdstyle"><input type="text" id="RecvUserphone" name="RecvUserphone" th:field="*{phone}" th:value="*{phone}" onClick="clicked()" maxlength="11"  onChange="clicked()">
+				&nbsp;&nbsp;<span style="font-size:15px;color:#ff724A;" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
 				</td>
 			</tr>
 			<tr>
@@ -196,8 +196,8 @@ h5 {
 					<input type="text" id="sample4_postcode" placeholder="우편번호" readonly class="form-control-plaintext" style="width:200px" th:value="*{zip}" disabled="disabled">
 					<input type="text" id="sample4_roadAddress" placeholder="도로명주소" readonly class="form-control-plaintext" style="width:400px" th:value="*{addr1}" disabled="disabled">
 					<span id="guide" style="color:#999;display:none"></span>
-					<input type="text" id="sample4_detailAddress" placeholder="상세주소" class="form-control" style="width:400px; margin-top:15px;" th:field="*{addr2}" th:value="*{addr2}" onClick="clicked()">
-					&nbsp;&nbsp;<span th:if="${#fields.hasErrors('addr2')}" th:errors="*{addr2}"></span>
+					<input type="text" id="sample4_detailAddress" placeholder="상세주소" class="form-control" style="width:400px; margin-top:15px;" th:field="*{addr2}" th:value="*{addr2}" onClick="clicked()"  onChange="clicked()">
+					&nbsp;&nbsp;<span style="font-size:15px;color:#ff724A;" th:if="${#fields.hasErrors('addr2')}" th:errors="*{addr2}"></span>
 				</td>
 			</tr>
 		</table>
@@ -231,7 +231,7 @@ h5 {
 				<input type="text" style="width:80px;display:inline-block;text-align:center;" id="num2" class="form-control" onKeyUp="moveFocus(4,this,this.form.num3);" placeholder="****"  maxlength="4">
 				&nbsp;&nbsp;
 				<input type="text" style="width:80px;display:inline-block;text-align:center;" id="num3" class="form-control" placeholder="****" maxlength="4">
-				&nbsp;&nbsp;<span th:if="${#fields.hasErrors('creditNum')}" th:errors="*{creditNum}"></span>
+				&nbsp;&nbsp;<span style="font-size:15px;color:#ff724A;" th:if="${#fields.hasErrors('creditNum')}" th:errors="*{creditNum}"></span>
 				</td>
 			</tr>
 			<tr>
@@ -240,7 +240,7 @@ h5 {
 				<input id="month" style="width:60px;display:inline-block;text-align:center;" type="text" class="form-control" onKeyUp="moveFocus(2,this,this.form.year);" placeholder="MM" maxlength="2">
 				&nbsp;&nbsp;/&nbsp;&nbsp;
 				<input id="year" style="width:60px;display:inline-block;text-align:center;" type="text" class="form-control" placeholder="YY" maxlength="2">
-				&nbsp;&nbsp;<span th:if="${#fields.hasErrors('expireDate')}" th:errors="*{expireDate}"></span>
+				&nbsp;&nbsp;<span style="font-size:15px;color:#ff724A;" th:if="${#fields.hasErrors('expireDate')}" th:errors="*{expireDate}"></span>
 				</td>
 			</tr>
 		</table>

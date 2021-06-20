@@ -125,5 +125,9 @@ public interface GachiFarmFacade {
 	void insertLineProduct(LineProduct lineProduct);
 	void changeProductQty(Product product);
 	void changeOrderStatus(Orders orders, Date orderDate);
-
+	
+	//main 관련 메소드
+	String getRandomImagePath();
+	List<Integer> getBestProductIds();
+	List<Integer> getNewProductIds();
 }
