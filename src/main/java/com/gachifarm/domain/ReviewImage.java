@@ -19,6 +19,34 @@ public class ReviewImage implements Serializable {
 	private int imgId;
 	private String imgName;
 	private String imgPath;
+
 	@Column(name="review_id")
 	private int reviewId;
+	
+	public int getImgId() {
+		return imgId;
+	}
+	public void setImgId(int imgId) {
+		this.imgId = imgId;
+	}
+	public String getImgName() {
+		return imgName;
+	}
+	public void setImgName(String imgName) {
+		this.imgName = imgName;
+	}
+	public String getImgPath() {
+		return imgPath;
+	}
+	public void setImgPath(String imgPath) {
+		this.imgPath = imgPath;
+	}
+	public int getReviewId() {
+		return reviewId;
+	}
+	public void setReviewId(int reviewId) {
+		this.reviewId = reviewId;
+	}
+	
+	
 }

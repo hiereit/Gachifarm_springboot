@@ -91,10 +91,10 @@ input[type=password] {
         <tr style="border-bottom: 0.5px solid #DDDDDD; height: 10px; width: 100%">
           <td colspan="5">
           </td>
-        </tr> <!--|location.href='/board/${board.boardId}'| -->
+        </tr> 
         <tr style="border-bottom: 0.5px solid #DDDDDD; height: 10px; width: 100%" class="content" th:each="board: ${boardList}" th:onClick="checkPW('[[${board.boardPW}]]', '[[${board.boardId}]]')">
-        	<td th:text="${board.boardId}"><input  type="checkbox" th:checked="${board.boardPW} != null" style="visibility: hidden;"></td>
-        	<td th:inline="text"><i th:if="${board.boardPW}" class="fas fa-solid fa-lock"></i> [[${board.title}]]</td>
+        	<td th:text="${board.boardId}"></td>
+        	<td th:inline="text"><i th:if="${board.boardPW}" class="fas fa-solid fa-lock"></i> [[${board.title}]] <span th:if="${board.answer}" class="badge badge-light">답변완료</span></td>
         	<td th:text="${board.userId}"></td>
         	<td th:text="${board.boardDate}"></td>
         </tr>
