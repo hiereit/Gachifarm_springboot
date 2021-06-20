@@ -12,6 +12,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Min;
 
 import org.springframework.format.annotation.DateTimeFormat;
 @SuppressWarnings("serial")
@@ -37,9 +38,11 @@ public class GroupBuyer implements Serializable {
 	private Date expireDate;
 	private String cardType;
 	@Column(name="gProduct_id")
-	private int groupProudctId;
+	private int groupProductId;
 	@Column(name="user_id")
 	private String userId;
+	
+	@Min(1)
 	private int qty;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern="yyyy-MM-dd")
@@ -94,11 +97,11 @@ public class GroupBuyer implements Serializable {
 		this.cardType = cardType;
 	}
 	
-	public int getGroupProudctId() {
-		return groupProudctId;
+	public int getGroupProductId() {
+		return groupProductId;
 	}
-	public void setGroupProudctId(int groupProudctId) {
-		this.groupProudctId = groupProudctId;
+	public void setGroupProductId(int groupProudctId) {
+		this.groupProductId = groupProudctId;
 	}
 	public String getUserId() {
 		return userId;
@@ -119,9 +122,12 @@ public class GroupBuyer implements Serializable {
 		this.attendDate = attendDate;
 	}
 	
-	
-	
-	
-	
+	@Override
+	public String toString() {
+		return "GroupBuyer [gOrderId=" + gOrderId + ", userName=" + userName + ", totalPrice=" + totalPrice + ", phone="
+				+ phone + ", orderDate=" + orderDate + ", creditNum=" + creditNum + ", expireDate=" + expireDate
+				+ ", cardType=" + cardType + ", groupProductId=" + groupProductId + ", userId=" + userId + ", qty="
+				+ qty + ", attendDate=" + attendDate + "]";
+	}
 	
 }

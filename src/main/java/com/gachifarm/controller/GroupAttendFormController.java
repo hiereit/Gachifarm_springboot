@@ -70,7 +70,7 @@ public class GroupAttendFormController {
 		groupBuyer.setQty(Integer.parseInt(request.getParameter("qty")));
 		groupBuyer.setAttendDate(new Date());
 		GroupProduct gProduct = (GroupProduct) session.getAttribute("groupProduct");
-		groupBuyer.setGroupProudctId(gProduct.getgProductId());
+		groupBuyer.setGroupProductId(gProduct.getgProductId());
 		gProduct.setCurrQty(gProduct.getCurrQty() + 1);
 		gachiFarm.updateGroupProduct(gProduct);
 		gachiFarm.insertGroupBuyer(groupBuyer);
