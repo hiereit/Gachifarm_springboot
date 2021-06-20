@@ -12,6 +12,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.*;
+
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 @SuppressWarnings("serial")
 @Entity
@@ -36,6 +38,7 @@ public class Board implements Serializable {
 	@Column(nullable = true)
 	@Size(max=20, message="20Byte까지만 입력 가능합니다.")
 	private String boardPW;
+	@CreationTimestamp
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@Column(name="board_date")
