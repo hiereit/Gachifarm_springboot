@@ -223,7 +223,7 @@ button {
 						<br><br>				
 						<input type="button" class="btn btn-danger" id="submit_button" onclick="addCart()" value="장바구니에 담기">
 						<input type="button" class="btn btn-danger" value="바로 주문하기" onclick="order()">
-						&nbsp;<a th:href="@{/group/product/registerForm/{productId}(productId=${product.productId})}"><i class="fas fa-solid fa-users fa-2x" style="color:#707070;"></i></a>
+						&nbsp;<a th:if="${product.saleType} eq 'GACHI'" th:href="@{/group/product/registerForm/{productId}(productId=${product.productId})}"><i class="fas fa-solid fa-users fa-2x" style="color:#707070;"></i></a>
 						<!-- cart/{product_id}/add?quantity=3 <a th:href="@{order/form?productId=${product.productId}&quantity=${}}">-->
 						</form>
 					</div>

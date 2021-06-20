@@ -18,7 +18,6 @@ import com.gachifarm.domain.ProductImage;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
-@SessionAttributes("product")
 public class BoardFormController {
 	@Autowired
 	private GachiFarmFacade gachiFarm;
@@ -34,7 +33,7 @@ public class BoardFormController {
 			board.setProductId(productId);
 		}
 		model.addAttribute("board", board);
-		return "Board/BoardForm";
+		return "/Board/BoardForm";
 	}
 	
 	@RequestMapping("/board/register")
@@ -62,7 +61,7 @@ public class BoardFormController {
 			return "redirect:/board/list/1";
 		}
 		model.addAttribute("board", board);
-		return "Board/BoardUpdateForm";
+		return "/Board/BoardUpdateForm";
 	}
 
 	@RequestMapping("/board/update")
@@ -96,15 +95,5 @@ public class BoardFormController {
 		updateBoard.setAnswer(board.getAnswer());
 		gachiFarm.saveBoard(updateBoard);
 		return "redirect:/board/"+board.getBoardId();
-	}
-	
-	public String getImgPath(int productId) {
-		ProductImage img = gachiFarm.getProductImageByPid(productId);
-		if (img == null) {
-			return "/images/noImage.png";
-		}
-		else {
-			return img.getImgPath();
-		}
 	}
 }

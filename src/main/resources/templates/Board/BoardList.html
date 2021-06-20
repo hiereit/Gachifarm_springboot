@@ -60,6 +60,11 @@ input[type=password] {
 	font: small-caption;
   font-size: 16px;
 }
+#newBoard {
+	font-family: 'NanumSquare', sans-serif !important;
+	float: right;
+	margin-top: 5px;
+}
   </style>
 
 </head>
@@ -99,7 +104,8 @@ input[type=password] {
         	<td th:text="${board.userId}"></td>
         	<td th:text="${board.boardDate}"></td>
         </tr>
-      </table>
+      </table><button type="submit" class="btn btn-danger" id="newBoard" th:onclick="|location.href='/board/registerForm'|">글쓰기</button>
+      
       
       <div align="center" style="margin:30px;">
       <nav style="display: inline-block; text-align: center;">
@@ -135,7 +141,7 @@ input[type=password] {
     </div>
   </div>
   
-  <div id="modal" class="modal" style="">
+  <div id="modal" class="modal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
