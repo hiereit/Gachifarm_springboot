@@ -48,9 +48,10 @@
   </style>
 </head>
   <body>
+  	<th:block th:insert="fragment/Top :: headFragment"></th:block> 
     <div align="center" style="margin-top: 100px;">
-      <h3 th:if="${isUpdate}"> 스토어 정보수정 </h3>
-      <h3 th:unless="${isUpdate}"> 스토어 등록 </h3>
+      <div th:if="${isUpdate}"><h3 > 스토어 정보수정 </h3></div>
+      <div th:unless="${isUpdate}"><h3 > 스토어 등록 </h3><small>스토어를 시작해보세요!</small></div>
       <hr style="height:1px; background-color:#707070;">
       
       <form th:unless="${isUpdate}" th:action="@{/store/regist}" th:object="${storeCommand}" method="post">
@@ -129,5 +130,6 @@
         </table>
       </form>
     </div>
+    <footer th:replace="fragment/Bottom :: footerFragment"></footer> 
   </body>
 </html>
