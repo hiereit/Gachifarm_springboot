@@ -1,7 +1,9 @@
 package com.gachifarm.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -31,6 +33,8 @@ public class ViewCartController {
 		String userId = ((UserSession) userSession.getAttribute("userSession")).getAccount().getUserId();
 		List<CartProduct> cartPrdt = gachifarm.findCartListByUserId(userId);
 		List<Cart> cart = new ArrayList<Cart>();
+		ModelAndView mav = new ModelAndView("OrderAndCart/Cart");
+		Map<Integer, Integer> qtyMap = new HashMap<>();
 		for (int i = 0; i < cartPrdt.size(); i++) {
 			Product product = gachifarm.getProduct(cartPrdt.get(i).getCartId().getProductId());
 			int productId = product.getProductId();
@@ -48,7 +52,10 @@ public class ViewCartController {
 			int totalPrice = quantity * price;
 			Cart c = new Cart(path, productId, productName, price, quantity, totalPrice);
 			cart.add(c);
+			qtyMap.put(productId, product.getQuantity());
 		}
-		return new ModelAndView("OrderAndCart/Cart", "cart", cart);
+		mav.addObject("cart", cart);
+		mav.addObject("qtyMap", qtyMap);
+		return mav;
 	}
 }
