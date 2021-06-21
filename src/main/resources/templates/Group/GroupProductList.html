@@ -87,39 +87,10 @@ pointer-events: none;
 	</div>
 	<br>
 	<br>
-	<div align="center" style="margin:30px;">
-      <nav style="display: inline-block; text-align: center;">
-			<ul th:class="pagination" th:with="start=${T(Math).floor(gProductPage.number/12)*12 + 1},
-                    last=(${start + 11 < gProductPage.totalPages ? start + 11 : gProductPage.totalPages})">
-				<li class="page-item"><a th:id="tail" th:class="page-link"
-					th:href="@{/group/product/list/1}" aria-label="First"> <span
-						aria-hidden="true">First</span>
-				</a></li>
-				<li th:class="${reviewPage.first} ? 'disabled'"><a
-					th:class="page-link"
-					th:href="${reviewPage.first} ? '#' :@{/product/{productId}/review/list/{pageNo}(productId=${productId}, pageNo=${reviewPage.number})}"
-					aria-label="Previous"> <span aria-hidden="true">&lt;</span>
-				</a></li>
-				<li th:each="page: ${#numbers.sequence(start, last)}" th:if="${page} != 0"
-					th:class="${page == reviewPage.number + 1} ? 'active'"><a
-					th:class="page-link" th:text="${page}"
-					th:href="@{/product/{productId}/review/list/{pageNo}(productId=${productId}, pageNo=${page})}"></a></li>
-				<li th:class="${reviewPage.last} ? 'disabled'"><a
-					th:class="page-link"
-					th:href="${reviewPage.last} ? '#' : @{/product/{productId}/review/list/{pageNo}(productId=${productId}, pageNo=${reviewPage.number + 2})}"
-					aria-label="Next"> <span aria-hidden="true">&gt;</span>
-				</a></li>
-				<li th:class="page-item"><a th:id="tail" th:class="page-link"
-					th:href="@{/product/{productId}/review/list/{pageNo}(productId=${productId}, pageNo=${reviewPage.totalPages})}"
-					aria-label="Last"> <span aria-hidden="true">Last</span>
-				</a></li>
-			</ul>
-		</nav>
-      </div>
- 
 	<div align="center">
 		<nav style="display: inline-block; text-align: center;">
-			<ul th:class="pagination" th:with="start=${T(Math).floor(gProductPage.number/12)*12 + 1},
+			<ul th:class="pagination"
+				th:with="start=${T(Math).floor(gProductPage.number/12)*12 + 1},
                     last=(${start + 11 < gProductPage.totalPages ? start + 11 : gProductPage.totalPages})">
 				<li class="page-item"><a th:id="tail" th:class="page-link"
 					th:href="@{/group/product/list/1}" aria-label="First"> <span
@@ -130,11 +101,11 @@ pointer-events: none;
 					th:href="${gProductPage.first} ? '#' :@{/group/product/list/{pageNo}(pageNo=${gProductPage.number})}"
 					aria-label="Previous"> <span aria-hidden="true">&lt;</span>
 				</a></li>
-				<li th:each="page: ${#numbers.sequence(start, last)}" 
+				<li th:each="page: ${#numbers.sequence(start, last)}"
 					th:class="${page == gProductPage.number + 1} ? 'active'"><a
 					th:class="page-link" th:text="${page}"
 					th:href="@{/group/product/list/{pageNo}(pageNo=${page})}"></a></li>
-				<li th:class="${gProductPage.last} ? 'disabled'"><a  th:if="${page} != 0"
+				<li th:class="${gProductPage.last} ? 'disabled'"><a
 					th:class="page-link"
 					th:href="${gProductPage.last} ? '#' : @{/group/product/list/{pageNo}(pageNo=${gProductPage.number + 2})}"
 					aria-label="Next"> <span aria-hidden="true">&gt;</span>
