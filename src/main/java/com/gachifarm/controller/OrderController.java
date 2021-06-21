@@ -49,6 +49,7 @@ public class OrderController {
 	String total;
 	Account user;
 	int orderId;
+	boolean soldOut = false;
 	
 	@RequestMapping("/order/form")
 	public ModelAndView addOrder(HttpServletRequest req, HttpSession userSession) throws Exception {
@@ -101,6 +102,9 @@ public class OrderController {
 		total = String.valueOf(totalPrice + 3000);
 		Cart c = new Cart(path, productId, productName, price, quantity, totalPrice);
 		cart.add(c);
+		CartPK cartId = new CartPK(userId, productId);
+		CartProduct cartProduct = new CartProduct(cartId, quantity);
+		gachifarm.insertCart(cartProduct);
 		user = gachifarm.findByUserId(userId);
 		OrdersCommand order = new OrdersCommand(user.getUserName(), user.getPhone(), user.getZip(), user.getAddr1(), user.getAddr2());
 		mav.addObject("order", order);
@@ -114,8 +118,10 @@ public class OrderController {
 	
 	@GetMapping("/order/confirm")
 	public String confirmOrder2(Model model) throws Exception {
-		model.addAttribute("orderId", orderId);
-		model.addAttribute("total", total);
+		if(soldOut == false) {
+			model.addAttribute("orderId", orderId);
+			model.addAttribute("total", total);
+		}
 		return "OrderAndCart/ConfirmOrder";
 	}
 	
@@ -152,29 +158,13 @@ public class OrderController {
 			int productId = lineProducts.getProductId();
 			Product product = gachifarm.getProduct(productId);
 			if (product.getQuantity() - quantity < 0) {
-				mav.addObject("orderId", null);
+				soldOut = true;
 				return mav;
 			}
 		}
 		gachifarm.insertOrder(orders);
 		gachifarm.changeOrderStatus(orders, orderDate);
 		orderId = orders.getOrderId();
-		
-		if(cart.size() == 1) {
-			Cart oneLineProduct = cart.get(0);
-			int quantity = oneLineProduct.getQuantity();
-			int price = oneLineProduct.getTotalPrice();
-			int productId = oneLineProduct.getProductId();
-			String productName = oneLineProduct.getProductName();
-			Product product = gachifarm.getProduct(productId);
-			product.setQuantity(product.getQuantity() - quantity);
-			gachifarm.changeProductQty(product);
-			LineProduct lineProduct = new LineProduct(orderId, quantity, price, productId, productName);
-			gachifarm.insertLineProduct(lineProduct);
-			mav.addObject("orderId", orderId);
-			mav.addObject("total", total);
-			return mav;
-		}
 		
 		for (Cart lineProducts : cart) {
 			int quantity = lineProducts.getQuantity();
@@ -186,10 +176,9 @@ public class OrderController {
 			gachifarm.changeProductQty(product);
 			LineProduct lineProduct = new LineProduct(orderId, quantity, price, productId, productName);
 			gachifarm.insertLineProduct(lineProduct);
-			List<CartPK> cartIdList = new ArrayList<CartPK>();
-			cartIdList.add(new CartPK(userId, productId));
-			gachifarm.deleteCart(cartIdList);
+			gachifarm.deleteCart(new CartPK(userId, productId));
 		}
+		soldOut = false;
 		mav.addObject("orderId", orderId);
 		mav.addObject("total", total);
 		return mav;
