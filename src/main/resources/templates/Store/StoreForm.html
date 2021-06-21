@@ -72,8 +72,8 @@
   <body>
   	<th:block th:insert="fragment/Top :: headFragment"></th:block> 
     <div align="center" style="margin-top: 100px;">
-      <div th:unless="${isUpdate}"><h3 > 스토어 정보수정 </h3><small>스토어를 시작해보세요!</small></div>
-      <div th:if="${isUpdate}"><h3 > 스토어 등록 </h3><small>스토어를 시작해보세요!</small></div>
+      <div th:unless="${isUpdate}"><h3 > 스토어 등록 </h3><small>스토어를 시작해보세요!<br>*스토어명은 추후변경 불가능합니다</small></div>
+      <div th:if="${isUpdate}"><h3 > 스토어 정보수정 </h3><small></small></div>
       <hr style="height:1px; background-color:#707070;">
       
       <!-- 스토어 등록폼 -->
