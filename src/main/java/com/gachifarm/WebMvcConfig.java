@@ -25,9 +25,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		registry.addInterceptor(interceptor)
 				.addPathPatterns("/cart/**/", "/order/**/")
 				.addPathPatterns("/user/**/")
-				.addPathPatterns("/board/registerForm")
 				.addPathPatterns("/store/registerForm", "/store/regist", "/store/updateForm/{storeName}", "/store/update", "/store/product/registerForm/{storeName}", "/store/product/updateForm")
-				.addPathPatterns("/product/regist", "/product/registerForm", "/product/updateForm/{productId}", "/product/update");
+				.addPathPatterns("/product/regist", "/product/registerForm", "/product/updateForm/{productId}", "/product/update")
+				.addPathPatterns("/board/registerForm", "/board/register", "/board/{boardId}/updateForm", "/board/update", "/board/answer",
+						"/group/product/attendForm", "/group/product/attend", "/group/product/registerForm/{productId}", "/group/product/register", "/group/product/updateForm/{gProductId}",
+						"/group/product/update", "/group/buyer/list/{gProductId}/{pageNo}", "/review/registerForm/{productId}/{lineProductId}", "/review/register", "/board/{boardId}/delete");
 	}
 	
 }
