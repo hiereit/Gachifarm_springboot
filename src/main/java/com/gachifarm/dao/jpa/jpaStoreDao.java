@@ -5,14 +5,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.gachifarm.dao.StoreDao;
-import com.gachifarm.domain.Product;
 import com.gachifarm.domain.Store;
 
 @Repository

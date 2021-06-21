@@ -84,6 +84,36 @@
       </table>
     </div>
   </div>
+  <div align="center" style="margin:30px;">
+      <nav style="display: inline-block; text-align: center;">
+			<ul th:class="pagination"
+				th:with="start=${T(Math).floor(buyerPage.number/count)*count + 1},
+                    last=(${start + (count - 1) < buyerPage.totalPages ? start + (count - 1) : buyerPage.totalPages})">
+				<li class="page-item"><a th:id="tail" th:class="page-link"
+					th:href="@{/group/buyer/list/{gProductId}/1(gProductId=${gProductId})}" aria-label="First"> <span
+						aria-hidden="true">First</span>
+				</a></li>
+				<li th:class="${buyerPage.first} ? 'disabled'"><a
+					th:class="page-link"
+					th:href="${buyerPage.first} ? '#' :@{/group/buyer/list/{gProductId}/{pageNo}(gProductId=${gProductId}, pageNo=${buyerPage.number})}"
+					aria-label="Previous"> <span aria-hidden="true">&lt;</span>
+				</a></li>
+				<li th:each="page: ${#numbers.sequence(start, last)}"
+					th:class="${page == buyerPage.number + 1} ? 'active'"><a
+					th:class="page-link" th:text="${page}"
+					th:href="@{/group/buyer/list/{gProductId}/{pageNo}(gProductId=${gProductId}, pageNo=${page})}"></a></li>
+				<li th:class="${buyerPage.last} ? 'disabled'"><a
+					th:class="page-link"
+					th:href="${buyerPage.last} ? '#' : @{/group/buyer/list/{gProductId}/{pageNo}(gProductId=${gProductId}, pageNo=${buyerPage.number + 2})}"
+					aria-label="Next"> <span aria-hidden="true">&gt;</span>
+				</a></li>
+				<li th:class="page-item"><a th:id="tail" th:class="page-link"
+					th:href="@{/group/buyer/list/{gProductId}/{pageNo}(gProductId=${gProductId}, pageNo=${buyerPage.totalPages})}"
+					aria-label="Last"> <span aria-hidden="true">Last</span>
+				</a></li>
+			</ul>
+		</nav>
+      </div>
   <footer th:replace="fragment/Bottom :: footerFragment"></footer>  
 </body>
 

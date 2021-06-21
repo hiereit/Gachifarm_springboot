@@ -13,9 +13,6 @@ import com.gachifarm.service.GachiFarmFacade;
 public class ViewReviewController {
 	@Autowired
 	private GachiFarmFacade gachiFarm;
-	public void setGachiFarm(GachiFarmFacade gachiFarm) {
-		this.gachiFarm = gachiFarm;
-	}
 	
 	@RequestMapping("/review/{reviewId}")
 	public String viewGroupProduct(

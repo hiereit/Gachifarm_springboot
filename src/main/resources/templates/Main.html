@@ -29,16 +29,16 @@
 				<h4 style="margin:15px;margin-left:45px;">BEST</h4>
 			</td>
 		</tr>
-	    <tr>
+	    <tr style="vertical-align: top;">
 	        <td th:each="best:${bestProducts}">
 		        <ul style=" list-style:none;">
 			    	<li><a id="aid" th:href="@{|/product/${best.productId}/1|}"><img style="object-fit: cover; width: 200px; height:200px;" th:src="${bestImages.get(best.productId)}"></img></a></li>
 			        <li>
-			        <button th:if="${best.saleType.equals('GROUP')}" style="float:right;width:75px;height:30px;font-size:11px;font-weight:bold;margin-top:5px;" type="button" class="btn btn-outline-danger disabled"
+			        <button th:if="${best.saleType.equals('GROUP')}" style="float:right;width:75px;height:30px;font-size:11px;font-weight:bold;margin-top:5px;pointer-events: none;" type="button" class="btn btn-outline-danger disabled"
 						id="prdtType_group">가치장터</button>
-					<button th:if="${best.saleType.equals('STORE')}" style="float:right;width:75px;height:30px;font-size:11px;font-weight:bold;margin-top:5px;" type="button" class="btn btn-outline-success disabled"
+					<button th:if="${best.saleType.equals('STORE')}" style="float:right;width:75px;height:30px;font-size:11px;font-weight:bold;margin-top:5px;pointer-events: none;" type="button" class="btn btn-outline-success disabled"
 						id="prdtType_store">오픈마켓</button>
-					<button th:if="${best.saleType.equals('GACHI')}" style="float:right;width:75px;height:30px;font-size:11px;font-weight:bold;margin-top:5px;" type="button" class="btn btn-outline-warning disabled"
+					<button th:if="${best.saleType.equals('GACHI')}" style="float:right;width:75px;height:30px;font-size:11px;font-weight:bold;margin-top:5px;pointer-events: none;" type="button" class="btn btn-outline-warning disabled"
 						id="prdtType_gachi">가치only</button>
 			        </li>
 			        <li><a id="aid" th:href="@{|/product/${best.productId}/1|}"><span style="font-size:20px;" th:text="${best.prdtName}"></span></a></li>
@@ -46,7 +46,7 @@
 		        </ul>
 	        </td>
 	    </tr>
-	   <tr>
+	   <tr style="vertical-align: top;">
 			<td>
 				<h4 style="margin:15px;margin-left:45px;">NEW</h4>
 			</td>

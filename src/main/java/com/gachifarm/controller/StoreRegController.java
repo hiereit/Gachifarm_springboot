@@ -1,8 +1,6 @@
 package com.gachifarm.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -16,7 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.util.UriUtils;
 
 import com.gachifarm.domain.Account;
 import com.gachifarm.domain.Store;
@@ -134,7 +132,7 @@ public class StoreRegController {
 		Store store = new Store(sessionAccount.getUserId(), regReq.getStoreName(), regReq.getStoreInfo());
 		gachifarm.updateStore(store);
 		
-		String encodedParam = URLEncoder.encode(regReq.getStoreName(), "UTF-8");
+		String encodedParam = UriUtils.encodePathSegment(regReq.getStoreName(), "UTF-8");
 		return "redirect:/store/" + encodedParam + "/1";
 	}
 }

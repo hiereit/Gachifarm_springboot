@@ -2,14 +2,12 @@ package com.gachifarm.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,10 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriUtils;
 
-import com.gachifarm.domain.Account;
 import com.gachifarm.domain.Product;
 import com.gachifarm.domain.ProductImage;
 import com.gachifarm.service.GachiFarmFacade;
@@ -118,7 +114,7 @@ public class ProductRegController {
 			return "redirect:/product/list/all/1";
 		}
 		else {
-			String encodedParam = URLEncoder.encode(gachifarm.getStore(userId).getStoreName(), "UTF-8");
+			String encodedParam = UriUtils.encodePathSegment(gachifarm.getStore(userId).getStoreName(), "UTF-8");
 			//return "redirect:/store/" + encodedParam + "/1";
 			return "redirect:/store/" + encodedParam + "/1";
 		}

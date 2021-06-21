@@ -8,7 +8,6 @@ import javax.persistence.TypedQuery;
 import org.springframework.dao.DataAccessException;
 
 import com.gachifarm.dao.ProductImageDao;
-import com.gachifarm.domain.Product;
 import com.gachifarm.domain.ProductImage;
 import org.springframework.stereotype.Repository;
 
