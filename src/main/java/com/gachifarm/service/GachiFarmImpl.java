@@ -32,6 +32,7 @@ import com.gachifarm.dao.ProductImageDao;
 import com.gachifarm.domain.Store;
 import com.gachifarm.repository.AccountRepository;
 import com.gachifarm.repository.AdministratorRepository;
+import com.gachifarm.repository.BannerImageRepository;
 import com.gachifarm.repository.BoardRepository;
 import com.gachifarm.repository.CartRepository;
 import com.gachifarm.repository.GroupBuyersRepository;
@@ -420,8 +421,10 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	//main
 	@Autowired
 	private ProductImageRepository productImageRepository;
+	@Autowired
+	private BannerImageRepository bannerImageRepository;
 	public String getRandomImagePath() {
-		return productImageRepository.getRandomImagPath();
+		return bannerImageRepository.getRandomImagPath();
 	}
 	public List<Integer> getBestProductIds() {
 		return productRepository.getBestProductIds();
