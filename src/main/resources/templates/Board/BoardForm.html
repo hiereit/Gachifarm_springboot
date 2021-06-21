@@ -10,6 +10,8 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 body {
 	font-family: 'NanumSquare', sans-serif;
@@ -169,7 +171,7 @@ input[type=password] {
 				<div th:if="${board.product}" class="prdtInfo"
 					style="height: 180px; width: 100%">
 					<div class="prdtImg">
-						<img>
+						<img th:src="${board.filePath}">
 					</div>
 					<div class="prdtName">
 						<b th:text="${board.product.prdtName}">상품명</b><br>

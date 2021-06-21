@@ -2,6 +2,8 @@ package com.gachifarm.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,32 +20,31 @@ import com.gachifarm.service.GachiFarmFacade;
 public class ListBoardController {
 	@Autowired
 	private GachiFarmFacade gachiFarm;
-	public void setGachiFarm(GachiFarmFacade gachiFarm) {
-		this.gachiFarm = gachiFarm;
-	}
 
 	@RequestMapping("/board/list/{pageNo}")
     public String boardListAll(@PageableDefault Pageable pageable,
-    		@PathVariable("pageNo") int pageNo, Model model){
+    		@PathVariable("pageNo") int pageNo, Model model, HttpSession session){
 		int count = 15;
 		Page<Board> boardPage = gachiFarm.getBoardListbyPage(pageable, pageNo, count);
 		List<Board> boardList = boardPage.getContent();
 		model.addAttribute("boardPage", boardPage);
 		model.addAttribute("boardList", boardList);
-		model.addAttribute("isAdmin", gachiFarm.isAdmin("DONGDUK01")); //!!! session에서 꺼내기
+		String userId = ((UserSession) session.getAttribute("userSession")).getAccount().getUserId();
+		model.addAttribute("isAdmin", gachiFarm.isAdmin(userId));
 		model.addAttribute("count", count);
 		return "Board/BoardList";
     }
 	
 	@RequestMapping("/product/{productId}/board/list/{pageNo}")
     public String productBoardList(@PageableDefault Pageable pageable, @PathVariable("productId") int productId,
-    		@PathVariable("pageNo") int pageNo, Model model){
+    		@PathVariable("pageNo") int pageNo, Model model, HttpSession session){
 		int count = 10;
 		Page<Board> boardPage = gachiFarm.getBoardListbyPageAndProductId(pageable, pageNo, count, productId);
 		List<Board> boardList = boardPage.getContent();
 		model.addAttribute("boardPage", boardPage);
 		model.addAttribute("boardList", boardList);
-		model.addAttribute("isAdmin", gachiFarm.isAdmin("DONGDUK01")); //!!! session에서 꺼내기
+		String userId = ((UserSession) session.getAttribute("userSession")).getAccount().getUserId();
+		model.addAttribute("isAdmin", gachiFarm.isAdmin(userId));
 		model.addAttribute("count", count);
 		return "Board/BoardList";
     }

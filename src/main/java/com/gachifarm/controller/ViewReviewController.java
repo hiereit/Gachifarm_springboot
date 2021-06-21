@@ -21,6 +21,7 @@ public class ViewReviewController {
 	public String viewGroupProduct(
 			@PathVariable("reviewId") int reviewId, Model model) throws Exception {
 		Review review = gachiFarm.getReviewById(reviewId);
+		review.setPrdtFilePath(gachiFarm.getImgPath(review.getProductId()));
 		model.addAttribute("review", review);
 		model.addAttribute("product", gachiFarm.getProduct(review.getProductId()));
 		model.addAttribute("reviewImg", gachiFarm.getReviewImageById(reviewId));

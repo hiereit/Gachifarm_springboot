@@ -55,16 +55,8 @@ th {
 	background-color: #fff;
 	color: black;
 }
-
-#prdtType {
-	border-color: #FFD75E !important;
-	border-width: medium !important;
-	width: 70px !important;
-	height: 30px !important;
-	font-size: 12px !important;
-	font-weight: bold;
-	padding: 0px !important;
-	pointer-events: none;
+.prdtTypeBtn {
+pointer-events: none;
 }
 </style>
 </head>
@@ -79,13 +71,13 @@ th {
 						th:if="${(i*4+j) < gProductList.size()}"
 						th:with="p_id=${gProductList[i*4+j].gProductId}">
 						<ul style="list-style: none;">
-							<li><img style="width: 300px; height: 300px;"></img></li>
-							<li><button type="button"
-									class="btn btn-outline-warning disabled" id="prdtType">가치장터</button></li>
+							<li><img style="width: 300px; height: 300px;" th:src="|${gProductList[i*4+j].filePath}|"></li>
 							<li><a
 								th:href="@{/group/product/{gProductId}(gProductId=${gProductList[i*4+j].gProductId})}"><span
 									style="font-size: 20px;"
-									th:text="|${gProductList[i*4+j].product.prdtName}|"></span></a></li>
+									th:text="|${gProductList[i*4+j].product.prdtName}|"></span></a><button style="float:right;width:75px;height:30px;font-size:11px;font-weight:bold;margin-top:5px;" type="button" class="prdtTypeBtn btn btn-outline-danger disabled"
+						id="prdtType_group">가치장터</button></li>
+							
 							<li><a><span
 									th:text="${#numbers.formatInteger(T(Math).ceil(gProductList[i*4+j].product.price * 0.9), 3,'COMMA')}"></span>원</a></li>
 						</ul>

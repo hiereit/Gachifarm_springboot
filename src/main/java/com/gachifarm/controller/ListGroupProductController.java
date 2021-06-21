@@ -25,8 +25,15 @@ public class ListGroupProductController {
 	@RequestMapping("/group/product/list/{pageNo}")
     public String gProductListAll(@PageableDefault Pageable pageable,
     		@PathVariable("pageNo") int pageNo, Model model){
-		Page<GroupProduct> gProductPage = gachiFarm.getGroupProductListbyPage(pageable, pageNo);
+		String status = "진행 중";
+		int count = 12;
+		Page<GroupProduct> gProductPage = gachiFarm.getGroupProductListbyPage(pageable, pageNo, count, status);
 		List<GroupProduct> gProductList = gProductPage.getContent();
+		
+		for (int i = 0; i < gProductList.size(); i++) {
+			gProductList.get(i).setFilePath(gachiFarm.getImgPath(gProductList.get(i).getProductId()));
+			System.out.println(gProductList.get(i).getFilePath());
+		}
 		model.addAttribute("gProductPage", gProductPage);
 		model.addAttribute("gProductList", gProductList);
 	

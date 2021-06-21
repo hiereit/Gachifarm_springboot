@@ -62,9 +62,8 @@ public interface GachiFarmFacade {
 	void insertGroupBuyer(GroupBuyer groupBuyer);
 	void updateGroupProduct(GroupProduct groupProduct);
 	GroupProduct getGroupProduct(int gProductId);
-	List<GroupProduct> getGroupProductList();
 	List<GroupBuyer> getGroupBuyersByGroupProductId(int gProductId);
-	Page<GroupProduct> getGroupProductListbyPage(Pageable pageable, int pageNo);
+	Page<GroupProduct> getGroupProductListbyPage(Pageable pageable, int pageNo, int count, String status);
 	List<GroupBuyer> findGroupBuyersByUserId(String userId);
 	GroupProduct findGroupProductBygProductId(int groupProudctId);
 
@@ -146,4 +145,7 @@ public interface GachiFarmFacade {
 	List<Integer> getNewProductIds();
 
 	void updateCompleteGroup(Date date, int gProductId);
+	void changeGroupOrderStatus(GroupProduct gProduct);
+	
+	Page<GroupBuyer> getBuyerListbyPage(Pageable pageable, int pageNo, int count, int gProductId);
 }

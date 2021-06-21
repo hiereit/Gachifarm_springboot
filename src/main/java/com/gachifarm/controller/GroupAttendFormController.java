@@ -11,12 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.gachifarm.domain.Account;
 import com.gachifarm.domain.GroupBuyer;
@@ -24,7 +21,6 @@ import com.gachifarm.domain.GroupProduct;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
-@SessionAttributes("userSession")
 public class GroupAttendFormController {
 	@Autowired
 	private GachiFarmFacade gachiFarm;
@@ -35,7 +31,7 @@ public class GroupAttendFormController {
 		GroupProduct gProduct = gachiFarm.getGroupProduct(gProductId);
 		Account account =((UserSession) session.getAttribute("userSession")).getAccount();
 		int price = (int) Math.ceil(gProduct.getProduct().getPrice() * 0.9);
-		gProduct.setFilePath(gachiFarm.getProductImageByPid(gProduct.getProductId()).getImgPath());
+		gProduct.setFilePath(gachiFarm.getImgPath(gProduct.getProductId()));
 		model.addAttribute("price", price);
 		model.addAttribute("groupProduct", gProduct);
 		model.addAttribute("user", account);
@@ -46,12 +42,7 @@ public class GroupAttendFormController {
 		return "Group/GroupAttendForm";
 	}
 	
-	@GetMapping("/group/product/attend")
-	public String attendCom() {
-		return "redirect:/main";
-	}
-
-	@PostMapping("/group/product/attend")
+	@RequestMapping("/group/product/attend")
 	public String attend(@ModelAttribute("order") @Valid GroupBuyer gBuyer, BindingResult result, HttpSession session, HttpServletRequest request,
 			Model model) throws ParseException {
 		boolean resultAtt = true;
@@ -59,7 +50,7 @@ public class GroupAttendFormController {
 		Account account =((UserSession) session.getAttribute("userSession")).getAccount();
 		GroupProduct gProduct = gachiFarm.getGroupProduct(gProductId);
 		if (result.hasErrors()) {
-			gProduct.setFilePath(gachiFarm.getProductImageByPid(gProduct.getProductId()).getImgPath());
+			gProduct.setFilePath(gachiFarm.getImgPath(gProduct.getProductId()));
 			model.addAttribute("groupProduct", gProduct);
 			model.addAttribute("user", account);
 			return "Group/GroupAttendForm";
