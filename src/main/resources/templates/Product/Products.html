@@ -64,9 +64,9 @@
   <script>
   	function searchProduct(){
   		
-  		var value = document.getElementById('keyword').value;
+  		var value = document.getElementById('kw').value;
   		//alert(value);
-  		var formValue = document.getElementById('keywordForm');
+  		var formValue = document.getElementById('kwForm');
   		
   		//{keyword}/{pageNo}
   		if(value == ""){
@@ -92,9 +92,9 @@
     <!-- 검색 창 th:action="@{/search/product/list/${searchKeyword}/1}"  th:action="@{|/search/product/list/${searchKeyword}/1|} -->
     <div style="margin-bottom:100px;">
     	<hr style="height:1px; width:700px; background-color:#FF724A;">
-    	<form id="keywordForm">
-	    	<label style="font-size:18px; margin-right:10px;" for="keyWord" th:utext="#{keywordSearch}" class="forForm"></label>  
-	    	<input style="width:500px; display:inline-block;" type="text" id="keyword" class="form-control" aria-describedby="emailHelp">
+    	<form id="kwForm">
+	    	<label style="font-size:18px; margin-right:10px;" for="kw" th:utext="#{keywordSearch}" class="forForm"></label>  
+	    	<input style="width:500px; display:inline-block;" type="text" id="kw" class="form-control">
 	    	<input style="width:80px; display:inline-block;" th:value="#{search}"class="btn btn-danger" type="button" onclick="searchProduct()">
     	</form>
     	<hr style="height:1px; width:700px; background-color:#FF724A; margin-bottom:30px;">
