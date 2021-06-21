@@ -20,7 +20,7 @@ body {
 h3{
 	font-family: 'NanumSquare', sans-serif;
 }
-table {
+.tstyle {
 	width: 50% !important;
 	text-align: center !important;
 }
@@ -39,7 +39,7 @@ table {
 	</div>
 <form method="POST">
 	<div align="center">
-		<table class="table table-hover">
+		<table class="table table-hover tstyle">
 			<thead style="text-align: center">
 				<tr>
 					<th scope="col">  참여일<br>/마감일</th>
@@ -54,12 +54,14 @@ table {
 				<th:block
 					th:each="i : ${#numbers.sequence(0, groupProducts.size()-1)}">
 					<tr th:if="${groupBuyers[i].qty} != 0">
-						<td style="width: 100px; vertical-align: middle;">
+						<td style="width: 100px; vertical-align: middle; font-size: 11px;">
 							<font th:text="${groupBuyers[i].attendDate}">attendDate</font>
-							<br><font th:text="${groupProducts[i].period}"></font> </td>
+							<br>~<br><font th:text="${groupProducts[i].period}"></font> </td>
 						<td style="width: 300px; vertical-align: middle;"><font
 							style="size: 3px" th:text="${groupProducts[i].product.prdtName}">ProductId</font><br>
-							(<font th:text="${groupProducts[i].product.description}">description</font>)</td>
+							<font style="font-size:10px;">(</font>
+							<font th:text="${groupProducts[i].product.description}" style="font-size:10px;">description</font>
+							<font style="font-size:10px;">)</font></td>
 						<td style="width: 130px; vertical-align: middle;"
 							th:text="${groupProducts[i].userId}">공구진행자 아이디</td>
 						<td style="width: 60px; vertical-align: middle;"
@@ -68,7 +70,7 @@ table {
 							th:text="${groupProducts[i].status}">status</td>
 						<td style="width: 110px; vertical-align: middle;">
 							<th:block th:if="${groupProducts[i].period.after(#dates.createNow())}">
-								<button type="button" class="btn btn-light" data-toggle="modal" data-target="#exampleModal">공구취소</button>
+								<button type="button" class="btn btn-light" data-toggle="modal" data-target="#exampleModal" style="font-size: 11px;">공구취소</button>
 								<input id="gpId" name="gpId" th:value="${groupBuyers[i].groupProductId}" type="hidden">
 								<input id="nowQty" name="nowQty" th:value="${groupBuyers[i].qty}" type="hidden">
 							</th:block></td>
