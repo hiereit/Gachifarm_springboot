@@ -3,7 +3,6 @@ package com.gachifarm.dao;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.jpa.repository.Query;
 
 import com.gachifarm.domain.Product;
 

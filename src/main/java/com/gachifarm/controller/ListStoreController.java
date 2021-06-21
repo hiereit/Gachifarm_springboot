@@ -1,8 +1,6 @@
 package com.gachifarm.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,8 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.util.UriUtils;
 
 import com.gachifarm.domain.Account;
 import com.gachifarm.domain.LineProduct;
@@ -25,7 +22,6 @@ import com.gachifarm.domain.Orders;
 import com.gachifarm.domain.Product;
 import com.gachifarm.domain.Store;
 import com.gachifarm.repository.LineProductRepository;
-import com.gachifarm.repository.OrdersRepository;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
@@ -38,9 +34,6 @@ public class ListStoreController {
 	}
 	@Autowired
 	private LineProductRepository lineProductRepository;
-	
-	@Autowired
-	private OrdersRepository ordersRepository;
 	
 	@RequestMapping("user/store")
     public String getMyStore(Model model, HttpSession userSession) throws UnsupportedEncodingException{
@@ -57,7 +50,7 @@ public class ListStoreController {
 				}
 				else {
 					System.out.println(store.getStoreName()+"============================");
-					String encodedParam = URLEncoder.encode(store.getStoreName(), "UTF-8");
+					String encodedParam = UriUtils.encodePathSegment(store.getStoreName(), "UTF-8");
 					return "redirect:/store/" + encodedParam + "/1";
 				}
 		}
@@ -97,7 +90,7 @@ public class ListStoreController {
 		Store store = this.gachifarm.getStoreName(storeName);
 		//model.addAttribute("data", "product/list");
 		//스토어 출력
-        Page<Product> products = gachifarm.getsProductbyUserId(pageable, store.getUserId(), pageNo); 
+        Page<Product> products = gachifarm.getsProductbyUserId(pageable, userId, pageNo); 
         List<Product> product = products.getContent();
         //List<Product> product = gachifarm.getAllProductByStore(store.getUserId());
 		
@@ -180,9 +173,7 @@ public class ListStoreController {
         	cnt = 0;
         	int pid = product.get(i).getProductId();
         	orders = gachifarm.getStoreOrderProduct(pid);
-        	for(Orders j : orders) {
-        		cnt++;
-        	}
+        	for(; cnt < orders.size(); cnt++);
         	map2.put(pid, cnt);
         	if(gachifarm.getProductImageByPid(pid) ==null) {
         		map.put(pid, "https://hgo.kr/shop/img/no_image.gif");

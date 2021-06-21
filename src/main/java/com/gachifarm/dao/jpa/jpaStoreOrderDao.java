@@ -4,7 +4,6 @@ package com.gachifarm.dao.jpa;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import com.gachifarm.dao.StoreOrderDao;
 import com.gachifarm.domain.LineProduct;
 import com.gachifarm.domain.Orders;
-import com.gachifarm.domain.Product;
 
 @Repository
 public class jpaStoreOrderDao implements StoreOrderDao{
