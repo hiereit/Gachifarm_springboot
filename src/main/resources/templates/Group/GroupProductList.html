@@ -76,7 +76,7 @@ pointer-events: none;
 								th:href="@{/group/product/{gProductId}(gProductId=${gProductList[i*4+j].gProductId})}"><span
 									style="font-size: 20px;"
 									th:text="|${gProductList[i*4+j].product.prdtName}|"></span></a><button style="float:right;width:75px;height:30px;font-size:11px;font-weight:bold;margin-top:5px;" type="button" class="prdtTypeBtn btn btn-outline-danger disabled"
-						id="prdtType_group">가치장터</button></li>
+						id="prdtType_group">공동구매</button></li>
 							
 							<li><a><span
 									th:text="${#numbers.formatInteger(T(Math).ceil(gProductList[i*4+j].product.price * 0.9), 3,'COMMA')}"></span>원</a></li>

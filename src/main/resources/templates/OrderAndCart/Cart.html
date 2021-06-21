@@ -162,6 +162,9 @@ table {
             상품명
           </th>
           <th>
+            재고
+          </th>
+          <th>
             수량
           </th>
           <th style="border: none;">
@@ -184,6 +187,7 @@ table {
 			        	<img style="width:50px;height:50px; object-fit: cover;" th:src="${cart.img}">
 			        	<span th:utext="'&nbsp;' + ${cart.productName}"></span>
 			        </td>
+			        <td th:text="${qtyMap.get(cart.productId)}"></td>
 			        <td>
 						<input type="button" th:id="subBtn" class="btn btn-light" th:onClick="|changeQuantity(${cart.productId},'sub',this)|" value="-">
 						&nbsp;<span th:id="'quantity'+${cart.productId}" th:text="${cart.quantity}"></span>&nbsp;
