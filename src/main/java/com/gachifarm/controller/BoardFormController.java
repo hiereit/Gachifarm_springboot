@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.gachifarm.domain.Board;
-import com.gachifarm.domain.ProductImage;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
@@ -31,9 +29,10 @@ public class BoardFormController {
 		if (productId != 0) {
 			board.setProduct(gachiFarm.getProduct(productId));
 			board.setProductId(productId);
+			board.setFilePath(gachiFarm.getImgPath(productId));
 		}
 		model.addAttribute("board", board);
-		return "/Board/BoardForm";
+		return "Board/BoardForm";
 	}
 	
 	@RequestMapping("/board/register")
@@ -41,6 +40,7 @@ public class BoardFormController {
 		int productId = board.getProductId()==null?0:board.getProductId();
 		if (productId != 0) {
 			board.setProduct(gachiFarm.getProduct(productId));
+			board.setFilePath(gachiFarm.getImgPath(productId));
 		}
 		if (result.hasErrors()) {
 			return "Board/BoardForm";
@@ -56,19 +56,26 @@ public class BoardFormController {
 			@PathVariable("boardId") int boardId, HttpSession session,
 			Model model) {
 		Board board = gachiFarm.getBoardByBoardId(boardId);
+		if (board.getProductId() != null) {
+			board.setFilePath(gachiFarm.getImgPath(board.getProductId()));
+		}
 		String userId = ((UserSession) session.getAttribute("userSession")).getAccount().getUserId();
 		if (!board.getUserId().equals(userId)) {
 			return "redirect:/board/list/1";
 		}
 		model.addAttribute("board", board);
-		return "/Board/BoardUpdateForm";
+		return "Board/BoardUpdateForm";
 	}
 
 	@RequestMapping("/board/update")
 	public String update(@ModelAttribute("board") @Valid Board board, BindingResult result) {
 		if (result.hasErrors()) {
-			int productId = board.getProductId()==null?0:board.getProductId();
-			board.setProduct(gachiFarm.getProduct(productId));
+			int productId;
+			if (board.getProductId() != null) {
+				productId = board.getProductId();
+				board.setFilePath(gachiFarm.getImgPath(productId));
+				board.setProduct(gachiFarm.getProduct(productId));
+			}
 			return "Board/BoardUpdateForm";
 		}
 		Board updateBoard = gachiFarm.getBoardByBoardId(board.getBoardId());

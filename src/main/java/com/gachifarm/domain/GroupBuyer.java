@@ -15,7 +15,6 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.*;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.validator.constraints.CreditCardNumber;
 import org.springframework.format.annotation.DateTimeFormat;
 @SuppressWarnings("serial")
 @Entity

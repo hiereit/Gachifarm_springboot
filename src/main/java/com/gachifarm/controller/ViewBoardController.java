@@ -22,6 +22,9 @@ public class ViewBoardController {
 		String userId = ((UserSession) session.getAttribute("userSession")).getAccount().getUserId();
 		model.addAttribute("isAdmin", gachiFarm.isAdmin(userId));
 		Board board = gachiFarm.getBoardByBoardId(boardId);
+		if (board.getProductId() != null) {
+			board.setFilePath(gachiFarm.getImgPath(board.getProductId()));
+		}
 		model.addAttribute("board", board);
 		model.addAttribute("isQST", board.getUserId().equals(userId));
 		return "Board/BoardDetail";

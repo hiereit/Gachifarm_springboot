@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.*;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -46,6 +47,9 @@ public class Board implements Serializable {
 	@Column(nullable = true)
 	@Size(max=2000, message="2000Byte까지만 입력 가능합니다.")
 	private String answer;
+	
+	@Transient
+	private String filePath;
 	
 	@ManyToOne
 	@JoinColumn(name="product_id", insertable=false, updatable=false)
@@ -104,6 +108,14 @@ public class Board implements Serializable {
 	}
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+	
+	
+	public String getFilePath() {
+		return filePath;
+	}
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 	@Override
 	public String toString() {
