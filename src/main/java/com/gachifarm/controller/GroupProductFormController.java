@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.gachifarm.domain.GroupProduct;
 import com.gachifarm.domain.Product;
-import com.gachifarm.domain.ProductImage;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
@@ -34,7 +33,7 @@ public class GroupProductFormController {
 		GroupProduct groupProduct = new GroupProduct();
 		groupProduct.setProduct(gachiFarm.getProduct(productId));
 		groupProduct.setProductId(productId);
-		groupProduct.setFilePath(getImgPath(productId));
+		groupProduct.setFilePath(gachiFarm.getImgPath(productId));
 		return new ModelAndView("Group/GroupProductForm", "groupProduct", groupProduct);
 	}
 	
@@ -42,7 +41,7 @@ public class GroupProductFormController {
 	public String submit(@ModelAttribute("groupProduct") @Valid GroupProduct groupProduct, BindingResult result, HttpSession session) {
 		if (result.hasErrors()) {
 			groupProduct.setProduct(gachiFarm.getProduct(groupProduct.getProductId()));
-			groupProduct.setFilePath(getImgPath(groupProduct.getProductId()));
+			groupProduct.setFilePath(gachiFarm.getImgPath(groupProduct.getProductId()));
 			return "Group/GroupProductForm";
 		}
 		Product product = gachiFarm.getProduct(groupProduct.getProductId());
@@ -59,6 +58,7 @@ public class GroupProductFormController {
 		groupProduct.setLocation(location);
 		groupProduct.setProduct(product);
 		gachiFarm.insertGroupProduct(groupProduct);
+		gachiFarm.changeGroupOrderStatus(groupProduct);
 		return "redirect:/group/product/" + groupProduct.getgProductId();
 	}
 	
@@ -66,7 +66,7 @@ public class GroupProductFormController {
 	public ModelAndView updateGroupProductForm(
 			@PathVariable("gProductId") int gProductId, Model model) {
 		GroupProduct groupProduct = gachiFarm.getGroupProduct(gProductId);
-		groupProduct.setFilePath(gachiFarm.getProductImageByPid(groupProduct.getProductId()).getImgPath());
+		groupProduct.setFilePath(gachiFarm.getImgPath(groupProduct.getProductId()));
 		return new ModelAndView("Group/GroupProductUpdateForm", "groupProduct", groupProduct);
 	}
 	
@@ -78,15 +78,5 @@ public class GroupProductFormController {
 		groupProduct.setRecvDate(recvDate);
 		gachiFarm.updateGroupProduct(groupProduct);
 		return "redirect:/group/product/" + gProductId;
-	}
-	
-	public String getImgPath(int productId) {
-		ProductImage img = gachiFarm.getProductImageByPid(productId);
-		if (img == null) {
-			return "/images/noImage.png";
-		}
-		else {
-			return img.getImgPath();
-		}
 	}
 }

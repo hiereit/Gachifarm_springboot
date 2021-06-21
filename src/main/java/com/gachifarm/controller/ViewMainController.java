@@ -53,4 +53,9 @@ public class ViewMainController {
 		mav.addObject("nProducts", newProducts);
 		return mav;
 	}
+	
+	@RequestMapping("help")
+	public String help() {
+		return "Help.html";
+	}
 }

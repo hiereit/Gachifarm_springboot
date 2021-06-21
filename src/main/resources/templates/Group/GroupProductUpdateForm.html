@@ -317,6 +317,23 @@ $(document).ready(function() {
 			document.getElementById('recvDate').value = recvDate;
 		}
 		
+		endDatepicker.on(function() {
+			var recvMin = new Date($('#end-datepicker-input').val());
+			recvMin.setDate(recvMin.getDate() + 1);
+			var recvMax = new Date($('#end-datepicker-input').val());
+			recvMax.setDate(recvMax.getDate() + 7);
+			var recvDatepicker = new tui.DatePicker('#wrapper2', {
+				language : 'ko',
+				date : recvMin,
+				input : {
+					element : '#recv-datepicker-input'
+				},
+				selectableRanges: [
+			        [recvMin, recvMax]
+			    ]
+			});
+		});
+		
 		recvDatepicker.on('change', function() {
 			var date = $('#recv-datepicker-input').val();
 			var hour = $('#recvHour').val();

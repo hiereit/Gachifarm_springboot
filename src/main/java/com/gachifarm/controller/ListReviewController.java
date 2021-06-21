@@ -27,7 +27,6 @@ public class ListReviewController {
 		int count = 10;
 		Page<Review> reviewPage = gachiFarm.getReviewListbyPageAndProductId(pageable, pageNo, count, productId);
 		List<Review> reviewList = reviewPage.getContent();
-		System.out.println(reviewList.size());
 		model.addAttribute("productId", productId);
 		model.addAttribute("reviewPage", reviewPage);
 		model.addAttribute("reviewList", reviewList);

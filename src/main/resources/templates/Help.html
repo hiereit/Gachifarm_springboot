@@ -1,0 +1,113 @@
+<!DOCTYPE html> 
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" th:lang="ko"> 
+<head>
+<meta charset="utf-8">
+
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js">
+    </script>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">    
+    
+<title>가치팜</title>
+
+<style>
+@font-face {
+    font-family: 'TmoneyRoundWindExtraBold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.divStyle{
+	font-family: 'NanumSquare', sans-serif;
+	margin: 0 auto;
+	width: 50%;
+	background-color: #0AC175;
+	color: #FFFFFF;
+	padding: 20px 40px 20px 40px;
+	border-radius: 30px;
+}
+
+.h_1font{
+	font-family: "TmoneyRoundWindExtraBold", 'NanumSquare', sans-serif;
+	color: #0AC175;
+}
+
+.tstyle{
+	margin: 0 auto;
+	text-align: left;
+	width: 50%;
+}
+
+.tdstyle{
+	font-family: 'NanumSquare', sans-serif;
+	color: #707070;
+	padding-bottom: 80px;
+}
+</style>
+
+
+</head>
+<body>
+<th:block th:insert="fragment/Top :: headFragment"></th:block> 
+<br><br>
+
+<div class="divStyle">
+	로컬 농산물 판매 서비스 가치farm!<br>
+	질 좋고 원산지가 확실한 농산물을 합리적인 가격으로 소비자들에게 제공하고<br>	
+	기존의 농산물 판매 시스템을 발전시키고 신선한 농산물들을 손쉽게 구매하는 것이 목적입니다.<br>
+	<br>
+
+	▶▶ 주요 기능과 특징 ◀◀<br>
+	결제 및 장바구니 기능 &nbsp;
+	| 상품 검색, 조회, 등록, 판매 기능 &nbsp; 
+	| 공동구매 기능  &nbsp;
+	| 개인간 거래 기능 &nbsp;<br>
+	| 회원관리 기능 &nbsp;
+	| 도움말 제공 기능 &nbsp;
+</div>
+<br><br>
+<table class="tstyle">
+	<tr>
+		<th><h1 class="h_1font">가치장터</h1></th>
+	</tr>
+	<tr class="trstyle">
+		<td class="tdstyle">가치Farm이 제공하는 상품 목록입니다.<br>
+			농산물은 카테고리를 보고 선택하거나, 검색을 통해 상품조회하여 주문이 가능합니다.<br>
+			상세 설명 페이지에는 판매자의 연락 정보와 재배지 위치 등이 기재되어 있고,<br>
+			게시물로 상품에 대한 질문을 할 수 있으며 다른 소비자들의 리뷰를 확인할 수 있습니다.</td>
+	</tr>
+	<tr></tr>
+	<tr class="trstyle">
+		<th><h1 class="h_1font">공동구매</h1></th>
+	</tr>
+	<tr>	
+		<td class="tdstyle">
+			가치Farm이 제공하는 상품을 사용자가 공동구매로 오픈할 수 있습니다.<br>
+			최소 수량은 가치Farm 상품 재고의 5%, 최대 수량은 가치Farm 상품 재고의 15%입니다.<br>
+			공구 총대가 정한 기준을 넘는 인원이 모였을 경우에만 특정 농산물의 공동구매를 진행합니다.<br>
+			공동 구매시 기존가격의 10% 할인된 가격으로 구입할 수 있습니다.
+		</td>
+	</tr>
+	
+	<tr class="trstyle">
+		<th><h1 class="h_1font">오픈마켓</h1></th>
+	</tr>
+	<tr>
+		<td class="tdstyle">
+			가치Farm 소비자들 간의 거래 장터입니다.<br>
+			개인 회원은 자신의 스토어를 만들어 상품을 올릴 수 있습니다.<br>
+			주말농장을 이용하시거나 1인가구임에도 불가피하게 대량구매한 상품들을 다른 회원들에게 판매하실 수 있습니다. 
+		</td>
+	</tr>
+	
+</table>
+<footer th:replace="fragment/Bottom :: footerFragment"></footer> 
+</body>
+</html>

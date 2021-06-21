@@ -2,9 +2,9 @@ package com.gachifarm.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 
 import com.gachifarm.domain.GroupProduct;
 public interface GroupProductRepository extends JpaRepository<GroupProduct, Integer>{
@@ -13,5 +13,5 @@ public interface GroupProductRepository extends JpaRepository<GroupProduct, Inte
 	
 	GroupProduct findGroupProductBygProductId(int gProductId);
 	
-	
+	Page<GroupProduct> findGroupProductByStatus(Pageable pageable, String status);
 }

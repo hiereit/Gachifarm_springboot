@@ -3,7 +3,7 @@ package com.gachifarm.controller;
 import java.io.File;
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,25 +25,27 @@ public class ReviewFormController {
 	@Autowired
 	private GachiFarmFacade gachiFarm;	
 	
-	@RequestMapping(value="/review/registerForm/{productId}/{lineProductId}")
+	@RequestMapping("/review/registerForm/{productId}/{lineProductId}")
 	public String newReviewForm(
 			@PathVariable("productId") int productId, @PathVariable("lineProductId") int lineProductId,
 			Model model) {
 		Review review = new Review();
 		review.setProductId(productId);
 		review.setLineProductId(lineProductId);
+		review.setPrdtFilePath(gachiFarm.getImgPath(productId));
 		model.addAttribute("product", gachiFarm.getProduct(productId));
 		model.addAttribute("review", review);
 		return "Review/ReviewForm";
 	}
 	
 	@RequestMapping("/review/register")
-	public String submit(@ModelAttribute("review") @Valid Review review, BindingResult result, Model model, HttpServletRequest request, 
+	public String submit(@ModelAttribute("review") @Valid Review review, BindingResult result, Model model, HttpSession session, 
 			@RequestParam("imgFile") MultipartFile file) throws IOException {
 		
 		if (result.hasErrors()) {
 			model.addAttribute("product", gachiFarm.getProduct(review.getProductId()));
 			review.setFileName(null);
+			review.setPrdtFilePath(gachiFarm.getImgPath(review.getProductId()));
 			return "Review/ReviewForm";
 		}
 		
@@ -56,7 +58,8 @@ public class ReviewFormController {
 		ReviewImage reviewImg = new ReviewImage();
 		reviewImg.setImgPath(imgPath);
 		reviewImg.setImgName(file.getOriginalFilename());
-		review.setUserId("DONGDUK02");
+		String userId = ((UserSession) session.getAttribute("userSession")).getAccount().getUserId();
+		review.setUserId(userId);
 		review.setOrderId(gachiFarm.findByLineProductId(review.getLineProductId()).getOrderId());
 		gachiFarm.saveReview(review);
 		reviewImg.setReviewId(review.getReviewId());

@@ -185,13 +185,9 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public GroupProduct getGroupProduct(int gProductId) {
 		return groupProductRepository.getById(gProductId);
 	}
-	// 안 써도 되는 거면 나중에 꼭 지워!~!~!~!~!~!
-	public List<GroupProduct> getGroupProductList() {
-		return groupProductRepository.findAll();
-	}
-	public Page<GroupProduct> getGroupProductListbyPage(Pageable pageable, int pageNo) {
-		pageable = PageRequest.of(pageNo - 1, 12);
-		return groupProductRepository.findAll(pageable);
+	public Page<GroupProduct> getGroupProductListbyPage(Pageable pageable, int pageNo, int count, String status) {
+		pageable = PageRequest.of(pageNo - 1, count);
+		return groupProductRepository.findGroupProductByStatus(pageable, status);
 	}
 	public List<GroupProduct> findGroupProductByUserId(String userId) {
 		return groupProductRepository.findGroupProductByUserId(userId);
@@ -339,8 +335,8 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public void updateCart(CartProduct cartProduct) {
 		cartRepository.saveAndFlush(cartProduct);
 	}
-	public void deleteCart(List<CartPK> cartIdList) {
-		cartRepository.deleteAllById(cartIdList);
+	public void deleteCart(CartPK cartPK) {
+		cartRepository.deleteById(cartPK);
 	}
 	public List<CartProduct> findCartListByUserId(String userId) {
 		return cartRepository.findByCartIdUserId(userId);
@@ -397,6 +393,22 @@ public class GachiFarmImpl implements GachiFarmFacade {
 		};
 		scheduler.schedule(deliverComplete, deliverCompleteDate);
 	}
+	public void changeGroupOrderStatus(GroupProduct gProduct) {
+		Runnable endGroupOrder = new Runnable() {
+			@Override
+			public void run() {
+				if (gProduct.getCurrQty() >= gProduct.getMinQty()) {
+					gProduct.setStatus("마감");
+					updateCompleteGroup(new Date(), gProduct.getgProductId());
+				}
+				else {
+					gProduct.setStatus("취소");
+				}
+				groupProductRepository.saveAndFlush(gProduct);
+			}
+		};
+		scheduler.schedule(endGroupOrder, gProduct.getPeriod());
+	}
 
 	//main
 	@Autowired
@@ -423,5 +435,10 @@ public class GachiFarmImpl implements GachiFarmFacade {
 		
 	public void updateCompleteGroup(Date date, int gProductId) {
 		groupBuyersRepository.updateCompleteGroup(date, gProductId);
+	}
+	
+	public Page<GroupBuyer> getBuyerListbyPage(Pageable pageable, int pageNo, int count, int gProductId) {
+		pageable = PageRequest.of(pageNo - 1, count);
+		return groupBuyersRepository.findByGroupProductId(pageable, gProductId);
 	}
 }

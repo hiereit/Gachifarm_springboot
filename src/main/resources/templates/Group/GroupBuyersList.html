@@ -74,12 +74,12 @@
           <td colspan="5">
           </td>
         </tr>
-        <tr style="border-bottom: 0.5px solid #DDDDDD; height: 10px; width: 100%" class="content" th:each="groupBuyer, i : ${groupBuyerList}">
+        <tr style="border-bottom: 0.5px solid #DDDDDD; height: 10px; width: 100%" class="content" th:each="buyer, i : ${buyerList}">
         	<td th:text="${i.count}"></td>
-        	<td th:text="${groupBuyer.userId}"></td>
-        	<td th:text="${groupBuyer.userName}"></td>
-        	<td th:text="${groupBuyer.phone}"></td>
-        	<td th:text="${groupBuyer.qty}"></td>
+        	<td th:text="${buyer.userId}"></td>
+        	<td th:text="${buyer.userName}"></td>
+        	<td th:text="${buyer.phone}"></td>
+        	<td th:text="${buyer.qty}"></td>
         </tr>
       </table>
     </div>
