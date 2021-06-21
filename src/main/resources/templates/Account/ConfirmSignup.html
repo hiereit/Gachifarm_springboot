@@ -28,17 +28,17 @@ h3 {
 	font-size: 5px;
 }
 
-table {
+.tablestyle {
 	width: 50%;
 	padding-left: 90px;
 }
 
-th {
+.thstyle {
 	text-align: left;
 	color: #707070;
 }
 
-td {
+.tdstyle {
 	padding: 10px;
 	color: #707070;
 }
@@ -59,6 +59,9 @@ td {
 	height: 40px;
 	font-weight: bolder;
 }
+btn btn-success ic{
+	font-family: 'NanumSquare', sans-serif important!;
+}
 </style>
 </head>
 <body>
@@ -70,29 +73,30 @@ td {
 			style="width: 50%; height: 3px; border: none; background-color: #707070;">
 	</div>
 
-	<table align="center">
+	<table align="center" class="tablestyle">
 		<tr>
-			<th><label>아이디</label></th>
-			<td th:text="${account.userId}">userId</td>
+			<th class="thstyle"><label>아이디</label></th>
+			<td class="tdstyle" th:text="${account.userId}">userId</td>
 		</tr>
 
 		<tr>
-			<th><label>이름</label></th>
-			<td th:text="${account.userName}">userName</td>
+			<th class="thstyle"><label>이름</label></th>
+			<td class="tdstyle" th:text="${account.userName}">userName</td>
 		</tr>
 
 		<tr>
-			<th><label>이메일</label></th>
-			<td th:text="${account.email}">email</td>
+			<th class="thstyle"><label>이메일</label></th>
+			<td class="tdstyle" th:text="${account.email}">email</td>
 		</tr>
 	</table>
 
 	<br>
 	<div align="center">
-		<a href="#" th:href="@{/login}">
+		<a href="#" th:href="@{/loginForm}">
 			<!-- <input type="button" class="moveBtn" value="로그인 하러가기"> -->
-			<button type="button" class="btn btn-success"
-				style="width: 200px; background-color: #0AC175;">로그인 하러가기</button>
+			<!-- <button type="button" class="btn btn-success"
+				style="width: 200px; background-color: #0AC175;">로그인 하러가기</button> -->
+			<button type="button" class="btn btn-success ic" style="width: 200px; height: 40px; background-color: #0AC175;">로그인 하러가기</button>	
 		</a>
 	</div>
 	<footer th:replace="fragment/Bottom :: footerFragment"></footer>

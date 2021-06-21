@@ -36,7 +36,7 @@
     label{
       color: #707070;
     }
-    th{
+    .thstyle{
       font-size:18px;
     }
     .form-control {
@@ -50,7 +50,7 @@
      text-align:center;
      
     }
-    td {
+    .tdstyle {
     	height:50px;
     	border-bottom:1px solid #DDDDDD;
     }
@@ -77,19 +77,19 @@
 	     <table th:text-align="center">
 	     	<thead>
 		     	<tr style="margin-bottom:100px;border-bottom:1px solid #DDDDDD;">
-		     		<th scope="col" id="tableMargin" class="tableColum"></th>
-		     		<th scope="col" id="tableMargin" class="tableColum">이름</th>
+		     		<th scope="col" id="tableMargin" class="tableColum thstyle"></th>
+		     		<th scope="col" id="tableMargin" class="tableColum thstyle">이름</th>
 		     		<th scope="col" class="tableColum">소개글</th>
 		     	</tr>
 	     	</thead>
 	     	<tbody>
 		     	<tr th:each="store, i: ${data}">
-		     		<td id="tableMargin" th:text="${i.count}" style="text-align:center;font-weight:bold;"></td>
+		     		<td id="tableMargin" class="tdstyle" th:text="${i.count}" style="text-align:center;font-weight:bold;"></td>
 		     		<!--<td id="tableMargin"><a style="background-color: #0AC175; color:#fff;border-radius: 5px 5px 5px 5px;" th:id="storeNameHover" th:href="@{/store/{userId}(userId=${store.getUserId()})}"><span id="text1" th:text="${store.storeName}" style="font-size:14px; margin:5px;"></span></a></td>
-		     		 --><td id="tableMargin"><a style="background-color: #0AC175; color:#fff;border-radius: 5px 5px 5px 5px;" 
+		     		 --><td id="tableMargin" class="tdstyle"><a style="background-color: #0AC175; color:#fff;border-radius: 5px 5px 5px 5px;" 
 		     		 th:id="storeNameHover" th:href="@{/store/{storeName}/1(storeName=${store.storeName})}"><span id="text1" th:text="${store.storeName}" style="font-size:14px; margin:5px;"></span></a></td>
 		     		 
-		     		<td th:text="${store.storeInfo}"></td>
+		     		<td class="tdstyle" th:text="${store.storeInfo}"></td>
 		     	</tr>
 	     	</tbody>
 	     </table>

@@ -25,10 +25,9 @@ public class DeleteAccountController {
 	
 	@GetMapping
 	public String delete(HttpSession session, HttpServletRequest request) {
-		System.out.println("delete함수 여기로 오긴 했나?");
 		UserSession userSession = 
 				(UserSession) WebUtils.getSessionAttribute(request, "userSession");
-//		Account account = (Account) session.getAttribute("account");
+
 		Account account = userSession.getAccount();
 		System.out.println("회원탈퇴!");
 		session.removeAttribute("account");

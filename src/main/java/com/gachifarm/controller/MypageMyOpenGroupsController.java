@@ -33,10 +33,9 @@ public class MypageMyOpenGroupsController {
 	public String myopengroups(HttpSession session, Model model, HttpServletRequest request) {
 		UserSession userSession = 
 				(UserSession) WebUtils.getSessionAttribute(request, "userSession");
-//		Account account = (Account) session.getAttribute("account");
+
 		Account account = userSession.getAccount();
 		List<GroupProduct> gpList = gachiFarm.findGroupProductByUserId(account.getUserId());
-//		System.out.println(gpList);
 		if(gpList != null) {
 			model.addAttribute("groupProducts", gpList);
 		}

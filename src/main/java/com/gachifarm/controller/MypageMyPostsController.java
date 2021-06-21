@@ -36,7 +36,7 @@ public class MypageMyPostsController {
 	public String myposts(HttpSession session, Model model, HttpServletRequest request) {
 		UserSession userSession = 
 				(UserSession) WebUtils.getSessionAttribute(request, "userSession");
-//		Account account = (Account) session.getAttribute("account");
+
 		Account account = userSession.getAccount();
 		List<Board> boardList = gachiFarm.findBoardByUserId(account.getUserId());
 		System.out.println("myposts() - boardList: " + boardList);
@@ -58,13 +58,13 @@ public class MypageMyPostsController {
 		List<Review> reviewList = gachiFarm.findReviewByUserId(account.getUserId());
 		List<LineProduct> lineProduct = new ArrayList<LineProduct>();
 		int [] linePrdtId = new int[reviewList.size()];
-		System.out.println("myposts() - reviewList: " + reviewList);
+
 		if(boardList != null) {
 			for(int i = 0; i < reviewList.size(); i++) {
 				linePrdtId[i] = reviewList.get(i).getLineProductId();
 				lineProduct.add(i, gachiFarm.findByLineProductId(linePrdtId[i]));
 			}
-			System.out.println("myposts() - lineProduct: " + lineProduct);
+
 			model.addAttribute("lineProduct", lineProduct);
 			model.addAttribute("reviewList", reviewList);
 		}

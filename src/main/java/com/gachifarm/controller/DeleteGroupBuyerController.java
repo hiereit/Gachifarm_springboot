@@ -33,10 +33,9 @@ public class DeleteGroupBuyerController {
 	
 	@PostMapping(value = "/user/mypage/mygroup/orders")
 	public String updateQty(HttpSession session, Model model, HttpServletRequest request) {
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!POSTMAPPING!!!!!!!!!!!!!!!!!");
 		UserSession userSession = 
 				(UserSession) WebUtils.getSessionAttribute(request, "userSession");
-//		Account account = (Account) session.getAttribute("account");
+
 		Account account = userSession.getAccount();
 		
 			//GroupProduct테이블 curr수정
@@ -78,6 +77,6 @@ public class DeleteGroupBuyerController {
 			model.addAttribute("groupBuyers", gbList);
 		}
 
-		return "redirect:";
+		return "redirect:orders";
 	}
 }

@@ -33,13 +33,12 @@ public class MypageMyOrdersController {
 	public String myorders(HttpSession session, Model model, HttpServletRequest request) {
 		UserSession userSession = 
 				(UserSession) WebUtils.getSessionAttribute(request, "userSession");
-//		Account account = (Account) session.getAttribute("account");
+
 		Account account = userSession.getAccount();
 		List<Orders> orderList = gachiFarm.findOrdersByUserId(account.getUserId());
-		System.out.println("myorders()-orderList: " + orderList);
+
 		String[] productNameByOrderId = new String[orderList.size()];
 		long[] countByOrderId = new long[orderList.size()];
-		System.out.println("배열길이(orderId수):" + countByOrderId.length);
 
 		if(orderList != null) {
 			for(int i = 0; i < orderList.size(); i++) {
