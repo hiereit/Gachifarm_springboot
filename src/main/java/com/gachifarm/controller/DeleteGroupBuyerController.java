@@ -31,8 +31,6 @@ public class DeleteGroupBuyerController {
 		this.gachiFarm = gachiFarm;
 	}
 	
-
-	
 	@PostMapping(value = "/user/mypage/mygroup/orders")
 	public String updateQty(HttpSession session, Model model, HttpServletRequest request) {
 		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!POSTMAPPING!!!!!!!!!!!!!!!!!");
@@ -49,7 +47,9 @@ public class DeleteGroupBuyerController {
 			System.out.println(gp.toString());
 			int currQty = gp.getCurrQty();
 			gp.setCurrQty(currQty - nowQtyInt);	//현재상황에 취소된 공구 수 뺴줌
+			gp.setStatus("취소");
 			gachiFarm.save(gp);
+			
 			
 			//GroupBuyer테이블 qty수정
 			GroupBuyer gb = gachiFarm.findGroupBuyersByUserIdAndGroupProductId(account.getUserId(), gpId);
@@ -62,8 +62,6 @@ public class DeleteGroupBuyerController {
 			System.out.println("currQty: " + currQty);
 
 
-	
-		
 		List<GroupBuyer> gbList = gachiFarm.findGroupBuyersByUserId(account.getUserId());
 		int [] gPrdtId = new int[gbList.size()];
 

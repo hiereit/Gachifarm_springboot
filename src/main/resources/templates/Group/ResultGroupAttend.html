@@ -47,7 +47,7 @@ body, table, h3 {
 #hrstyle {
 	height: 1.5px;
 	background: #707070;
-	margin: 0px;
+	margin: 30px;
 }
 #thstyle {
 	padding-left: 20px;
@@ -57,10 +57,16 @@ body, table, h3 {
 	padding-left: 60px;
 	padding-top: 20px;
 }
+#container {
+	max-width: 40%;
+	min-width: 700px;
+	margin: 0px auto;
+}
+
 </style>
 <body>
 <th:block th:insert="fragment/Top :: headFragment"></th:block>
-	<div align="center">
+	<div align="center" id="container">
 		<h3 th:if="${resultAtt} eq true" th:text="#{sGroupProductOrder}"></h3>
 		<h3 th:if="${resultAtt} eq false" th:text="#{fGroupProductOrder}"></h3>
 		<hr id="hrstyle">

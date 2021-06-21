@@ -18,6 +18,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
 	
 	Page<Product> findByUserId(String userId, Pageable pageable);
 	
+	Page<Product> findBySaleType(String saleType, Pageable pageable);
+	
 	@Query(value="select product_id from (select lp.product_id, count(lp.product_id) from Product p, LineProduct lp where p.product_id = lp.product_id group by lp.product_id order by count(lp.product_id) desc) where rownum < 5",
 			nativeQuery = true)
 	List<Integer> getBestProductIds();

@@ -22,7 +22,7 @@ body {
 h3{
 	font-family: 'NanumSquare', sans-serif;
 }
-table {
+.tstyle {
 	width: 50% !important;
 	text-align: center !important;
 }
@@ -39,13 +39,14 @@ table {
 	</div>
 
 	<div align="center">
-		<table class="table table-hover">
+		<table class="table table-hover tstyle">
 			<thead style="text-align: center">
 				<tr>
 					<th scope="col">상품</th>
 					<th scope="col">공구 마감일</th>
 					<th scope="col">공구 배부일</th>
 					<th scope="col">상태</th>
+					<th scope="col" style="font-size: 13px;">현재수량<br>/마감수량</th>
 					<th scope="col"></th>
 				</tr>
 			</thead>
@@ -53,14 +54,17 @@ table {
 				<tr th:each="gp : ${groupProducts}" >
 					<td style="width: 300px; vertical-align: middle;"><font
 						style="size: 3px" th:text="${gp.product.prdtName}">ProductId</font><br>
-						(<font th:text="${gp.product.description}">description</font>)</td>
+						<font style="font-size:10px;">(</font>
+						<font th:text="${gp.product.description}" style="font-size:10px;">description</font>
+						<font style="font-size:10px;">)</font></td>
 					<td style="width: 130px; vertical-align: middle;"
 						th:text="${gp.period}">마감일</td>
 					<td style="width: 180px; vertical-align: middle;"
 						th:text="${#dates.format(gp.recvDate, 'yyyy-MM-dd HH:mm')}">배부일</td>
 					<td style="width: 100px; vertical-align: middle;"
 						th:text="${gp.status}">status</td>
-						
+					<td style="width: 80px; vertical-align: middle;">
+						<font th:text="${gp.currQty}">현재수량</font>/<font th:text="${gp.limitQty}">limitQty</font></td>	
 					<td style="width: 110px; vertical-align: middle;">
 						<th:block th:if="${gp.period.after(#dates.createNow())}">
 							<button type="button" class="btn btn-light" data-toggle="modal" data-target="#exampleModal"

@@ -5,12 +5,9 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -55,6 +52,8 @@ public class Review implements Serializable {
 	@Transient
 	@NotEmpty(message="사진은 필수로 선택해야 합니다.")
 	private String fileName;
+	@Transient
+	private String prdtFilePath;
 	
 	public int getReviewId() {
 		return reviewId;
@@ -115,6 +114,12 @@ public class Review implements Serializable {
 	}
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+	public String getPrdtFilePath() {
+		return prdtFilePath;
+	}
+	public void setPrdtFilePath(String prdtFilePath) {
+		this.prdtFilePath = prdtFilePath;
 	}
 	
 }

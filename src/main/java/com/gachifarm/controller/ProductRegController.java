@@ -2,6 +2,7 @@ package com.gachifarm.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -29,7 +30,7 @@ import com.gachifarm.domain.ProductImage;
 import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
-@SessionAttributes("account")
+@SessionAttributes("userSession")
 public class ProductRegController {
 	private GachiFarmFacade gachifarm;
 
@@ -38,9 +39,7 @@ public class ProductRegController {
 		this.gachifarm = gachifarm;
 	}
 
-	// @Autowired
-	// public UserSession userSession;
-
+	// product 등록 폼으로 가기
 	@RequestMapping("product/registerForm")
 	public String showForm(Model model) {
 		model.addAttribute("productCommand", new ProductRegRequest());
@@ -49,31 +48,33 @@ public class ProductRegController {
 
 	@GetMapping("product/regist")
 	public String returnRegisterForm() {
-		///
 		return "redirect:/product/registerForm";
 	}
 
+	// 성공 및 입력값 검증.
 	@PostMapping("product/regist")
-	public String handleForm(HttpSession session, @Valid @ModelAttribute("productCommand") ProductRegRequest regReq,
+	public String handleForm(HttpSession userSession, @Valid @ModelAttribute("productCommand") ProductRegRequest regReq,
 			BindingResult result, @RequestParam(value = "img_upload", required = false) MultipartFile file, Model model)
 			throws IOException {
-		boolean isUpdate = false;
+		// 가치팜 상품 데이터 등록
+
+		boolean isUpdate = false; // 업데이트 인가 아닌가.
 		model.addAttribute("isUpdate", isUpdate);
-		
-		Account sessionAccount = (Account) session.getAttribute("account");
-		if (sessionAccount == null) {
-			return "Main";
-		}
-		System.out.println("----------1"+ regReq.toString()+"1---------");
+
+		String userId = ((UserSession) userSession.getAttribute("userSession")).getAccount().getUserId();
+
+		// Account sessionAccount = (Account) session.getAttribute("account");
+
+		// System.out.println("----------1"+ regReq.toString()+"1---------");
 		if (result.hasErrors()) {
 			model.addAttribute("productCommand", regReq);
-			System.out.println("----------2"+ regReq.toString()+"2---------");
+			System.out.println("----------2" + regReq.toString() + "2---------");
 			System.out.println("----------result.hasErrors()---------");
 			return "Product/ProductForm";
 		}
 
 		Product product;
-		if (sessionAccount.getUserId().equals("admin")) {
+		if (userId.equals("admin")) {
 			// 여기 원본 코드
 			product = new Product(regReq.getPrice(), regReq.getOrigin(), regReq.getSupplier(), regReq.getUnit(), 'y',
 					regReq.getQuantity(), regReq.getDescription(), "관리자", "GACHI", regReq.getCategory(),
@@ -81,8 +82,8 @@ public class ProductRegController {
 
 		} else {
 			product = new Product(regReq.getPrice(), regReq.getOrigin(), regReq.getSupplier(), regReq.getUnit(), 'y',
-					regReq.getQuantity(), regReq.getDescription(), sessionAccount.getUserId(), "STORE",
-					regReq.getCategory(), regReq.getPrdtName());
+					regReq.getQuantity(), regReq.getDescription(), userId, "STORE", regReq.getCategory(),
+					regReq.getPrdtName());
 		}
 		gachifarm.insertProduct(product);
 
@@ -101,9 +102,9 @@ public class ProductRegController {
 		}
 
 		// productImg 저장하는 코드
-		System.out.println(regReq.getPrdtName()+ "-------------------");
-		System.out.println(regReq+ "-------------------");
-		if (!regReq.getPrdtName().equals("")){
+		System.out.println(regReq.getPrdtName() + "-------------------");
+		System.out.println(regReq + "-------------------");
+		if (!regReq.getPrdtName().equals("")) {
 			ProductImage pImg = new ProductImage(regReq.getPrdtName(), imgPath, product.getProductId());
 //				imgPath, gachifarm.getProductByName(regReq.getPrdtName()).getProductId());
 
@@ -112,9 +113,16 @@ public class ProductRegController {
 
 		String message = file.getOriginalFilename() + "is saved in server db";
 		model.addAttribute("message", message);
-		return "Main";
-
-		// return new ModelAndView("main");
+		
+		if(userId.equals("admin")) {
+			return "redirect:/product/list/all/1";
+		}
+		else {
+			String encodedParam = URLEncoder.encode(gachifarm.getStore(userId).getStoreName(), "UTF-8");
+			//return "redirect:/store/" + encodedParam + "/1";
+			return "redirect:/store/" + encodedParam + "/1";
+		}
+		
 	}
 
 	@RequestMapping("store/product/registerForm/{storeName}")
@@ -154,14 +162,14 @@ public class ProductRegController {
 	}
 
 	@RequestMapping("product/updateForm/{productId}")
-	public String showUpdateForm(@ModelAttribute("productCommand") ProductRegRequest regReq, 
+	public String showUpdateForm(@ModelAttribute("productCommand") ProductRegRequest regReq,
 			@PathVariable("productId") int productId, Model model) {
 		Product product = gachifarm.getProduct(productId);
 		ProductImage pImg = gachifarm.getProductImageByPid(productId);
-		
+
 		System.out.println(product);
 		System.out.println(pImg);
-		
+
 		boolean isUpdate = true;
 		model.addAttribute("isUpdate", isUpdate);
 		model.addAttribute("upPrdtId", productId);
@@ -171,23 +179,22 @@ public class ProductRegController {
 		} else {
 			link = gachifarm.getProductImageByPid(productId).getImgPath();
 			regReq.setImgPath(pImg.getImgPath());
-			regReq.setProductImg(pImg.getImgName());  //imgId? imgName?
+			regReq.setProductImg(pImg.getImgName()); // imgId? imgName?
 		}
 		regReq.setCategory(product.getCategory());
 		regReq.setDescription(product.getDescription());
-		
+
 		regReq.setOrigin(product.getOrigin());
 		regReq.setPrdtName(product.getPrdtName());
 		regReq.setPrice(product.getPrice());
-		
+
 		regReq.setQuantity(product.getQuantity());
 		regReq.setSupplier(product.getSupplier());
 		regReq.setUnit(product.getUnit());
 
-		
 		System.out.println(link);
 		// model.addAttribute("productCommand", new ProductRegRequest());
-		//model.addAttribute("productCommand", product);
+		// model.addAttribute("productCommand", product);
 		model.addAttribute("upPrdtId", productId);
 		model.addAttribute("link", link);
 
@@ -201,31 +208,28 @@ public class ProductRegController {
 	}
 
 	@PostMapping("product/update")
-	public String handleUpdateForm(@Valid @ModelAttribute("productCommand") ProductRegRequest regReq, BindingResult result,
-			Model model, HttpServletRequest rq, HttpSession session) throws IOException {
-		
-		
-		Account sessionAccount = (Account) session.getAttribute("account");
-		if (sessionAccount == null) {
-			return "Main";
-		}
+	public String handleUpdateForm(@Valid @ModelAttribute("productCommand") ProductRegRequest regReq,
+			BindingResult result, Model model, HttpServletRequest rq, HttpSession userSession) throws IOException {
+
+		String userId = ((UserSession) userSession.getAttribute("userSession")).getAccount().getUserId();
+
 		boolean isUpdate = true;
 		model.addAttribute("isUpdate", isUpdate);
 		model.addAttribute("upPrdtId", rq.getParameter("up_prdtId"));
-		
-		System.out.println("----------1"+ regReq.toString()+"1---------");
+
+		// System.out.println("----------1"+ regReq.toString()+"1---------");
 		if (result.hasErrors()) {
 			model.addAttribute("productCommand", regReq);
-			System.out.println("----------2"+ regReq.toString()+"2---------");
+			System.out.println("----------2" + regReq.toString() + "2---------");
 			System.out.println("----------result.hasErrors()---------");
 			return "Product/ProductUpdateForm";
 		}
 		// 여기 원본 코드
 		int pid = Integer.parseInt(rq.getParameter("up_prdtId"));
-		Product temp  = gachifarm.getProduct(pid);
+		Product temp = gachifarm.getProduct(pid);
 
 		Product product = new Product(pid, regReq.getPrice(), regReq.getOrigin(), regReq.getSupplier(),
-				regReq.getUnit(), 'y', regReq.getQuantity(), regReq.getDescription(), sessionAccount.getUserId(), temp.getSaleType(),
+				regReq.getUnit(), 'y', regReq.getQuantity(), regReq.getDescription(), userId, temp.getSaleType(),
 				regReq.getCategory(), regReq.getPrdtName());
 
 		gachifarm.updateProduct(product);

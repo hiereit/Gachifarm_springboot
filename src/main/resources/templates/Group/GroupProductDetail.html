@@ -140,7 +140,7 @@ button {
 <body>
 <th:block th:insert="fragment/Top :: headFragment"></th:block>
 	<div>
-		<div class="container">
+		<div class="container" style="text-align: -webkit-center;">
 		<form th:action="@{/group/product/attendForm}" th:method="post">
 			<div id="prdtInfo" style="height: 180px; width: 100%">
 				<div id="gPrdtInfoLeft">
@@ -148,7 +148,7 @@ button {
 				</div>
 				<div id="gPrdtInfoMid" style="width: 50px;"></div>
 				
-				<div id="gPrdtInfoRight">
+				<div id="gPrdtInfoRight" style="text-align: -webkit-left;">
 					<button type="button" class="btn btn-outline-warning disabled"
 						id="prdtType">가치장터</button>
 					<br>
