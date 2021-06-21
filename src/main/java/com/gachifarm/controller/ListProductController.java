@@ -135,7 +135,8 @@ public class ListProductController {
 			}		
 			System.out.println(p_id + "  : 2*** :  "+ map.get(p_id));
 		}
-		
+		boolean isAll = true;
+		model.addAttribute("isAll", isAll);
 		model.addAttribute("map", map);
 		model.addAttribute("data2", product);
 		model.addAttribute("data", products);
