@@ -13,9 +13,12 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -45,6 +48,7 @@ public class OrderController {
 	String productTotal;
 	String total;
 	Account user;
+	int orderId;
 	
 	@RequestMapping("/order/form")
 	public ModelAndView addOrder(HttpServletRequest req, HttpSession userSession) throws Exception {
@@ -108,7 +112,14 @@ public class OrderController {
 		return mav;
 	}
 	
-	@RequestMapping("/order/confirm")
+	@GetMapping("/order/confirm")
+	public String confirmOrder2(Model model) throws Exception {
+		model.addAttribute("orderId", orderId);
+		model.addAttribute("total", total);
+		return "OrderAndCart/ConfirmOrder";
+	}
+	
+	@PostMapping("/order/confirm")
 	public ModelAndView confirmOrder(HttpServletRequest req, @Valid @ModelAttribute("order") OrdersCommand order, BindingResult result, HttpSession userSession) throws Exception {
 		String userId = ((UserSession) userSession.getAttribute("userSession")).getAccount().getUserId();
 		if (result.hasErrors()) {
@@ -120,7 +131,7 @@ public class OrderController {
 			mav.addObject("Total", total);
 			return mav;
 		}
-		ModelAndView mav = new ModelAndView("OrderAndCart/ConfirmOrder");
+		ModelAndView mav = new ModelAndView("redirect:/order/confirm");
 		String username = order.getUserName();
 		int totalPrice = Integer.parseInt(total);
 		String phone = order.getPhone();
@@ -141,18 +152,13 @@ public class OrderController {
 			int productId = lineProducts.getProductId();
 			Product product = gachifarm.getProduct(productId);
 			if (product.getQuantity() - quantity < 0) {
+				mav.addObject("orderId", null);
 				return mav;
 			}
 		}
-		try {
-			gachifarm.insertOrder(orders);
-		}catch(Exception e){
-			e.printStackTrace();
-			return new ModelAndView("redirect:/main");
-		}
-		
+		gachifarm.insertOrder(orders);
 		gachifarm.changeOrderStatus(orders, orderDate);
-		int orderId = orders.getOrderId();
+		orderId = orders.getOrderId();
 		
 		if(cart.size() == 1) {
 			Cart oneLineProduct = cart.get(0);
