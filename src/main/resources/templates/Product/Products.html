@@ -108,7 +108,7 @@
 			<small> 다른 조건으로 다시 검색해 보세요</small>    
 		</div>
     <table th:with="row=${data2.size() /4}, last =${data2.size() % 3} ">
-	    <tr th:each="i:${#numbers.sequence(0,row)}">
+	    <tr th:each="i:${#numbers.sequence(0,row)}" style="vertical-align: top;">
 	    	<td th:each="j:${#numbers.sequence(0,3)}" th:if="${(i*4+j) < data2.size()}" th:with="p_id=${data2[i*4+j].productId}">
 		    	<ul style=" list-style:none;">
 		    	<li><img style="width: 250px; height:300px; object-fit: contain;" th:src="|${map.get(p_id)}|"></img></li>
