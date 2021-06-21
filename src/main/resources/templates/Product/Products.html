@@ -116,11 +116,11 @@
 		        </a></li> -->
 		        <li><a th:href="@{|/product/${data2[i*4+j].productId}/1|}"><span style="font-size:20px;" th:text="|${data2[i*4+j].prdtName}|"></span></a>
 		        <button th:if="${data2[i*4+j].saleType.equals('GROUP')}" style="float:right;width:75px;height:30px;font-size:11px;font-weight:bold;margin-top:5px;" type="button" class="btn btn-outline-danger disabled"
-						id="prdtType_group">가치장터</button>
+						id="prdtType_group">공동구매</button>
 					<button th:if="${data2[i*4+j].saleType.equals('STORE')}" style="float:right;width:75px;height:30px;font-size:11px;font-weight:bold;margin-top:5px;" type="button" class="btn btn-outline-success disabled"
 						id="prdtType_store">오픈마켓</button>
 					<button th:if="${data2[i*4+j].saleType.equals('GACHI')}" style="float:right;width:75px;height:30px;font-size:11px;font-weight:bold;margin-top:5px;" type="button" class="btn btn-outline-warning disabled"
-						id="prdtType_gachi">가치only</button>
+						id="prdtType_gachi">가치장터</button>
 		        </li>
 		        <!-- <li><a><span th:text="|${data2[i*4+j].price}원|">80,000원</span></a></li> -->
 		        <li><a><span th:text="|${#numbers.formatInteger(T(Math).ceil(data2[i*4+j].price), 3,'COMMA')}원|">80,000원</span>
