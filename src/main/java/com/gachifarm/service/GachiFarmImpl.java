@@ -393,6 +393,11 @@ public class GachiFarmImpl implements GachiFarmFacade {
 		};
 		scheduler.schedule(deliverComplete, deliverCompleteDate);
 	}
+
+	@Override
+	public void deleteAll(List<CartPK> cartIdList) {
+		cartRepository.deleteAllById(cartIdList);
+
 	public void changeGroupOrderStatus(GroupProduct gProduct) {
 		Runnable endGroupOrder = new Runnable() {
 			@Override
@@ -408,6 +413,7 @@ public class GachiFarmImpl implements GachiFarmFacade {
 			}
 		};
 		scheduler.schedule(endGroupOrder, gProduct.getPeriod());
+
 	}
 
 	//main
