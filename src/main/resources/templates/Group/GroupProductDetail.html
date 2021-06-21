@@ -144,7 +144,7 @@ button {
 		<form th:action="@{/group/product/attendForm}" th:method="post">
 			<div id="prdtInfo" style="height: 180px; width: 100%">
 				<div id="gPrdtInfoLeft">
-					<img th:src="${gProduct.filePath}">
+					<img th:src="${gProduct.filePath}" style="object-fit: cover;">
 				</div>
 				<div id="gPrdtInfoMid" style="width: 50px;"></div>
 				

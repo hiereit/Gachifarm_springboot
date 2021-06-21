@@ -22,7 +22,7 @@
 <body> 
 <th:block th:insert="fragment/Top :: headFragment"></th:block> 
 <div align="center">
-<img style="width: 930px; height:330px; margin:30px; margin-left:70px; border-radius: 7px;" th:src="${random}">
+<img  style="object-fit: cover; width: 930px; height:330px; margin:30px; margin-left:70px; border-radius: 7px;" th:src="${random}">
 	<table>
 		<tr>
 			<td>
@@ -32,7 +32,7 @@
 	    <tr>
 	        <td th:each="best:${bestProducts}">
 		        <ul style=" list-style:none;">
-			    	<li><a id="aid" th:href="@{|/product/${best.productId}/1|}"><img style="width: 200px; height:200px;" th:src="${bestImages.get(best.productId)}"></img></a></li>
+			    	<li><a id="aid" th:href="@{|/product/${best.productId}/1|}"><img style="object-fit: cover; width: 200px; height:200px;" th:src="${bestImages.get(best.productId)}"></img></a></li>
 			        <li>
 			        <button th:if="${best.saleType.equals('GROUP')}" style="float:right;width:75px;height:30px;font-size:11px;font-weight:bold;margin-top:5px;" type="button" class="btn btn-outline-danger disabled"
 						id="prdtType_group">가치장터</button>
@@ -54,7 +54,7 @@
 	    <tr>
 	        <td th:each="n:${nProducts}">
 		        <ul style=" list-style:none;">
-			    	<li><a id="aid" th:href="@{|/product/${n.productId}/1|}"><img style="width: 200px; height:200px;" th:src="${nImages.get(n.productId)}"></img></a></li>
+			    	<li><a id="aid" th:href="@{|/product/${n.productId}/1|}"><img style="object-fit: cover; width: 200px; height:200px;" th:src="${nImages.get(n.productId)}"></img></a></li>
 			        <li>
 			        <button th:if="${n.saleType.equals('GROUP')}" style="float:right;width:75px;height:30px;font-size:11px;font-weight:bold;margin-top:5px;pointer-events: none;" type="button" class="btn btn-outline-danger disabled"
 						id="prdtType_group">가치장터</button>

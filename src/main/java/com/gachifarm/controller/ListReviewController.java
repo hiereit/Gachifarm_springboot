@@ -21,7 +21,7 @@ public class ListReviewController {
 		this.gachiFarm = gachiFarm;
 	}
 
-	@RequestMapping("product/{productId}/review/list/{pageNo}")
+	@RequestMapping("/product/{productId}/review/list/{pageNo}")
     public String productReviewList(@PageableDefault Pageable pageable, @PathVariable("productId") int productId,
     		@PathVariable("pageNo") int pageNo, Model model){
 		int count = 10;

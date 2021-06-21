@@ -98,21 +98,11 @@
 	font-size: 12px;
 }
 #reviewImg {
-position: absolute;
-    left: -1000%;
-    right: -1000%;
-    top: -1000%;
-    bottom: -1000%;
-    margin: auto;
-    min-height: 10%;
-    min-width: 10%;
-}
-#reviewImgDiv {
-	width: 250px;
+width: 250px;
     height: 250px;
-    overflow: hidden;
-    margin: 10px;
-    position: relative;
+	margin-top: 20px;
+	object-fit: contain;
+	
 }
 .err {
 	color: #FF724A;
@@ -155,7 +145,7 @@ position: absolute;
         <hr>
         <div class="prdtInfo" style="height: 180px; width: 100%">
           <div class="prdtImg">
-            <img th:src="${review.prdtFilePath}">
+            <img th:src="${review.prdtFilePath}" style="object-fit: cover;">
           </div>
           <div class="prdtName">
             <b th:text="${product.prdtName}">상품명</b><br>
@@ -169,7 +159,7 @@ position: absolute;
             </div>
              <div style="border-bottom: 0.5px solid #DDDDDD; color: black; min-height: 270px;"  class="pd20 content" th:text="*{content}"></div>
            <div id="reviewImgDiv">
-           <img id="reviewImg" th:src="${reviewImg.imgPath}">
+           <img id="reviewImg" th:src="${reviewImg.imgPath}" style="object-fit: cover;">
            </div>
             <hr style="margin-top: 20px;margin-bottom: 20px;">
 			</div>

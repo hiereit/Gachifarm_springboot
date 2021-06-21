@@ -171,7 +171,7 @@ input[type=password] {
 				<div th:if="${board.product}" class="prdtInfo"
 					style="height: 180px; width: 100%">
 					<div class="prdtImg">
-						<img th:src="${board.filePath}">
+						<img th:src="${board.filePath}" style="object-fit: cover;">
 					</div>
 					<div class="prdtName">
 						<b th:text="${board.product.prdtName}">상품명</b><br>

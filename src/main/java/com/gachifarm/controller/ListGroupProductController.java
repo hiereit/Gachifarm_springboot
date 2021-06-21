@@ -32,7 +32,6 @@ public class ListGroupProductController {
 		
 		for (int i = 0; i < gProductList.size(); i++) {
 			gProductList.get(i).setFilePath(gachiFarm.getImgPath(gProductList.get(i).getProductId()));
-			System.out.println(gProductList.get(i).getFilePath());
 		}
 		model.addAttribute("gProductPage", gProductPage);
 		model.addAttribute("gProductList", gProductList);

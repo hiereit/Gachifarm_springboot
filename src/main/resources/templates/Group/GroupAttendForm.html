@@ -113,7 +113,7 @@ h5 {
 			<tbody id="productTable">
 				<tr>
 			        <td id="prdtName">
-			        	<img style="width:30px; height:30px;" th:src="${groupProduct.filePath}"/> <span th:text="${groupProduct.product.prdtName}"></span>
+			        	<img style="object-fit: cover; width:30px; height:30px;" th:src="${groupProduct.filePath}"/> <span th:text="${groupProduct.product.prdtName}"></span>
 			        </td>
 			        <td id="quantity">
 						<span th:field="${order.qty}" th:text="${order.qty}"></span>&nbsp;

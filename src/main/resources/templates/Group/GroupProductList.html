@@ -71,7 +71,7 @@ pointer-events: none;
 						th:if="${(i*4+j) < gProductList.size()}"
 						th:with="p_id=${gProductList[i*4+j].gProductId}">
 						<ul style="list-style: none;">
-							<li><img style="width: 300px; height: 300px;" th:src="|${gProductList[i*4+j].filePath}|"></li>
+							<li><img style="object-fit: cover; width: 300px; height: 300px;" th:src="|${gProductList[i*4+j].filePath}|"></li>
 							<li><a
 								th:href="@{/group/product/{gProductId}(gProductId=${gProductList[i*4+j].gProductId})}"><span
 									style="font-size: 20px;"

@@ -226,7 +226,7 @@ $(document).ready(function() {
 				<hr>
 				<div class="prdtInfo" style="height: 180px; width: 100%">
 					<div class="prdtImg">
-						<img th:src="${groupProduct.filePath}">
+						<img th:src="${groupProduct.filePath}" style="object-fit: cover;">
 					</div>
 					<div class="prdtName" th:object="${groupProduct.product}">
 						<b>상품명</b> <span th:text="*{prdtName}"></span><br> <b>남은

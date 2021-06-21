@@ -29,6 +29,11 @@ public class ListBoardController {
 		List<Board> boardList = boardPage.getContent();
 		model.addAttribute("boardPage", boardPage);
 		model.addAttribute("boardList", boardList);
+		if (session.getAttribute("userSession") == null) {
+			model.addAttribute("isAdmin", false);
+			model.addAttribute("count", count);
+			return "Board/BoardList";
+		}
 		String userId = ((UserSession) session.getAttribute("userSession")).getAccount().getUserId();
 		model.addAttribute("isAdmin", gachiFarm.isAdmin(userId));
 		model.addAttribute("count", count);
