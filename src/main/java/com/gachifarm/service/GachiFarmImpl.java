@@ -393,6 +393,10 @@ public class GachiFarmImpl implements GachiFarmFacade {
 		};
 		scheduler.schedule(deliverComplete, deliverCompleteDate);
 	}
+	@Override
+	public void deleteAll(List<CartPK> cartIdList) {
+		cartRepository.deleteAllById(cartIdList);
+	}
 
 	//main
 	@Autowired
