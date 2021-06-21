@@ -110,7 +110,7 @@
 	    <!-- src="/images/avo.jpg" -->
 	    <tr th:each="prdt:${data2}" >
 	    	<td class="tdstyle"><img style="width:70px;height:70px" th:src="|${map.get(prdt.productId)}|"></td>
-	    	<td >
+	    	<td class="tdstyle">
 	    		<!-- <a th:href="@{/product/{productId}(productId=${data2[i*4+j].productId})}"><span th:text="${prdt.prdtName}"></span><br></a>
 	    		 -->
 	    		 <a th:href="@{/product/{productId}(productId=${prdt.productId})}"><span th:text="${prdt.prdtName}"></span><br></a>
