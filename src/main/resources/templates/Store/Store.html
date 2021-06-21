@@ -37,8 +37,10 @@
     label{
       color: #707070;
     }
-    th{
+    .thstyle{
       font-size:16px;
+      font-size:12px;
+    	padding-right:30px;
     }
     .form-control {
       color: #DDDDDD;
@@ -57,15 +59,12 @@
     	background-color:  #fff;
     	color: #0AC175;
     }
-    td {
+    .tdstyle {
     	height:80px;
     	border-bottom:1px solid #DDDDDD;
     	padding-right:30px;
     }
-    th {
-    	font-size:12px;
-    	padding-right:30px;
-    }
+
     h3, h4 {
     	font-family: 'NanumSquare', sans-serif !important;
     }
@@ -103,14 +102,14 @@
     <!-- <small th:text="${prdt.description}"></small> -->
     <table>
 	    <tr style="text-align:center;">
-	    	<th>미리보기</th>
-	    	<th>상품설명</th>
-	    	<th>상품분류</th>
-	    	<th>가격</th>
+	    	<th class="thstyle">미리보기</th>
+	    	<th class="thstyle">상품설명</th>
+	    	<th class="thstyle">상품분류</th>
+	    	<th class="thstyle">가격</th>
 	    </tr>
 	    <!-- src="/images/avo.jpg" -->
 	    <tr th:each="prdt:${data2}" >
-	    	<td><img style="width:70px;height:70px" th:src="|${map.get(prdt.productId)}|"></td>
+	    	<td class="tdstyle"><img style="width:70px;height:70px" th:src="|${map.get(prdt.productId)}|"></td>
 	    	<td >
 	    		<!-- <a th:href="@{/product/{productId}(productId=${data2[i*4+j].productId})}"><span th:text="${prdt.prdtName}"></span><br></a>
 	    		 -->
@@ -118,8 +117,8 @@
 	    		
 	    		<small th:text="${prdt.description}"></small>
 	    	</td>
-	    	<td style="text-align:center" th:text="${prdt.category}"></td>
-	    	<td style="text-align:center" th:text="|${#numbers.formatInteger(T(Math).ceil(prdt.price), 3,'COMMA')}원|"></td> 
+	    	<td class="tdstyle" style="text-align:center" th:text="${prdt.category}"></td>
+	    	<td class="tdstyle" style="text-align:center" th:text="|${#numbers.formatInteger(T(Math).ceil(prdt.price), 3,'COMMA')}원|"></td> 
 	    	                                  <!-- |${#numbers.formatInteger(T(Math).ceil(data2[i*4+j].price), 3,'COMMA')}원| -->
 	    </tr>
 	</table>	

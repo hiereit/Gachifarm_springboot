@@ -43,7 +43,6 @@ public class MypageController {
 				(UserSession) WebUtils.getSessionAttribute(request, "userSession");
 		Account sessionAccount = userSession.getAccount();
 		
-//		Account sessionAccount = (Account) session.getAttribute("account");
 		SignupCommand signupCommand = new SignupCommand(
 				sessionAccount.getUserId(), sessionAccount.getPassword(), 
 				sessionAccount.getUserName(), sessionAccount.getPhone(),
@@ -62,16 +61,12 @@ public class MypageController {
 	
 	@PostMapping
 	public String updateAccount(@Valid @ModelAttribute("signupCommand") SignupCommand signupCommand, BindingResult result, HttpSession session, Model model) {
-		System.out.println("==========================" + signupCommand.getPhone());
-
 		String password = signupCommand.getPassword();
 		System.out.println("updateAccount() - password: " + password);
 
 		if(result.hasErrors()) {
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			System.out.println(result.toString());
 			if(!signupCommand.isPasswordEqualToConfirmPassword()) {
-				System.out.println("!불일치!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 				String str = "비밀번호 불일치";
 				model.addAttribute("str", str);
 
@@ -100,11 +95,9 @@ public class MypageController {
 		account.setZip(zip);
 		account.setAddr1(addr1);
 		account.setAddr2(addr2);
-		System.out.println("updateAccount: " + account);
 		
 		model.addAttribute("changeAccount", account);
 		gachiFarm.save(account);
-		System.out.println("수정완료!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		String str = "수정이 완료되었습니다";
 		model.addAttribute("str2", str);
 

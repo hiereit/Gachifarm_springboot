@@ -26,6 +26,9 @@ h3{
 	width: 50% !important;
 	text-align: center !important;
 }
+span{
+  		color: #FF724A;
+ }
 </style>
 </head>
 
@@ -35,6 +38,7 @@ h3{
 
 	<div align="center">
 		<h3 style="color: #707070">내가 연 공구</h3>
+		<span style="font-size: 10px;">*상품명을 누르면 공구에 참여한 회원들의 명단을 보실 수 있습니다.</span>
 		<hr style="width: 50%; height: 3px; border: none; background-color: #ECECEC;">
 	</div>
 
@@ -51,8 +55,8 @@ h3{
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="gp : ${groupProducts}" >
-					<td style="width: 300px; vertical-align: middle;"><font
+				<tr th:each="gp : ${groupProducts}">
+					<td style="width: 300px; vertical-align: middle;"th:onClick="|location.href='/group/buyer/list/${gp.gProductId}'|"><font
 						style="size: 3px" th:text="${gp.product.prdtName}">ProductId</font><br>
 						<font style="font-size:10px;">(</font>
 						<font th:text="${gp.product.description}" style="font-size:10px;">description</font>

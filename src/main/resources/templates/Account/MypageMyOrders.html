@@ -55,7 +55,9 @@ h3{
 						<td><!-- <font th:text="${#dates.format(orders[i].orderDate, 'MMdd')}"></font> --><font th:text="${orders[i].orderId}"></font></td>
 						<th th:text="${#dates.format(orders[i].orderDate, 'yyyy-MM-dd')}">OrderDate</th>
 						<td><font th:text="${productNamesArray[i]}">ProductName</font>
-							외 <font th:text="${countsArray[i]}">Count</font>개</td>
+							<th:block th:if="${countsArray[i]}-1 != 0">
+								외 <font th:text="${countsArray[i]}-1">Count</font>개
+							</th:block></td>
 						<td th:text="${orders[i].totalPrice}">totalPrice</td>
 						<td th:text="${orders[i].status}">status</td>
 					</tr>

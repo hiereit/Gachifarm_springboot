@@ -56,7 +56,7 @@
     	background-color:  #fff;
     	color: #0AC175;
     }
-    td {
+    .tdstyle {
     	height:80px;
     	border-bottom:1px solid #DDDDDD;
     	padding-right:30px;
@@ -98,16 +98,16 @@
 	    </tr>
 	    <!-- src="/images/avo.jpg" -->
 	    <tr th:each="prdt:${data2}" >
-	    	<td><img style="width:70px;height:70px" th:src="|${map.get(prdt.productId)}|"></td>
-	    	<td >
+	    	<td class="tdstyle"><img style="width:70px;height:70px" th:src="|${map.get(prdt.productId)}|"></td>
+	    	<td class="tdstyle">
 	    		 <a th:href="@{/product/{productId}(productId=${prdt.productId})}"><span th:text="${prdt.prdtName}"></span><br></a>
 	    		<!-- <small th:text="${prdt.description}"></small> -->
 	    	</td>									
-	    	<td style="text-align:center" th:text="${map2.get(prdt.productId)}">23</td>
-	    	<td style="text-align:center" th:text="|${#numbers.formatInteger(T(Math).ceil(prdt.price), 3,'COMMA')}원|">10,000</td>
-	    	<td style="text-align:center"th:text="${map3.get(prdt.productId)}">23</td> 
-	    	<td style="text-align:center" th:if="${map3.get(prdt.productId)}"th:text="|${#numbers.formatInteger(T(Math).ceil(map3.get(prdt.productId) * prdt.price), 3,'COMMA')}원|">23</td>
-	    	<td style="text-align:center" th:unless="${map3.get(prdt.productId)}" th:text="|-|">23</td>
+	    	<td class="tdstyle" style="text-align:center" th:text="${map2.get(prdt.productId)}">23</td>
+	    	<td class="tdstyle" style="text-align:center" th:text="|${#numbers.formatInteger(T(Math).ceil(prdt.price), 3,'COMMA')}원|">10,000</td>
+	    	<td class="tdstyle" style="text-align:center"th:text="${map3.get(prdt.productId)}">23</td> 
+	    	<td class="tdstyle" style="text-align:center" th:if="${map3.get(prdt.productId)}"th:text="|${#numbers.formatInteger(T(Math).ceil(map3.get(prdt.productId) * prdt.price), 3,'COMMA')}원|">23</td>
+	    	<td class="tdstyle" style="text-align:center" th:unless="${map3.get(prdt.productId)}" th:text="|-|">23</td>
 	    </tr>
 	</table>	
 	</div>

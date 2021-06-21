@@ -41,7 +41,6 @@ public class SignupController {
 	@PostMapping("/signup")
 	public String submit(@Validated @ModelAttribute("newAccount") SignupCommand newAccount, BindingResult result, Model model, HttpSession session) {
 		if(result.hasErrors()) {
-			System.out.println("SignupController-submit() 에러남!!!");
 			if(!newAccount.isPasswordEqualToConfirmPassword()) {
 				String str = "비밀번호 불일치";
 				model.addAttribute("str", str);
@@ -67,7 +66,6 @@ public class SignupController {
 		String userName = newAccount.getUserName();
 		String phone = newAccount.getPhone();
 		String email = newAccount.getEmail();
-//		Address address = newAccount.getAddress();
 		String zip = newAccount.getZip();
 		String addr1 = newAccount.getAddr1();
 		String addr2 = newAccount.getAddr2();
@@ -78,27 +76,10 @@ public class SignupController {
 		account.setUserName(userName);
 		account.setPhone(phone);
 		account.setEmail(email);
-//		account.setAddress(address);
 		account.setZip(zip);
 		account.setAddr1(addr1);
 		account.setAddr2(addr2);
-		
-		System.out.println("SignupController-submit()");
-		System.out.println("userId: " + newAccount.getUserId());
-		System.out.println("password: " + newAccount.getPassword());
-		System.out.println("userName: " + newAccount.getUserName());
-		System.out.println("email: " + newAccount.getEmail());
-		
-		System.out.println("===");
-		
-		System.out.println("userId: " + account.getUserId());
-		System.out.println("password: " + account.getPassword());
-		System.out.println("userName: " + account.getUserName());
-		System.out.println("email: " + account.getEmail());
-		System.out.println("=====================================================");
 	
-		UserSession userSession = new UserSession(gachiFarm.findAccount(userId, password));
-		session.setAttribute("userSession", userSession);
 		model.addAttribute("account", account);
 		gachiFarm.save(account);
 		

@@ -33,10 +33,9 @@ public class MypageMyParticipateGroupsController {
 	
 	@GetMapping("user/mypage/mygroup/orders")
 	public String myparticipategroups(HttpSession session, Model model, HttpServletRequest request) {
-		System.out.println("!!!!!!!!!!GETMAPPING!!!!!!!!!!!");
 		UserSession userSession = 
 				(UserSession) WebUtils.getSessionAttribute(request, "userSession");
-//		Account account = (Account) session.getAttribute("account");
+
 		Account account = userSession.getAccount();
 		List<GroupBuyer> gbList = gachiFarm.findGroupBuyersByUserId(account.getUserId());
 		int [] gPrdtId = new int[gbList.size()];
@@ -46,8 +45,7 @@ public class MypageMyParticipateGroupsController {
 		if(gbList != null) {
 			for(int i = 0; i < gbList.size(); i++) {
 				gPrdtId[i] = gbList.get(i).getGroupProductId();
-				System.out.println("gPrdtId[" + i + "]: " + gPrdtId[i]);
-				System.out.println(gachiFarm.findGroupProductBygProductId(gPrdtId[i]));
+
 				gpList.add(i, gachiFarm.findGroupProductBygProductId(gPrdtId[i]));
 			}
 			model.addAttribute("groupProducts", gpList);
