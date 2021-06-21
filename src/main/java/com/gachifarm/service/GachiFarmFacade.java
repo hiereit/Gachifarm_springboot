@@ -146,7 +146,11 @@ public interface GachiFarmFacade {
 	List<Integer> getNewProductIds();
 
 	void updateCompleteGroup(Date date, int gProductId);
+
+	void deleteAll(List<CartPK> cartIdList);
+
 	void changeGroupOrderStatus(GroupProduct gProduct);
 	
 	Page<GroupBuyer> getBuyerListbyPage(Pageable pageable, int pageNo, int count, int gProductId);
+
 }

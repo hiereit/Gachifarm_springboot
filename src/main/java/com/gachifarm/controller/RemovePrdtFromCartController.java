@@ -34,7 +34,7 @@ public class RemovePrdtFromCartController {
 		for (String del : delList) {
 			cartIdList.add(new CartPK(userId, Integer.parseInt(del)));
 		}
-		gachifarm.deleteCart(cartIdList);
+		gachifarm.deleteAll(cartIdList);
 		Map<String, Object> retVal = new HashMap<String, Object>();
         retVal.put("ret", "OK");
         return retVal;
