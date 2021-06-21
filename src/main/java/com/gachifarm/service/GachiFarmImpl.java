@@ -335,8 +335,8 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	public void updateCart(CartProduct cartProduct) {
 		cartRepository.saveAndFlush(cartProduct);
 	}
-	public void deleteCart(List<CartPK> cartIdList) {
-		cartRepository.deleteAllById(cartIdList);
+	public void deleteCart(CartPK cartPK) {
+		cartRepository.deleteById(cartPK);
 	}
 	public List<CartProduct> findCartListByUserId(String userId) {
 		return cartRepository.findByCartIdUserId(userId);
