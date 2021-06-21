@@ -397,6 +397,7 @@ public class GachiFarmImpl implements GachiFarmFacade {
 	@Override
 	public void deleteAll(List<CartPK> cartIdList) {
 		cartRepository.deleteAllById(cartIdList);
+	}
 
 	public void changeGroupOrderStatus(GroupProduct gProduct) {
 		Runnable endGroupOrder = new Runnable() {
