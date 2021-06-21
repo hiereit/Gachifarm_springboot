@@ -69,18 +69,11 @@ public class ProductRegController {
 			return "Product/ProductForm";
 		}
 
-		Product product;
-		if (userId.equals("admin")) {
-			// 여기 원본 코드
-			product = new Product(regReq.getPrice(), regReq.getOrigin(), regReq.getSupplier(), regReq.getUnit(), 'y',
-					regReq.getQuantity(), regReq.getDescription(), "관리자", "GACHI", regReq.getCategory(),
-					regReq.getPrdtName());
-
-		} else {
-			product = new Product(regReq.getPrice(), regReq.getOrigin(), regReq.getSupplier(), regReq.getUnit(), 'y',
-					regReq.getQuantity(), regReq.getDescription(), userId, "STORE", regReq.getCategory(),
-					regReq.getPrdtName());
-		}
+		
+		String type = gachifarm.isAdmin(userId) ? "GACHI" : "STORE";
+		Product product = new Product(regReq.getPrice(), regReq.getOrigin(), regReq.getSupplier(), regReq.getUnit(), 'y',
+				regReq.getQuantity(), regReq.getDescription(), userId, type, regReq.getCategory(),
+				regReq.getPrdtName());
 		gachifarm.insertProduct(product);
 
 		// 추가 코드
@@ -94,7 +87,7 @@ public class ProductRegController {
 			file.transferTo(convertFile);
 			imgPath = "/images/" + file.getOriginalFilename();
 		} catch (Exception e) {
-			imgPath = "\\images\\noImage.png";
+			imgPath = "/images/noImage.png";
 		}
 
 		// productImg 저장하는 코드

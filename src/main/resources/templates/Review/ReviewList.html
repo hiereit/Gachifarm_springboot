@@ -123,7 +123,7 @@ input[type=password] {
 					th:href="${reviewPage.first} ? '#' :@{/product/{productId}/review/list/{pageNo}(productId=${productId}, pageNo=${reviewPage.number})}"
 					aria-label="Previous"> <span aria-hidden="true">&lt;</span>
 				</a></li>
-				<li th:each="page: ${#numbers.sequence(start, last)}"
+				<li th:each="page: ${#numbers.sequence(start, last)}" th:if="${page} != 0"
 					th:class="${page == reviewPage.number + 1} ? 'active'"><a
 					th:class="page-link" th:text="${page}"
 					th:href="@{/product/{productId}/review/list/{pageNo}(productId=${productId}, pageNo=${page})}"></a></li>
