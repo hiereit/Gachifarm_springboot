@@ -1,5 +1,8 @@
 package com.gachifarm.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -31,38 +34,39 @@ public class StoreRegController {
 
 	// Store등록 reuqest 처리
 	@RequestMapping("store/registerForm")
-	public String showStoreForm(Model model, HttpSession session) {
+	public String showStoreForm(Model model, HttpSession userSession) {
 
-		Account sessionAccount = ((UserSession) session.getAttribute("userSession")).getAccount();
+		Account sessionAccount = ((UserSession) userSession.getAttribute("userSession")).getAccount();
 		if (gachifarm.getStore(sessionAccount.getUserId()) != null) {
-			if (gachifarm.getStore(sessionAccount.getUserId()).getStoreName() != null) {
 				return "Main";
-			}
 		}
-
+		if(sessionAccount.getUserId().equals("admin")) {
+			return "Main";
+		}
+		
 		boolean isUpdate = false;
-		boolean isExistName = false;
-
-		model.addAttribute("isExistName", isExistName);
 		model.addAttribute("isUpdate", isUpdate);
+		
 		model.addAttribute("storeCommand", new StoreRegRequest());
 
 		return "Store/StoreForm";
+		
 	}
 
 	@GetMapping("store/regist")
 	public String returnStoreForm() {
-		return "redirect:/store/registerForm";
+		return "redirect:/store/list/all";
 	}
 
 	@PostMapping("store/regist")
 	public String handleStoreForm(@Valid @ModelAttribute("storeCommand") StoreRegRequest regReq, BindingResult result,
-			HttpSession session, Model model) throws NoResultException {
+			HttpSession userSession, Model model) throws NoResultException {
 		// session에서 유저정보 가져오기
-		Account sessionAccount = ((UserSession) session.getAttribute("userSession")).getAccount();
+		Account sessionAccount = ((UserSession) userSession.getAttribute("userSession")).getAccount();
 
 		// 스토어를 처음 만든다면..! >> 이미 있는 사람은 get에서 처리
 		boolean isExistName = false;
+		//model.addAttribute("isExistName", isExistName);
 
 		// req에서 받아온 스토어 이름 당연히 없음!
 		if (regReq.getStoreName() == null) {
@@ -87,19 +91,22 @@ public class StoreRegController {
 		Store store = new Store(sessionAccount.getUserId(), regReq.getStoreName(), regReq.getStoreInfo());
 
 		gachifarm.insertStore(store);
-		return "Store/StoreList";
+		return "redirect:/store/list";
 	}
 
 	// Store 정보 수정
 	@RequestMapping("store/updateForm/{storeName}")
-	public String showStoreUpdateForm(@Valid @ModelAttribute("storeCommand") StoreRegRequest regReq,
-			BindingResult result, Model model, HttpSession session, @PathVariable("storeName") String storeName) {
+	public String showStoreUpdateForm(@ModelAttribute("storeCommand") StoreRegRequest regReq,
+			Model model, HttpSession session, @PathVariable("storeName") String storeName) {
 		Account sessionAccount = ((UserSession) session.getAttribute("userSession")).getAccount();
 
 		Store store = gachifarm.getStore(sessionAccount.getUserId());
 		boolean isUpdate = true;
 		model.addAttribute("isUpdate", isUpdate);
-		model.addAttribute("storeCommnad", store);
+		//model.addAttribute("storeCommnad", store);
+		regReq.setStoreName(storeName);
+		regReq.setStoreInfo(store.getStoreInfo());
+		
 		return "Store/StoreForm";
 	}
 
@@ -111,16 +118,23 @@ public class StoreRegController {
 
 	@PostMapping("store/update")
 	public String handleStoreUpdateForm(@Valid @ModelAttribute("storeCommand") StoreRegRequest regReq,
-			BindingResult result, HttpSession session) {
+			BindingResult result, HttpSession session, Model model) throws UnsupportedEncodingException {
 
 		Account sessionAccount = (Account) session.getAttribute("account");
-
+		
+		boolean isUpdate = true;
+		model.addAttribute("isUpdate", isUpdate);
+		
+		
 		if (result.hasErrors()) {
+			model.addAttribute("storeCommand", regReq);
 			return "Store/StoreForm";
 		}
 		// 상품 Home으로 이동!
 		Store store = new Store(sessionAccount.getUserId(), regReq.getStoreName(), regReq.getStoreInfo());
 		gachifarm.updateStore(store);
-		return "Store/StoreList";
+		
+		String encodedParam = URLEncoder.encode(regReq.getStoreName(), "UTF-8");
+		return "redirect:/store/" + encodedParam + "/1";
 	}
 }
