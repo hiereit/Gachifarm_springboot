@@ -27,6 +27,7 @@ public class ListGroupBuyersController {
 		List<GroupBuyer> buyerList = buyerPage.getContent();
 		model.addAttribute("buyerPage", buyerPage);
 		model.addAttribute("buyerList", buyerList);
+		model.addAttribute("gProductId", gProductId);
 		model.addAttribute("count", count);
 		return "Group/GroupBuyersList";
 	}
