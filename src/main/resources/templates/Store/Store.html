@@ -100,7 +100,7 @@
     	<!-- <a href="/product/registerForm"><input type="button" th:if="${sUserId.equals(myUserId)}" th:value="상품등록하기" class="btn btn-danger"></a> -->
     
     <!-- <small th:text="${prdt.description}"></small> -->
-    <table>
+    <table style="width: 50%">
 	    <tr style="text-align:center;">
 	    	<th class="thstyle">미리보기</th>
 	    	<th class="thstyle">상품설명</th>
@@ -109,16 +109,16 @@
 	    </tr>
 	    <!-- src="/images/avo.jpg" -->
 	    <tr th:each="prdt:${data2}" >
-	    	<td class="tdstyle"><img style="width:70px;height:70px" th:src="|${map.get(prdt.productId)}|"></td>
-	    	<td class="tdstyle">
+	    	<td class="tdstyle"><img style="width:70px; height:70px" th:src="|${map.get(prdt.productId)}|"></td>
+	    	<td class="tdstyle" style="width: 60%">
 	    		<!-- <a th:href="@{/product/{productId}(productId=${data2[i*4+j].productId})}"><span th:text="${prdt.prdtName}"></span><br></a>
 	    		 -->
 	    		 <a th:href="@{/product/{productId}/1(productId=${prdt.productId})}"><span th:text="${prdt.prdtName}"></span><br></a>
 	    		
 	    		<small th:text="${prdt.description}"></small>
 	    	</td>
-	    	<td class="tdstyle" style="text-align:center" th:text="${prdt.category}"></td>
-	    	<td class="tdstyle" style="text-align:center" th:text="|${#numbers.formatInteger(T(Math).ceil(prdt.price), 3,'COMMA')}원|"></td> 
+	    	<td class="tdstyle" style="text-align:center; font-size: 13px;" th:text="${prdt.category}"></td>
+	    	<td class="tdstyle" style="text-align:center; font-size: 13px;" th:text="|${#numbers.formatInteger(T(Math).ceil(prdt.price), 3,'COMMA')}원|"></td> 
 	    	                                  <!-- |${#numbers.formatInteger(T(Math).ceil(data2[i*4+j].price), 3,'COMMA')}원| -->
 	    </tr>
 	</table>	
