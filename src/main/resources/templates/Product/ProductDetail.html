@@ -12,6 +12,10 @@
 	href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
 <script src="https://kit.fontawesome.com/4c3ed7e582.js"></script>
 <style>
+input[type=password] {
+	font: small-caption;
+  font-size: 16px;
+}
 body, h3 {
 	font-family: 'NanumSquare', sans-serif;
 	color: black;
@@ -190,42 +194,6 @@ button {
 		formValue.submit();
 	}
 </script>
-<script>
-	var isAdmin = '[[${isAdmin}]]';
-	var modal = document.getElementById('modal');
-	var pwError = document.getElementById('pwError');
-	var boardPw;
-	var boardId;
-	function checkPW(pw, id) {
-		if (isAdmin == "false" && pw != "null") {
-			modal.style.display = "flex";
-			boardPw = pw.replaceAll("\"", "");
-			boardId = id;
-			return;
-		}
-		location.href = '/board/' + id;
-	}
-
-	function comparePW() {
-		var inputPw = document.getElementById('password').value;
-		if (boardPw == inputPw) {
-			modal.style.display = "none";
-			pwError.style.display = "none";
-			location.href = '/board/' + boardId;
-		} else {
-			document.getElementById('password').value = "";
-			pwError.style.display = "flex";
-		}
-	}
-
-	//When the user clicks anywhere outside of the modal, close it
-	window.onclick = function(event) {
-		if (event.target == modal) {
-			modal.style.display = "none";
-			pwError.style.display = "none";
-		}
-	}
-</script>
 </head>
 <body>
 	<th:block th:insert="fragment/Top :: headFragment"></th:block>
@@ -234,7 +202,7 @@ button {
 		<div class="container-2" style="text-align: center;">
 			<div id="prdtInfo" style="height: 180px; width: 100%;">
 				<div id="gPrdtInfoLeft">
-					<img style="width: 300px; height: 250px; object-fit: contain;"
+					<img style="width: 300px; height: 250px; object-fit: cover;"
 						th:src="${link}">
 				</div>
 				<div id="gPrdtInfoMid" style="width: 50px;"></div>
@@ -454,10 +422,61 @@ button {
 					</nav>
 				</div>
 
-
+			<div id="modal" class="modal">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title">비밀글입니다</h5>
+			          <span aria-hidden="true"></span>
+			      </div>
+			      <div class="modal-body">
+			       	 <input type="password" class="form-control" id="password" placeholder="비밀번호를 입력하세요.">
+			       	 <span id="pwError" style="float:right; display:none; color:red; font-size:12px;">비밀번호가 틀렸습니다.</span>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="comparePW()">확인</button>
+			      </div>
+			    </div>
+			  </div>
 			</div>
-			<div></div>
+			<script>
+	var isAdmin = '[[${isAdmin}]]';
+	var modal = document.getElementById('modal');
+	var pwError = document.getElementById('pwError');
+	var boardPw;
+	var boardId;
+	function checkPW(pw, id) {
+		if (isAdmin == "false" && pw != "null") {
+			modal.style.display = "flex";
+			boardPw = pw.replaceAll("\"", "");
+			boardId = id;
+			return;
+		}
+		location.href = '/board/' + id;
+	}
+
+	function comparePW() {
+		var inputPw = document.getElementById('password').value;
+		if (boardPw == inputPw) {
+			modal.style.display = "none";
+			pwError.style.display = "none";
+			location.href = '/board/' + boardId;
+		} else {
+			document.getElementById('password').value = "";
+			pwError.style.display = "flex";
+		}
+	}
+
+	//When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+		if (event.target == modal) {
+			modal.style.display = "none";
+			pwError.style.display = "none";
+		}
+	}
+</script>
+			</div>
+			</div></div>
 			<footer th:replace="fragment/Bottom :: footerFragment"></footer>
 </body>
-</html>
 </html>

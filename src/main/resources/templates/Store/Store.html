@@ -76,16 +76,16 @@
 
 	<!-- 안내 메시지 HOME -->
 	<div align="center">     
-     <h3 th:text="${storename}" >HOME</h3>
-     <small th:text="${sInfo}">store description</small>     
+     <h3 th:text="${store.storeName}" >HOME</h3>
+     <small th:text="${store.storeInfo}">store description</small>     
 	     <!-- 주인장에게만 보여지는 부분 -->
-		<div th:if="${sUserId.equals(myUserId)}">
+		<div th:if="${isOwner}">
 			<!-- <hr style="height:1px;width:400px; background-color:#707070;margin-top:3px;margin-bottom:3px;"> -->
 		     <a th:href="@{/store/product/order/status/1}"><small>주문 관리 페이지</small></a> <!-- <input type="button" value="주문관리"> -->
 		     <a href="#"><small>&nbsp;|&nbsp;</small></a>
-		      <a th:href="@{/product/registerForm}"><small th:if="${sUserId.equals(myUserId)}">상품 등록 하기</small></a> 
+		      <a th:href="@{/product/registerForm}"><small>상품 등록 하기</small></a> 
 		      <a href="#"><small>&nbsp;|&nbsp;</small></a>
-		      <a th:href="@{/store/updateForm/{storeName}(storeName=${storename})}"><small >스토어 정보 수정하기</small></a>
+		      <a th:href="@{/store/updateForm/{storeName}(storeName=${store.storeName})}"><small >스토어 정보 수정하기</small></a>
 		     <!-- <hr style="height:1px; width:400px; background-color:#707070; margin-top:3px;margin-bottom:3px;"> -->
 	     </div>    
   	<hr style="height:1px; background-color:#707070;">
@@ -93,7 +93,7 @@
     
     <!-- 암것도 없을 때         에는 아직 등록된 상품이 없어요! <span th:text="${storename}"></span>--> 
 	<div th:unless="${data2.size()}" align="center" style="margin-top:30px;">
-		<h4  style="color: #FF724A;" th:text="|${storename}에는 아직 등록된 상품이 없어요!|"></h4>
+		<h4  style="color: #FF724A;" th:text="|${store.storeName}에는 아직 등록된 상품이 없어요!|"></h4>
 			<small> 주인장님 빨리 물건을 올려주세요~!</small>    
 	</div>
     <div align="center" th:if="${data2.size()}">                                     <!-- if문으로 주인장이면 관리 페이지(등록, 주문 관리)로, 손님이면 상품리스트로 -->

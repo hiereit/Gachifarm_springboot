@@ -3,6 +3,8 @@ package com.gachifarm.controller;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,8 +32,13 @@ public class ListProductController {
 	//상품 상세정보조회
 	@RequestMapping("product/{productId}/{pageNo}")
     public String getProduct(@PageableDefault Pageable pageable, Model model, 
-    		@PathVariable("productId") int productId, @PathVariable("pageNo") int pageNo){
-		
+    		@PathVariable("productId") int productId, @PathVariable("pageNo") int pageNo, HttpSession userSession){
+	
+		boolean isAdmin = false;
+		if(userSession.getAttribute("userSession") != null) {
+			String userId = ((UserSession) userSession.getAttribute("userSession")).getAccount().getUserId();
+			isAdmin = gachifarm.isAdmin(userId);
+		}
 		Product product = gachifarm.getProduct(productId);
 		
 		String link;
@@ -76,7 +83,7 @@ public class ListProductController {
 		model.addAttribute("reviewPage", reviewPage);
 		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("count", count);
-		
+		model.addAttribute("isAdmin", isAdmin);
         
         return "Product/ProductDetail";
     }
