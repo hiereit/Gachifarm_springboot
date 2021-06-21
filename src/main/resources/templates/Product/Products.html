@@ -111,7 +111,7 @@
 	    <tr th:each="i:${#numbers.sequence(0,row)}" style="vertical-align: top;">
 	    	<td th:each="j:${#numbers.sequence(0,3)}" th:if="${(i*4+j) < data2.size()}" th:with="p_id=${data2[i*4+j].productId}">
 		    	<ul style=" list-style:none;">
-		    	<li><img style="width: 250px; height:300px; object-fit: contain;" th:src="|${map.get(p_id)}|"></img></li>
+		    	<li><img style="width: 250px; height:300px; object-fit: cover;" th:src="|${map.get(p_id)}|"></img></li>
 		        <!-- <li><a ><span th:text="|${data2[i*4+j].saleType}|"></span>
 		        </a></li> -->
 		        <li><a th:href="@{|/product/${data2[i*4+j].productId}/1|}"><span style="font-size:20px;" th:text="|${data2[i*4+j].prdtName}|"></span></a>

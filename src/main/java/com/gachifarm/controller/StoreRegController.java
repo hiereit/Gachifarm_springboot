@@ -118,7 +118,7 @@ public class StoreRegController {
 	public String handleStoreUpdateForm(@Valid @ModelAttribute("storeCommand") StoreRegRequest regReq,
 			BindingResult result, HttpSession session, Model model) throws UnsupportedEncodingException {
 
-		Account sessionAccount = (Account) session.getAttribute("account");
+		Account sessionAccount = ((UserSession) session.getAttribute("userSession")).getAccount();
 		
 		boolean isUpdate = true;
 		model.addAttribute("isUpdate", isUpdate);

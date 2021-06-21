@@ -74,25 +74,19 @@ public class ListStoreController {
 		//Product products = this.gachifarm.getProduct(1);
 		//Store stores = this.gachifarm.getStore("DONGDUK01");
 		//세션에 저장된 account 가져오기
-		String userId = ((UserSession) userSession.getAttribute("userSession")).getAccount().getUserId();
-		if(userSession.getAttribute("userSession") == null)
-			return "Account/LoginForm";
-		else {
-				System.out.println(userId);
-				Store store = this.gachifarm.getStore(userId);
-				if(store == null) {
-					System.out.println("==여기서 걸렸다.==========");
-					//return "redirect:/store/registerForm";
-				}
+		Store store = this.gachifarm.getStoreName(storeName);
+		String userId;
+		boolean isOwner = false;
+		if(userSession.getAttribute("userSession") != null) {
+			userId = ((UserSession) userSession.getAttribute("userSession")).getAccount().getUserId();
+			if (userId.equals(store.getUserId())) {
+				isOwner = true;
+			}
 		}
 		
-		//storeName으로 해당 스토어 객체 가져오기
-		Store store = this.gachifarm.getStoreName(storeName);
-		//model.addAttribute("data", "product/list");
 		//스토어 출력
-        Page<Product> products = gachifarm.getsProductbyUserId(pageable, userId, pageNo); 
+        Page<Product> products = gachifarm.getsProductbyUserId(pageable, store.getUserId(), pageNo); 
         List<Product> product = products.getContent();
-        //List<Product> product = gachifarm.getAllProductByStore(store.getUserId());
 		
         HashMap<Integer, String> map = new HashMap<>();
         
@@ -105,14 +99,12 @@ public class ListStoreController {
         		map.put(pid, gachifarm.getProductImageByPid(pid).getImgPath());
         	}
         }
-       
+        
         model.addAttribute("map", map);
 		model.addAttribute("data", products);
         model.addAttribute("data2", product);
-        model.addAttribute("sInfo", store.getStoreInfo());
-        model.addAttribute("sUserId", store.getUserId());  			//store의 주인장이 누구냐
-        model.addAttribute("myUserId", userId); //store의 방문자가 누구냐
-        model.addAttribute("storename", storeName);
+        model.addAttribute("isOwner", isOwner);
+        model.addAttribute("store", store);
         System.out.println(storeName);
         return "Store/Store";
     }
