@@ -170,6 +170,10 @@ public class GachiFarmImpl implements GachiFarmFacade {
 		pageable = PageRequest.of(pageNo - 1, 8);
 		return productRepository.findByUserId(userId, pageable);
 	}
+	public Page<Product> getProductListBySaleType(String saleType, Pageable pageable, int pageNo){
+		pageable = PageRequest.of(pageNo - 1, 12);
+		return productRepository.findBySaleType(saleType, pageable);
+	}
 	// GroupProduct
 	public void insertGroupProduct(GroupProduct groupProduct) {
 		productRepository.save(groupProduct.getProduct());

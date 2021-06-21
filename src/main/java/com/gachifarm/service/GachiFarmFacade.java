@@ -56,7 +56,8 @@ public interface GachiFarmFacade {
 	Page<Product> getProductListbyPage(Pageable pageable, int pageNo);
 	Page<Product> getProductListbyPrdtName(Pageable pageable, String prdtName, int pageNo);
 	Page<Product> getsProductbyUserId(Pageable pageable, String userId, int pageNo);
-
+	Page<Product> getProductListBySaleType(String saleType, Pageable pageable, int pageNo);
+	
 	// Group
 	void insertGroupProduct(GroupProduct groupProduct);
 	void insertGroupBuyer(GroupBuyer groupBuyer);

@@ -20,13 +20,6 @@ import com.gachifarm.service.GachiFarmFacade;
 
 @Controller
 public class ListProductController {
-	/*
-	@RequestMapping("hello/index")
-    public String hello(Model model){
-        model.addAttribute("data", "hello!!");
-        return "hello";
-    }
-	*/
 	private GachiFarmFacade gachifarm;
 	
 	@Autowired
@@ -88,26 +81,43 @@ public class ListProductController {
         return "Product/ProductDetail";
     }
 	//아직 안쓰임.!!!!!!!!!!!!!!!!!1
-	@RequestMapping("product/list")
-    public String productList(Model model){
-		//List<Product> products = this.gachifarm.getAllProductByType("GACHI");
-		//List<Product> products = this.gachifarm.searchAllProdcutListByCategory("VEGI");
-		List<Product> products = this.gachifarm.searchAllProdcutList("고구마");
-		//model.addAttribute("data", "product/list");
-        model.addAttribute("data", products);
-        model.addAttribute("data2", "HI GACHI PRODUCT");
+	@RequestMapping("product/list/GACHI/{pageNo}")
+    public String productList(@PageableDefault Pageable pageable, Model model, 
+    		@PathVariable("pageNo") int pageNo){
+		boolean isGachi= true;
+		model.addAttribute("isGachi", isGachi);
+		
+		Page<Product> products = gachifarm.getProductListBySaleType("GACHI", pageable, pageNo);
+		List<Product> product = products.getContent();
+		
+		HashMap<Integer, String> map = new HashMap<>();
+		
+		for(int i=0; i < product.size(); i++) {
+			int p_id = product.get(i).getProductId();
+			if(gachifarm.getProductImageByPid(p_id) == null) {
+				//map.put(p_id, "http://cdn.011st.com/11dims/resize/600x600/quality/75/11src/ak/3/5/6/0/8/6/537356086_B_V4.jpg");
+				map.put(p_id, "/images/noImage.png");
+			}
+			else {
+				map.put(p_id, gachifarm.getProductImageByPid(p_id).getImgPath());
+				System.out.println(p_id + "  : 1*** :  "+ gachifarm.getProductImageByPid(p_id).getImgPath());
+			}		
+			System.out.println(p_id + "  : 2*** :  "+ map.get(p_id));
+		}
+		
+		model.addAttribute("map", map);
+		
+		model.addAttribute("data", products);
+        model.addAttribute("data2", product);
+        model.addAttribute("isKeyword", false);
+        
         return "Product/Products";
     }
 	//전체상품목록 조회 페이지 처리!!!!!!
 	@RequestMapping("product/list/all/{pageNo}")
     public String productListAll(@PageableDefault Pageable pageable,
     		@PathVariable("pageNo") int pageNo, Model model){//Model model){
-		
-		//Product products = this.gachifarm.getProductByName("감자");
-		//List<Product> products = this.gachifarm.searchAllProdcutListByCategory("VEGI");
-        //model.addAttribute("data", products);
-		//List<Product> products = this.gachifarm.findAll(pageNo);
-		
+
 		Page<Product> products = gachifarm.getProductListbyPage(pageable, pageNo);
 		List<Product> product = products.getContent();
 		//model.addAttribute("data", products);
