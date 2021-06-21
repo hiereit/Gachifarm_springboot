@@ -1,5 +1,7 @@
 package com.gachifarm.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,21 +28,16 @@ public class LoginController {
 	}
 
 	@RequestMapping("login")
-	public String handleRequest(@ModelAttribute("loginCommand") LoginCommand loginCommand, Model model,
+	public String handleRequest(@ModelAttribute("loginCommand") LoginCommand loginCommand, Model model, HttpSession session,
 			@RequestParam(value="loginForwardAction", required=false) String forwardAction) throws Exception {
-		System.out.println("loginController에 왔니????????????????????????????????????");
 		Account account = this.gachiFarm.findAccount(loginCommand.getUserId(), loginCommand.getPassword());
 		if(account != null) {
-			System.out.println("Account null 아니지???????????????????????????????????????????");
 			UserSession userSession = new UserSession(account);
 			model.addAttribute("userSession", userSession);
 			if (forwardAction != null) { 
-				System.out.println("forwardAction null 아니니?????????????????????????????????????");
-				System.out.println("forwardAction은 " + forwardAction + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 				return "redirect:" + forwardAction;
 			}
 			else {
-				System.out.println("forwardAction null이래!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 				return "redirect:/main";
 			}
 		}
