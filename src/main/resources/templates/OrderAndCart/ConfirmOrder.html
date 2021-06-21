@@ -91,6 +91,11 @@ body { font-family: 'NanumSquare', sans-serif; }
 					<input id="btnstyle" type="button" value="메인으로" />
 				</a>
 	</div>
+	<div th:if="${orderId}" id="confirm" align="center" style="margin-top:10px;">
+		<a th:href="@{|/order/${orderId}/detail|}">
+			<input id="btnstyle" type="button" value="주문 상세" />
+		</a>
+	</div>
 	<footer th:replace="fragment/Bottom :: footerFragment"></footer> 
 </body>
 </html>
