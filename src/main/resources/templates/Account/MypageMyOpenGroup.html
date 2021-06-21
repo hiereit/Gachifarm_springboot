@@ -58,9 +58,9 @@ span{
 				<tr th:each="gp : ${groupProducts}">
 					<td style="width: 300px; vertical-align: middle;"th:onClick="|location.href='/group/buyer/list/${gp.gProductId}'|"><font
 						style="size: 3px" th:text="${gp.product.prdtName}">ProductId</font><br>
-						<font style="font-size:10px;">(</font>
+						<font style="font-size:10px;"><!-- (</font>
 						<font th:text="${gp.product.description}" style="font-size:10px;">description</font>
-						<font style="font-size:10px;">)</font></td>
+						<font style="font-size:10px;">)</font> --></td>
 					<td style="width: 130px; vertical-align: middle;"
 						th:text="${gp.period}">마감일</td>
 					<td style="width: 180px; vertical-align: middle;"
